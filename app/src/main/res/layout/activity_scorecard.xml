@@ -4,17 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScorecardActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    tools:context=".ScorecardActivity">
 
     <Button
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:onClick="undoStroke"
         android:text="Undo"
-        tools:layout_editor_absoluteX="128dp"
-        tools:layout_editor_absoluteY="546dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button5" />
 
     <Button
         android:id="@+id/button4"
@@ -23,14 +26,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="380dp"
         android:onClick="AddScore"
         android:text="Stroke+"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        app:layout_constraintVertical_bias="0.615" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button5"
@@ -38,16 +37,11 @@
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="228dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="437dp"
         android:onClick="AddPutt"
         android:text="Putt+"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl1" />
+        app:layout_constraintEnd_toStartOf="@+id/button4" />
 
     <Button
         android:id="@+id/button6"
@@ -182,8 +176,8 @@
 
             <TextView
                 android:id="@+id/tv11"
-                android:text=""
-                style="@style/scorestyle" />
+                style="@style/scorestyle"
+                android:text="" />
 
             <TextView
                 android:id="@+id/tv12"
@@ -412,6 +406,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tl1"
         app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
 
 
 </android.support.constraint.ConstraintLayout>
