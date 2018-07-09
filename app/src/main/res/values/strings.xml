@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GolfTracker</string>
+    <string name="putt">putt</string>
+    <string name="stroke">stroke</string>
+</resources>

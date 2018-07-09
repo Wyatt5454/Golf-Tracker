@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="HoleText">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:background">@drawable/back</item>
+        <item name="android:padding">3dip</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="scorestyle">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:background">@drawable/holeback</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">0dip</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+</resources>
