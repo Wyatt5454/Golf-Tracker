@@ -40,36 +40,21 @@ public class ScorecardActivity extends AppCompatActivity {
         PrevButton = findViewById(R.id.button6);
 
         List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
-        List<Hole> HolesFromText = new ArrayList<>();
 
-        int num = 1;
-        int i = 0;
-        int j = 0;
+        GolfCourse CurrentCourse = new GolfCourse("WenatcheeGolfAndCountryClub", CardInfo);
 
-        // This while loop parses the card information from the file and puts it
-        // all in a GolfCourse object.
-        while (HolesFromText.size() < 18) {
-            String newHandicap = "";
-            while (i < CardInfo.get(0).length() && CardInfo.get(0).charAt(i) != ' ') {
-                newHandicap += CardInfo.get(0).charAt(i);
-                i++;
-            }
-            i++;
+        // Now we have to initialize the TextViews for each hole.
+        TextHoles = InitializeHoles(CurrentCourse);
 
-            String newPar = "";
-            while (j < CardInfo.get(1).length() && CardInfo.get(1).charAt(j) != ' ') {
-                newPar += CardInfo.get(1).charAt(j);
-                j++;
-            }
-            j++;
+        // Grab all the spots for scores and put them in a container.
+        Scores = InitializeScores();
 
-            Hole newHole = new Hole(num, Integer.parseInt(newHandicap), Integer.parseInt(newPar));
-            HolesFromText.add(newHole);
-            num++;
-        }
-        GolfCourse CurrentCourse = new GolfCourse("WenatcheeGolfAndCountryClub", HolesFromText);
+        // Set the current hole.
+        currentHole = Scores.get(0);
+        currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+    }
 
-        // Now we have to grab all the textView boxes and put them in a container
+    public List<TextView> InitializeHoles(GolfCourse CurrentCourse) {
         TextHoles = new ArrayList<>();
         TextHoles.add((TextView) findViewById(R.id.tv1));
         TextHoles.add((TextView) findViewById(R.id.tv2));
@@ -92,36 +77,31 @@ public class ScorecardActivity extends AppCompatActivity {
         TextHoles.add((TextView) findViewById(R.id.tv29));
         TextHoles.add((TextView) findViewById(R.id.tv30));
 
-        // Here we will grab the data from GolfCourse and display it in the TextViews
         int Par9 = 0;
-        for (i = 0; i < 9; i++)
+        for (int i = 0; i < 9; i++)
         {
-            String number = Integer.toString(CurrentCourse.holes.get(i).number);
-            int par = CurrentCourse.holes.get(i).par;
-            Par9 += par;
-
+            String number = Integer.toString(CurrentCourse.Holes.get(i).number);
+            int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i).setTextColor(Color.WHITE);
         }
         TextHoles.get(9).setText("Out\n" + Integer.toString(Par9));
         TextHoles.get(9).setTextColor(Color.WHITE);
 
-        int Par18 = Par9;
         Par9 = 0;
-        for (i = 9; i < 18; i++)
+        for (int i = 9; i < 18; i++)
         {
-            String number = Integer.toString(CurrentCourse.holes.get(i).number);
-            int par = CurrentCourse.holes.get(i).par;
-            Par9 += par;
-            Par18 += par;
-
+            String number = Integer.toString(CurrentCourse.Holes.get(i).number);
+            int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i+1).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i+1).setTextColor(Color.WHITE);
         }
         TextHoles.get(19).setText("In\n" + Integer.toString(Par9));
         TextHoles.get(19).setTextColor(Color.WHITE);
 
-        // Grab all the spots for scores and put them in a container
+        return TextHoles;
+    }
+    public List<Score> InitializeScores() {
         Scores = new ArrayList<>();
         Scores.add(new Score((TextView)findViewById(R.id.tv11)));
         Scores.add(new Score((TextView)findViewById(R.id.tv12)));
@@ -141,10 +121,9 @@ public class ScorecardActivity extends AppCompatActivity {
         Scores.add(new Score((TextView)findViewById(R.id.tv37)));
         Scores.add(new Score((TextView)findViewById(R.id.tv38)));
         Scores.add(new Score((TextView)findViewById(R.id.tv39)));
-        currentHole = Scores.get(0);
-        currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
-    }
 
+        return Scores;
+    }
 
     private List<String> GetCardInfo(String CourseName) {
         // This function grabs the necessary information about the current golf course

@@ -16,4 +16,33 @@ public class Score {
         putts = 0;
         Actions = new Stack<>();
     }
+
+    void AddAction(String Action)
+    {
+        Actions.push(Action);
+    }
+
+    void UndoAction()
+    {
+        String Action;
+        if (Actions.size() > 0)
+        {
+            Action = Actions.pop();
+
+            if (Action == "Putt")
+            {
+                if (putts > 0)
+                {
+                    putts--;
+                }
+            }
+            else if (Action == "Stroke")
+            {
+                if (strokes > 0)
+                {
+                    strokes--;
+                }
+            }
+        }
+    }
 }

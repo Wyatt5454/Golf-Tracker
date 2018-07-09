@@ -11,20 +11,10 @@
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="126dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="126dp"
-        android:layout_marginTop="429dp"
         android:onClick="undoStroke"
         android:text="Undo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl1"
-        app:layout_constraintVertical_bias="1.0" />
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="546dp" />
 
     <Button
         android:id="@+id/button4"
