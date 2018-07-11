@@ -2,6 +2,9 @@ package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -19,12 +22,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static com.example.wyattfraley.golftracker.R.drawable.eagle;
 
 public class ScorecardActivity extends AppCompatActivity {
     Score currentHole;
@@ -43,11 +49,11 @@ public class ScorecardActivity extends AppCompatActivity {
 
         GolfCourse CurrentCourse = new GolfCourse("WenatcheeGolfAndCountryClub", CardInfo);
 
-        // Now we have to initialize the TextViews for each hole.
-        TextHoles = InitializeHoles(CurrentCourse);
-
         // Grab all the spots for scores and put them in a container.
         Scores = InitializeScores();
+
+        // Now we have to initialize the TextViews for each hole.
+        TextHoles = InitializeHoles(CurrentCourse);
 
         // Set the current hole.
         currentHole = Scores.get(0);
@@ -84,6 +90,7 @@ public class ScorecardActivity extends AppCompatActivity {
             int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i).setTextColor(Color.WHITE);
+            Scores.get(i).par = par;
         }
         TextHoles.get(9).setText("Out\n" + Integer.toString(Par9));
         TextHoles.get(9).setTextColor(Color.WHITE);
@@ -95,6 +102,7 @@ public class ScorecardActivity extends AppCompatActivity {
             int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i+1).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i+1).setTextColor(Color.WHITE);
+            Scores.get(i).par = par;
         }
         TextHoles.get(19).setText("In\n" + Integer.toString(Par9));
         TextHoles.get(19).setTextColor(Color.WHITE);
@@ -162,10 +170,13 @@ public class ScorecardActivity extends AppCompatActivity {
         return toReturn;
     }
     public void NextHole(View v) {
+        // First we have to check what kind of score it is
+        // and show its relation to par.
+        MarkScore(v);
+
         for (int i = 0; i < Scores.size(); i++) {
             if (currentHole == Scores.get(i)) {
                 if (i < Scores.size() - 1) {
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeback));
                     currentHole = Scores.get(i + 1);
                     currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
@@ -174,16 +185,37 @@ public class ScorecardActivity extends AppCompatActivity {
         }
     }
     public void PrevHole(View v) {
+        // First we have to check what kind of score it is
+        // and show its relation to par.
+        MarkScore(v);
+
         for (int i = 0; i < Scores.size(); i++) {
             if (currentHole == Scores.get(i)) {
                 if (i > 0) {
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeback));
                     currentHole = Scores.get(i - 1);
                     currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
                 break;
             }
         }
+    }
+    public void MarkScore(View v){
+        // This function is responsible for altering the look of the score
+        // in the hole textbox. Double circle for eagle or better, single
+        // circle for birdie, nothing for par, single square for bogey,
+        // and double square for double bogey or worse.
+
+        if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
+            currentHole.Hole.setBackground(getDrawable(R.drawable.holeback));
+        else if (currentHole.strokes <= currentHole.par - 2)
+            currentHole.Hole.setBackground(getDrawable(R.drawable.eagle));
+        else if (currentHole.strokes == currentHole.par - 1)
+            currentHole.Hole.setBackground(getDrawable(R.drawable.birdie));
+        else if (currentHole.strokes == currentHole.par + 1)
+            currentHole.Hole.setBackground(getDrawable(R.drawable.bogey));
+        else if (currentHole.strokes >= currentHole.par + 2)
+            currentHole.Hole.setBackground(getDrawable(R.drawable.doublebogey));
+
     }
 
     public void AddScore(View v) {

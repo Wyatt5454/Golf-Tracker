@@ -9,11 +9,13 @@ public class Score {
     TextView Hole;
     int strokes;
     int putts;
+    int par;
 
     Score(TextView newHole) {
         Hole = newHole;
         strokes = 0;
         putts = 0;
+        par = 0;
         Actions = new Stack<>();
     }
 
