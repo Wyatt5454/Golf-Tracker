@@ -60,13 +60,13 @@ public class LocationService extends AppCompatActivity {
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
     private LocationCallback mLocationCallback;
-    private Location mCurrentLocation;
+    public Location mCurrentLocation;
 
     // Used for logging
     private static final String TAG = LocationService.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorecard);
         ButterKnife.bind(this);
@@ -74,9 +74,8 @@ public class LocationService extends AppCompatActivity {
         init();
     }
 
-    private void init() {
+    public void init() {
         // This function initializes the location services and starts the first request.
-
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -113,7 +112,7 @@ public class LocationService extends AppCompatActivity {
         }
     }
 
-    private void startLocationUpdates() {
+    public void startLocationUpdates() {
         // Creates listeners for success and failures.
         // and starts locations updates.
 
@@ -164,6 +163,6 @@ public class LocationService extends AppCompatActivity {
                 });
     }
 
-    
+
 
 }

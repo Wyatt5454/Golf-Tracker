@@ -39,9 +39,9 @@ public class SelectCourseActivity extends AppCompatActivity implements AdapterVi
 
     }
 
-    public void scorecard(View view) {
+    public void Scorecard(View view) {
         // Goes to the select course activity
-        Intent intent = new Intent(this, ScorecardActivity.class);
+        Intent intent = new Intent(getBaseContext(), ScorecardActivity.class);
         startActivity(intent);
     }
 

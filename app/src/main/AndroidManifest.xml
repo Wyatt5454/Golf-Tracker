@@ -25,7 +25,10 @@
             android:parentActivityName=".HomeScreen" />
         <activity
             android:name=".ScorecardActivity"
-            android:parentActivityName=".SelectCourseActivity" />
+            android:parentActivityName=".HomeScreen" />
+        <activity android:name=".SaveCheck"
+            android:parentActivityName=".ScorecardActivity"
+            android:theme="@style/AppTheme.PopStyle"/>
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"

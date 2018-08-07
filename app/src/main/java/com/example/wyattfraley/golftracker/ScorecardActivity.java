@@ -2,6 +2,7 @@ package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,12 +42,19 @@ public class ScorecardActivity extends AppCompatActivity {
     List<Score> Scores;
     Button NextButton;
     Button PrevButton;
+    Button SaveYes;
+    Button SaveNo;
+    LocationService mLocationService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorecard);
         NextButton = findViewById(R.id.button3);
         PrevButton = findViewById(R.id.button6);
+        SaveYes = findViewById(R.id.SaveYes);
+        SaveNo = findViewById(R.id.SaveNo);
+
 
         List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
 
@@ -59,6 +70,27 @@ public class ScorecardActivity extends AppCompatActivity {
         currentHole = Scores.get(0);
         currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu, menu);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.save_menu) {
+            //  Here we create a pop up window asking if they are done with the round and want to save.
+            startActivity(new Intent(ScorecardActivity.this, SaveCheck.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     public List<TextView> InitializeHoles(GolfCourse CurrentCourse) {
         TextHoles = new ArrayList<>();
@@ -238,7 +270,7 @@ public class ScorecardActivity extends AppCompatActivity {
         updateTotals(v);
 
     }
-    public void undoStroke(View v) {
+    public void UndoStroke(View v) {
         try {
             String lastAction = currentHole.Actions.pop();
             if (lastAction.equals("putt")) {
@@ -292,4 +324,10 @@ public class ScorecardActivity extends AppCompatActivity {
         }
         eighteenth.setText(Integer.toString(eighteenthS));
     }
+
+    public void SaveRound(View v) {
+        int nonsense = 13;
+        nonsense++;
+    }
+
 }
