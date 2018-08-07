@@ -42,8 +42,6 @@ public class ScorecardActivity extends AppCompatActivity {
     List<Score> Scores;
     Button NextButton;
     Button PrevButton;
-    Button SaveYes;
-    Button SaveNo;
     LocationService mLocationService;
 
     @Override
@@ -52,8 +50,6 @@ public class ScorecardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scorecard);
         NextButton = findViewById(R.id.button3);
         PrevButton = findViewById(R.id.button6);
-        SaveYes = findViewById(R.id.SaveYes);
-        SaveNo = findViewById(R.id.SaveNo);
 
 
         List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
@@ -85,7 +81,16 @@ public class ScorecardActivity extends AppCompatActivity {
 
         if (id == R.id.save_menu) {
             //  Here we create a pop up window asking if they are done with the round and want to save.
-            startActivity(new Intent(ScorecardActivity.this, SaveCheck.class));
+            // Have to convert the scores into a saveable format
+            Intent MyIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
+            String Message = new String();
+            for (int i = 0; i < Scores.size(); i++)
+            {
+                Message += Scores.get(i).ToSaveFormat();
+            }
+
+            MyIntent.putExtra("ToSave", Message);
+            startActivity(MyIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -324,10 +329,4 @@ public class ScorecardActivity extends AppCompatActivity {
         }
         eighteenth.setText(Integer.toString(eighteenthS));
     }
-
-    public void SaveRound(View v) {
-        int nonsense = 13;
-        nonsense++;
-    }
-
 }

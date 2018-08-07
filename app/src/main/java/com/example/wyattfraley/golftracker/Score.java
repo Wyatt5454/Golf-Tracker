@@ -19,13 +19,16 @@ public class Score {
         Actions = new Stack<>();
     }
 
+    String ToSaveFormat() {
+        return Integer.toString(strokes) + " " + Integer.toString(putts) + " ";
+    }
+
     void AddAction(String Action)
     {
         Actions.push(Action);
     }
 
-    void UndoAction()
-    {
+    void UndoAction() {
         String Action;
         if (Actions.size() > 0)
         {
