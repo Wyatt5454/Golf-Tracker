@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -42,6 +43,7 @@ public class ScorecardActivity extends AppCompatActivity {
     List<Score> Scores;
     Button NextButton;
     Button PrevButton;
+    CheckBox SandCheck;
     LocationService mLocationService;
 
     @Override
@@ -50,6 +52,7 @@ public class ScorecardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scorecard);
         NextButton = findViewById(R.id.button3);
         PrevButton = findViewById(R.id.button6);
+        SandCheck = findViewById(R.id.CheckSand);
 
 
         List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
@@ -83,13 +86,20 @@ public class ScorecardActivity extends AppCompatActivity {
             //  Here we create a pop up window asking if they are done with the round and want to save.
             // Have to convert the scores into a saveable format
             Intent MyIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
-            String Message = new String();
+            String MStrokes = new String();
+            String MPutts = new String();
+            String MSand = new String();
+
             for (int i = 0; i < Scores.size(); i++)
             {
-                Message += Scores.get(i).ToSaveFormat();
+                MStrokes += Integer.toString(Scores.get(i).Strokes) + "\n";
+                MPutts += Integer.toString(Scores.get(i).Putts) + "\n";
+                MSand += Integer.toString(Scores.get(i).Sand) + "\n";
             }
 
-            MyIntent.putExtra("ToSave", Message);
+            MyIntent.putExtra("Strokes", MStrokes);
+            MyIntent.putExtra("Putts", MPutts);
+            MyIntent.putExtra("Sand", MSand);
             startActivity(MyIntent);
         }
         return super.onOptionsItemSelected(item);
@@ -127,7 +137,7 @@ public class ScorecardActivity extends AppCompatActivity {
             int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i).setTextColor(Color.WHITE);
-            Scores.get(i).par = par;
+            Scores.get(i).Par = par;
         }
         TextHoles.get(9).setText("Out\n" + Integer.toString(Par9));
         TextHoles.get(9).setTextColor(Color.WHITE);
@@ -139,7 +149,7 @@ public class ScorecardActivity extends AppCompatActivity {
             int par = CurrentCourse.Holes.get(i).par;
             TextHoles.get(i+1).setText(number + "\n" + Integer.toString(par));
             TextHoles.get(i+1).setTextColor(Color.WHITE);
-            Scores.get(i).par = par;
+            Scores.get(i).Par = par;
         }
         TextHoles.get(19).setText("In\n" + Integer.toString(Par9));
         TextHoles.get(19).setTextColor(Color.WHITE);
@@ -211,11 +221,24 @@ public class ScorecardActivity extends AppCompatActivity {
         // and show its relation to par.
         MarkScore(v);
 
+        if (SandCheck.isChecked()) {
+            currentHole.Sand = 1;
+        }
+        else {
+            currentHole.Sand = 0;
+        }
+
         for (int i = 0; i < Scores.size(); i++) {
             if (currentHole == Scores.get(i)) {
                 if (i < Scores.size() - 1) {
                     currentHole = Scores.get(i + 1);
                     currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                    if (currentHole.Sand == 0) {
+                        SandCheck.setChecked(false);
+                    }
+                    else {
+                        SandCheck.setChecked(true);
+                    }
                 }
                 break;
             }
@@ -226,11 +249,24 @@ public class ScorecardActivity extends AppCompatActivity {
         // and show its relation to par.
         MarkScore(v);
 
+        if (SandCheck.isChecked()) {
+            currentHole.Sand = 1;
+        }
+        else {
+            currentHole.Sand = 0;
+        }
+
         for (int i = 0; i < Scores.size(); i++) {
             if (currentHole == Scores.get(i)) {
                 if (i > 0) {
                     currentHole = Scores.get(i - 1);
                     currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                    if (currentHole.Sand == 0) {
+                        SandCheck.setChecked(false);
+                    }
+                    else {
+                        SandCheck.setChecked(true);
+                    }
                 }
                 break;
             }
@@ -242,23 +278,23 @@ public class ScorecardActivity extends AppCompatActivity {
         // circle for birdie, nothing for par, single square for bogey,
         // and double square for double bogey or worse.
 
-        if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
+        if (currentHole.Strokes == 0 || currentHole.Strokes == currentHole.Par)
             currentHole.Hole.setBackground(getDrawable(R.drawable.holeback));
-        else if (currentHole.strokes <= currentHole.par - 2)
+        else if (currentHole.Strokes <= currentHole.Par - 2)
             currentHole.Hole.setBackground(getDrawable(R.drawable.eagle));
-        else if (currentHole.strokes == currentHole.par - 1)
+        else if (currentHole.Strokes == currentHole.Par - 1)
             currentHole.Hole.setBackground(getDrawable(R.drawable.birdie));
-        else if (currentHole.strokes == currentHole.par + 1)
+        else if (currentHole.Strokes == currentHole.Par + 1)
             currentHole.Hole.setBackground(getDrawable(R.drawable.bogey));
-        else if (currentHole.strokes >= currentHole.par + 2)
+        else if (currentHole.Strokes >= currentHole.Par + 2)
             currentHole.Hole.setBackground(getDrawable(R.drawable.doublebogey));
 
     }
 
     public void AddScore(View v) {
         int intScore;
-        currentHole.strokes++;
-        intScore = currentHole.strokes;
+        currentHole.Strokes++;
+        intScore = currentHole.Strokes;
         currentHole.Hole.setText(Integer.toString(intScore));
         currentHole.Actions.push(getString(R.string.stroke));
 
@@ -266,9 +302,9 @@ public class ScorecardActivity extends AppCompatActivity {
     }
     public void AddPutt(View v) {
         int intScore;
-        currentHole.putts++;
-        currentHole.strokes++;
-        intScore = currentHole.strokes;
+        currentHole.Putts++;
+        currentHole.Strokes++;
+        intScore = currentHole.Strokes;
         currentHole.Hole.setText(Integer.toString(intScore));
         currentHole.Actions.push(getString(R.string.putt));
 
@@ -279,16 +315,16 @@ public class ScorecardActivity extends AppCompatActivity {
         try {
             String lastAction = currentHole.Actions.pop();
             if (lastAction.equals("putt")) {
-                currentHole.putts--;
-                currentHole.strokes--;
+                currentHole.Putts--;
+                currentHole.Strokes--;
             } else if (lastAction.equals("stroke")) {
-                currentHole.strokes--;
+                currentHole.Strokes--;
             }
         }
         catch (EmptyStackException e) {
 
         }
-        currentHole.Hole.setText(Integer.toString(currentHole.strokes));
+        currentHole.Hole.setText(Integer.toString(currentHole.Strokes));
         updateTotals(v);
     }
 

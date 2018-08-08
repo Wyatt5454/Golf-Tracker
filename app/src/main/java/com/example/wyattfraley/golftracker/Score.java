@@ -7,47 +7,21 @@ import java.util.Stack;
 public class Score {
     Stack<String> Actions;
     TextView Hole;
-    int strokes;
-    int putts;
-    int par;
+    int Strokes;
+    int Putts;
+    int Sand;
+    int Par;
 
     Score(TextView newHole) {
         Hole = newHole;
-        strokes = 0;
-        putts = 0;
-        par = 0;
+        Strokes = 0;
+        Putts = 0;
+        Sand = 0;
+        Par = 0;
         Actions = new Stack<>();
     }
 
     String ToSaveFormat() {
-        return Integer.toString(strokes) + " " + Integer.toString(putts) + " ";
-    }
-
-    void AddAction(String Action)
-    {
-        Actions.push(Action);
-    }
-
-    void UndoAction() {
-        String Action;
-        if (Actions.size() > 0)
-        {
-            Action = Actions.pop();
-
-            if (Action == "Putt")
-            {
-                if (putts > 0)
-                {
-                    putts--;
-                }
-            }
-            else if (Action == "Stroke")
-            {
-                if (strokes > 0)
-                {
-                    strokes--;
-                }
-            }
-        }
+        return Integer.toString(Strokes) + " " + Integer.toString(Putts) + " " + Integer.toString(Sand) + "\n";
     }
 }
