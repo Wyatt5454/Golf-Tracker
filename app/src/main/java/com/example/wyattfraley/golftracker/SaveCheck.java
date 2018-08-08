@@ -48,10 +48,10 @@ public class SaveCheck extends Activity {
         GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db").build();
 
         ScoreEntry ToEnter = new ScoreEntry();
-        ToEnter.SetUid(Calendar.getInstance().getTime());
-        ToEnter.SetStrokes(Strokes);
-        ToEnter.SetPutts(Putts);
-        ToEnter.SetSand(Sand);
+        ToEnter.setUid(Calendar.getInstance().getTime().toString());
+        ToEnter.setStrokes(Strokes);
+        ToEnter.setPutts(Putts);
+        ToEnter.setSand(Sand);
 
 
         Db.MyScoreEntryDao().insertAll(ToEnter);
