@@ -1,8 +1,10 @@
 package com.example.wyattfraley.golftracker;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -35,25 +37,47 @@ public class SaveCheck extends Activity {
                 SaveRound();
             }
         });
+        No.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoPress();
+            }
+        });
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void SaveRound() {
         // Here we grab all the data from the ScorecardActivity, open the database,
-        // and make a new entry.
+        // and make a new entry.  Creates an AsyncTask so that the database
+        // saving does not take place on the main thread to prevent UI locking.
+
         Intent MyIntent = getIntent();
         String Strokes = MyIntent.getStringExtra("Strokes");
         String Putts = MyIntent.getStringExtra("Putts");
         String Sand = MyIntent.getStringExtra("Sand");
+        String Final = MyIntent.getStringExtra("Final");
 
-        GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db").build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db").build();
 
-        ScoreEntry ToEnter = new ScoreEntry();
+        final ScoreEntry ToEnter = new ScoreEntry();
         ToEnter.setUid(Calendar.getInstance().getTime().toString());
         ToEnter.setStrokes(Strokes);
         ToEnter.setPutts(Putts);
         ToEnter.setSand(Sand);
+        ToEnter.setFinal(Final);
 
 
-        Db.MyScoreEntryDao().insertAll(ToEnter);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Db.MyScoreEntryDao().insertAll(ToEnter);
+                return null;
+            }
+        }.execute();
+        finish();
+    }
+
+    public void NoPress() {
+        finish();
     }
 }

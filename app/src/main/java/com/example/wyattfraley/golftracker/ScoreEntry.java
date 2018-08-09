@@ -24,6 +24,9 @@ public class ScoreEntry {
     @ColumnInfo(name = "sand")
     private String Sand;
 
+    @ColumnInfo(name = "finalscore")
+    private String Final;
+
     public String getUid() {
         return Uid;
     }
@@ -51,4 +54,7 @@ public class ScoreEntry {
     public void setSand(String NSand) {
         Sand = NSand;
     }
+
+    public String getFinal() { return Final; }
+    public void setFinal(String aFinal) { Final = aFinal; }
 }

@@ -89,6 +89,7 @@ public class ScorecardActivity extends AppCompatActivity {
             String MStrokes = new String();
             String MPutts = new String();
             String MSand = new String();
+            String MFinal = new String();
 
             for (int i = 0; i < Scores.size(); i++)
             {
@@ -96,10 +97,13 @@ public class ScorecardActivity extends AppCompatActivity {
                 MPutts += Integer.toString(Scores.get(i).Putts) + "\n";
                 MSand += Integer.toString(Scores.get(i).Sand) + "\n";
             }
+            TextView eighteenth = findViewById(R.id.tv40);
+            MFinal = (String)eighteenth.getText();
 
             MyIntent.putExtra("Strokes", MStrokes);
             MyIntent.putExtra("Putts", MPutts);
             MyIntent.putExtra("Sand", MSand);
+            MyIntent.putExtra("Final", MFinal);
             startActivity(MyIntent);
         }
         return super.onOptionsItemSelected(item);

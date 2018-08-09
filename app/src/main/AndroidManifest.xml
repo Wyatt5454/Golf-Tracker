@@ -29,6 +29,8 @@
         <activity android:name=".SaveCheck"
             android:parentActivityName=".ScorecardActivity"
             android:theme="@style/AppTheme.PopStyle"/>
+        <activity android:name=".StatsMainActivity"
+            android:parentActivityName=".HomeScreen"/>
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"
