@@ -31,6 +31,8 @@
             android:theme="@style/AppTheme.PopStyle"/>
         <activity android:name=".StatsMainActivity"
             android:parentActivityName=".HomeScreen"/>
+        <activity android:name=".ShowAllRounds"
+            android:parentActivityName=".StatsMainActivity"/>
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"
