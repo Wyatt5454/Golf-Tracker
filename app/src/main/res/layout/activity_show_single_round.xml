@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@color/colorPrimary"
+    tools:context=".ShowSingleRound">>
+
+
+
+    <TableLayout
+        android:id="@+id/tl1"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/r1"
+            android:layout_width="368dp"
+            android:layout_height="48dp"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/tv1"
+                style="@style/HoleText"
+                android:text="1" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="2"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="3"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="4"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="5"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="6"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv7"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="7"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv8"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="8"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv9"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="9"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv10"
+                android:layout_width="45dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="Out"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/r2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/tv11"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv12"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv13"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv14"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv15"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv16"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv17"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv18"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv19"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv20"
+                style="@style/scorestyle"
+                android:text="0" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r3"
+            android:layout_width="368dp"
+            android:layout_height="48dp"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/tv21"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="1"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv22"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="2"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv23"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="3"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv24"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="4"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv25"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="5"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv26"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="6"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv27"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="7"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv28"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="8"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv29"
+                android:layout_width="36dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="9"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv30"
+                android:layout_width="45dp"
+                android:background="@drawable/back"
+                android:padding="3dip"
+                android:text="Out"
+                android:textAlignment="center"
+                android:textSize="12dp" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/r4"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/tv31"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv32"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv33"
+                style="@style/scorestyle"
+                android:text="" />
+
+
+            <TextView
+                android:id="@+id/tv34"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv35"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv36"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv37"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv38"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv39"
+                style="@style/scorestyle"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv40"
+                style="@style/scorestyle"
+                android:text="0" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/HoleStats"
+        android:layout_width="347dp"
+        android:layout_height="73dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="158dp"
+        android:text="Show the data for the currently selected hole"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OverallStats" />
+
+    <TextView
+        android:id="@+id/OverallStats"
+        android:layout_width="340dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="19dp"
+        android:text="Show the data for the round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tl1" />
+
+</android.support.constraint.ConstraintLayout>
