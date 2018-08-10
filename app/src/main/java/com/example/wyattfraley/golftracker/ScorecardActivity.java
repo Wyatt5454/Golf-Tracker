@@ -163,26 +163,191 @@ public class ScorecardActivity extends AppCompatActivity {
     }
     public List<Score> InitializeScores() {
         Scores = new ArrayList<>();
-        Scores.add(new Score((TextView)findViewById(R.id.tv11)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv12)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv13)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv14)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv15)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv16)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv17)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv18)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv19)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv31)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv32)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv33)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv34)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv35)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv36)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv37)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv38)));
-        Scores.add(new Score((TextView)findViewById(R.id.tv39)));
+        final Score score1 = new Score((TextView)findViewById(R.id.tv11));
+        score1.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score1;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score1);
+        final Score score2 = new Score((TextView)findViewById(R.id.tv12));
+        score2.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score2;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score2);
+        final Score score3 = new Score((TextView)findViewById(R.id.tv13));
+        score3.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score3;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score3);
+        final Score score4 = new Score((TextView)findViewById(R.id.tv14));
+        score4.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score4;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score4);
+        final Score score5 = new Score((TextView)findViewById(R.id.tv15));
+        score5.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score5;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score5);
+        final Score score6 = new Score((TextView)findViewById(R.id.tv16));
+        score6.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score6;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score6);
+        final Score score7 = new Score((TextView)findViewById(R.id.tv17));
+        score7.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score7;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score7);
+        final Score score8 = new Score((TextView)findViewById(R.id.tv18));
+        score8.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score8;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score8);
+        final Score score9 = new Score((TextView)findViewById(R.id.tv19));
+        score9.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score9;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score9);
+        final Score score10 = new Score((TextView)findViewById(R.id.tv31));
+        score10.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score10;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score10);
+        final Score score11 = new Score((TextView)findViewById(R.id.tv32));
+        score11.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score11;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score11);
+        final Score score12 = new Score((TextView)findViewById(R.id.tv33));
+        score12.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score12;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score12);
+        final Score score13 = new Score((TextView)findViewById(R.id.tv34));
+        score13.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score13;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score13);
+        final Score score14 = new Score((TextView)findViewById(R.id.tv35));
+        score14.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score14;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score14);
+        final Score score15 = new Score((TextView)findViewById(R.id.tv36));
+        score15.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score15;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score15);
+        final Score score16 = new Score((TextView)findViewById(R.id.tv37));
+        score16.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score16;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score16);
+        final Score score17 = new Score((TextView)findViewById(R.id.tv38));
+        score17.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score17;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score17);
+        final Score score18 = new Score((TextView)findViewById(R.id.tv39));
+        score18.Hole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkScore(v);
+                currentHole = score18;
+                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+            }
+        });
+        Scores.add(score18);
 
         return Scores;
+    }
+    public void SelectHole() {
+
     }
 
     private List<String> GetCardInfo(String CourseName) {
