@@ -187,7 +187,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="1"
+                android:text="10"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -196,7 +196,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="2"
+                android:text="11"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -205,7 +205,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="3"
+                android:text="12"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -214,7 +214,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="4"
+                android:text="13"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -223,7 +223,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="5"
+                android:text="14"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -232,7 +232,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="6"
+                android:text="15"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -241,7 +241,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="7"
+                android:text="16"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -250,7 +250,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="8"
+                android:text="17"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 
@@ -259,7 +259,7 @@
                 android:layout_width="36dp"
                 android:background="@drawable/back"
                 android:padding="3dip"
-                android:text="9"
+                android:text="18"
                 android:textAlignment="center"
                 android:textSize="12dp" />
 

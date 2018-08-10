@@ -33,6 +33,8 @@
             android:parentActivityName=".HomeScreen"/>
         <activity android:name=".ShowAllRounds"
             android:parentActivityName=".StatsMainActivity"/>
+        <activity android:name=".ShowSingleRound"
+            android:parentActivityName=".ShowAllRounds"/>
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="match_parent"

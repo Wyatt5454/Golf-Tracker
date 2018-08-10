@@ -2,6 +2,7 @@ package com.example.wyattfraley.golftracker;
 
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,9 +36,12 @@ public class ShowAllRounds extends AppCompatActivity{
                 AllRounds = Db.MyScoreEntryDao().getAll();
                 return null;
             }
-        }.execute();
 
-        DisplayScores();
+            @Override
+            protected void onPostExecute(Void result) {
+                DisplayScores();
+            }
+        }.execute();
     }
 
     public void DisplayScores() {
@@ -49,10 +53,25 @@ public class ShowAllRounds extends AppCompatActivity{
 
             Button MyButton = new Button(this);
             String Date = MyEntry.getUid();
+            final String Final = MyEntry.getFinal();
+            final String strokes = MyEntry.getStrokes();
+            final String putts = MyEntry.getPutts();
+            final String sand = MyEntry.getSand();
             Date = Date.substring(0, 10);
-            MyButton.setText(Date);
-            MyButton.setVisibility(View.VISIBLE);
+            MyButton.setText(Date + ":  Score: " + Final);
 
+            MyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
+                    myIntent.putExtra("Strokes", strokes);
+                    myIntent.putExtra("Putts", putts);
+                    myIntent.putExtra("Sand", sand);
+                    myIntent.putExtra("Final", Final);
+
+                    startActivity(myIntent);
+                }
+            });
 
             ll.addView(MyButton, lp);
         }

@@ -97,8 +97,9 @@ public class ScorecardActivity extends AppCompatActivity {
                 MPutts += Integer.toString(Scores.get(i).Putts) + "\n";
                 MSand += Integer.toString(Scores.get(i).Sand) + "\n";
             }
+            TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
-            MFinal = (String)eighteenth.getText();
+            MFinal = Integer.toString(Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString()));
 
             MyIntent.putExtra("Strokes", MStrokes);
             MyIntent.putExtra("Putts", MPutts);
