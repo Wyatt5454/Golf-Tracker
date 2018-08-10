@@ -106,9 +106,18 @@ public class ScorecardActivity extends AppCompatActivity {
             MyIntent.putExtra("Putts", MPutts);
             MyIntent.putExtra("Sand", MSand);
             MyIntent.putExtra("Final", MFinal);
-            startActivity(MyIntent);
+            startActivityForResult(MyIntent, 99);
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 99) {
+            if (resultCode == RESULT_OK) {
+                this.finish();
+            }
+        }
     }
 
 

@@ -11,4 +11,11 @@
         android:text="Select a Round"
         android:textAlignment="center"
         android:textSize="24sp" />
+
+    <ScrollView
+        android:id="@+id/RoundScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ScrollView>
+
 </LinearLayout>

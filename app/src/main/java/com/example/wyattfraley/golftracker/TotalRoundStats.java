@@ -57,4 +57,10 @@ public class TotalRoundStats implements Serializable{
             e.printStackTrace();
         }
     }
+    public void UpdateTotals(int score, int putts, int sand) {
+        totalScore += score;
+        totalPutts += putts;
+        totalSand += sand;
+        totalRounds++;
+    }
 }

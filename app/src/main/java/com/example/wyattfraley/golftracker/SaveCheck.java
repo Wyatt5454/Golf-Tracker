@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
+import java.util.List;
 
 public class SaveCheck extends Activity {
     Button Yes;
@@ -89,16 +90,17 @@ public class SaveCheck extends Activity {
         }.execute();
 
         // Now that the round is saved, we must update the totals.
-        UpdateTotals(Strokes, Putts, Sand);
+        UpdateTotals(Strokes, Putts, Sand, Final);
 
 
+        setResult(RESULT_OK, null);
         finish();
     }
 
     public void NoPress() {
         finish();
     }
-    public void UpdateTotals(String strokes, String putts, String sand) {
+    public void UpdateTotals(String strokes, String putts, String sand, String finalScore) {
         // First load the file in.
 
         String saveName = "TotalStats.txt";
@@ -117,6 +119,7 @@ public class SaveCheck extends Activity {
 
             // Method for deserialization of object
             stats = (TotalRoundStats)in.readObject();
+            LoadScores(stats, strokes, putts, sand, finalScore);
 
             in.close();
             stream.close();
@@ -129,5 +132,54 @@ public class SaveCheck extends Activity {
         }
 
         stats.Save(this);
+    }
+    public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String finalScore) {
+        // First we have to parse the strings into 18 groups.
+        int i = 0;
+        int i2 = 0;
+        int j = 0;
+        int j2 = 0;
+        int k = 0;
+        int k2 = 0;
+        int totalPutts = 0;
+        int totalSand = 0;
+
+        String mStroke = new String();
+        String mPutt = new String();
+        String mSand = new String();
+        TotalHoleStats hole;
+
+        if (stats.holes.size() == 0) {
+            for (int z = 0; z < 18; z++) {
+                TotalHoleStats nHole = new TotalHoleStats();
+                stats.holes.add(nHole);
+            }
+        }
+
+
+        for (int l = 0; l < 18; l++) {
+            i2 = strokes.indexOf("\n", i);
+            mStroke = strokes.substring(i, i2);
+            i = i2 + 1;
+
+            j2 = putts.indexOf("\n", j);
+            mPutt = putts.substring(j, j2);
+            j = j2 + 1;
+
+            k2 = sand.indexOf("\n", k);
+            mSand = sand.substring(k, k2);
+            k = k2 + 1;
+
+            hole = stats.holes.get(l);
+            hole.UpdateStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand));
+
+            totalPutts += Integer.parseInt(mPutt);
+            totalSand += Integer.parseInt(mSand);
+        }
+
+        int finalS = Integer.parseInt(finalScore);
+        stats.UpdateTotals(finalS, totalPutts, totalSand);
+
+
     }
 }

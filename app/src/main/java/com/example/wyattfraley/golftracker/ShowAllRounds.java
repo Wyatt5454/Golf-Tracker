@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,7 +40,7 @@ public class ShowAllRounds extends AppCompatActivity{
 
             @Override
             protected void onPostExecute(Void result) {
-                DisplayScores();
+                DisplayScoresV2();
             }
         }.execute();
     }
@@ -76,5 +77,41 @@ public class ShowAllRounds extends AppCompatActivity{
             ll.addView(MyButton, lp);
         }
 
+    }
+    public void DisplayScoresV2() {
+        ScrollView scrollView = (ScrollView)findViewById(R.id.RoundScroll);
+
+        LinearLayout ll = new LinearLayout(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        for (int i = 0; i < AllRounds.size(); i++) {
+            ScoreEntry MyEntry = AllRounds.get(i);
+
+            Button MyButton = new Button(this);
+            String Date = MyEntry.getUid();
+            final String Final = MyEntry.getFinal();
+            final String strokes = MyEntry.getStrokes();
+            final String putts = MyEntry.getPutts();
+            final String sand = MyEntry.getSand();
+            Date = Date.substring(0, 10);
+            MyButton.setText(Date + ":  Score: " + Final);
+
+            MyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
+                    myIntent.putExtra("Strokes", strokes);
+                    myIntent.putExtra("Putts", putts);
+                    myIntent.putExtra("Sand", sand);
+                    myIntent.putExtra("Final", Final);
+
+                    startActivity(myIntent);
+                }
+            });
+
+            ll.addView(MyButton, lp);
+        }
+        scrollView.addView(ll);
     }
 }
