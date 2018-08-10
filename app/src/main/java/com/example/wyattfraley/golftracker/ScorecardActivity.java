@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -346,9 +347,7 @@ public class ScorecardActivity extends AppCompatActivity {
 
         return Scores;
     }
-    public void SelectHole() {
 
-    }
 
     private List<String> GetCardInfo(String CourseName) {
         // This function grabs the necessary information about the current golf course

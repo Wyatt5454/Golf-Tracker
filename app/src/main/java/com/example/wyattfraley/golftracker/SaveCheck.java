@@ -1,14 +1,27 @@
 package com.example.wyattfraley.golftracker;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
 public class SaveCheck extends Activity {
@@ -74,10 +87,47 @@ public class SaveCheck extends Activity {
                 return null;
             }
         }.execute();
+
+        // Now that the round is saved, we must update the totals.
+        UpdateTotals(Strokes, Putts, Sand);
+
+
         finish();
     }
 
     public void NoPress() {
         finish();
+    }
+    public void UpdateTotals(String strokes, String putts, String sand) {
+        // First load the file in.
+
+        String saveName = "TotalStats.txt";
+        TotalRoundStats stats = new TotalRoundStats();
+
+        File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+
+        try {
+            // Reading object in a file
+            FileInputStream stream = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(stream);
+
+            // Method for deserialization of object
+            stats = (TotalRoundStats)in.readObject();
+
+            in.close();
+            stream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        stats.Save(this);
     }
 }
