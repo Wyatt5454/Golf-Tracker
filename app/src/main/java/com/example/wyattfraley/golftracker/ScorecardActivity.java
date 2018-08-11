@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.w3c.dom.Text;
 
@@ -38,14 +46,14 @@ import java.util.ListIterator;
 
 import static com.example.wyattfraley.golftracker.R.drawable.eagle;
 
-public class ScorecardActivity extends AppCompatActivity {
+public class ScorecardActivity extends FragmentActivity implements OnMapReadyCallback {
     Score currentHole;
     List<TextView> TextHoles;
     List<Score> Scores;
     Button NextButton;
     Button PrevButton;
     CheckBox SandCheck;
-    LocationService mLocationService;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,20 @@ public class ScorecardActivity extends AppCompatActivity {
         // Set the current hole.
         currentHole = Scores.get(0);
         currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                //.findFragmentById(R.id.map);
+        //mapFragment.getMapAsync(this);
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

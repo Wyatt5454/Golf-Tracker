@@ -79,6 +79,5 @@ public class StatsMainActivity extends AppCompatActivity {
         toDisplay += "Average Sand Traps Hit: " + (stats.totalSand / stats.totalRounds);
 
         showTotalStats.setText(toDisplay);
-
     }
 }

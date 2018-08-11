@@ -2,4 +2,5 @@
     <string name="app_name">GolfTracker</string>
     <string name="putt">putt</string>
     <string name="stroke">stroke</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
