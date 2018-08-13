@@ -14,13 +14,13 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="150dp"
         android:text="View All Rounds"
-        app:layout_constraintBottom_toTopOf="@+id/button10"
+        app:layout_constraintBottom_toTopOf="@+id/viewAllHoles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StatsHolder" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/viewAllHoles"
         android:layout_width="383dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="152dp"

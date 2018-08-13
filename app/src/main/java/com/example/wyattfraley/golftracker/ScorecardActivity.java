@@ -66,7 +66,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     Button NextButton;
     Button PrevButton;
     CheckBox SandCheck;
-    private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -199,7 +198,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
         testView.setText(latLng.toString());
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

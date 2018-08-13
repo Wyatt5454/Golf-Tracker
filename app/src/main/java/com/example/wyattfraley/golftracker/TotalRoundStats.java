@@ -30,8 +30,6 @@ public class TotalRoundStats implements Serializable{
     }
 
     public void Save(Activity saveActivity) {
-        String saveName = "TotalStats.txt";
-
         File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
         file.setReadable(true);
         file.setWritable(true);
@@ -42,11 +40,10 @@ public class TotalRoundStats implements Serializable{
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 1);
         try {
-            // Saving of object in a file
             FileOutputStream stream = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(stream);
 
-            // Method for serialization of object
+            // Serializes the object.
             out.writeObject(this);
 
             out.close();

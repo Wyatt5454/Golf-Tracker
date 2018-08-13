@@ -39,6 +39,8 @@
         <activity
             android:name=".ShowSingleRound"
             android:parentActivityName=".ShowAllRounds" />
+        <activity android:name=".ShowAllHoles"
+            android:parentActivityName=".StatsMainActivity" />
 
         <Spinner
             android:id="@+id/spinner1"

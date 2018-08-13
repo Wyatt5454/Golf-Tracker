@@ -18,6 +18,7 @@ import java.io.ObjectInputStream;
 
 public class StatsMainActivity extends AppCompatActivity {
     Button ShowAllRounds;
+    Button showAllHoles;
     TextView showTotalStats;
 
     @Override
@@ -27,6 +28,7 @@ public class StatsMainActivity extends AppCompatActivity {
 
         ShowAllRounds = findViewById(R.id.ViewAllRounds);
         showTotalStats = findViewById(R.id.StatsHolder);
+        showAllHoles = findViewById(R.id.viewAllHoles);
 
         ShowAllRounds.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +36,13 @@ public class StatsMainActivity extends AppCompatActivity {
                 LoadAllRounds();
             }
         });
+        showAllHoles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadHoleStats();
+            }
+        });
+
 
         DisplayTotalStats();
     }
@@ -79,5 +88,13 @@ public class StatsMainActivity extends AppCompatActivity {
         toDisplay += "Average Sand Traps Hit: " + (stats.totalSand / stats.totalRounds);
 
         showTotalStats.setText(toDisplay);
+    }
+    public void LoadHoleStats() {
+        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
+
+        TotalRoundStats stats = LoadTotalStats();
+        myIntent.putExtra("Stats", stats);
+
+        startActivity(myIntent);
     }
 }
