@@ -3,16 +3,22 @@ package com.example.wyattfraley.golftracker;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +27,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,7 +57,9 @@ import java.util.ListIterator;
 
 import static com.example.wyattfraley.golftracker.R.drawable.eagle;
 
-public class ScorecardActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ScorecardActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
     Score currentHole;
     List<TextView> TextHoles;
     List<Score> Scores;
@@ -54,14 +67,21 @@ public class ScorecardActivity extends FragmentActivity implements OnMapReadyCal
     Button PrevButton;
     CheckBox SandCheck;
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    public static final String TAG = MapsActivity.class.getSimpleName();
+    TextView testView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorecard);
+
         NextButton = findViewById(R.id.button3);
         PrevButton = findViewById(R.id.button6);
         SandCheck = findViewById(R.id.CheckSand);
+        testView = findViewById(R.id.testView);
 
 
         List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
@@ -78,19 +98,108 @@ public class ScorecardActivity extends FragmentActivity implements OnMapReadyCal
         currentHole = Scores.get(0);
         currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                //.findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        // Create the LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location location = null;
+        try {
+            checkPermission("ACCESS_FINE_LOCATION", 1, 1);
+
+            if (checkLocationPermission()) {
+                location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            }
+        }
+        catch (Exception e){};
+
+
+        if (location == null) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+        else {
+            handleNewLocation(location);
+        }
     }
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+    }
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            /*
+             * If no resolution is available, display a dialog to the
+             * user with the error.
+             */
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        handleNewLocation(location);
+    }
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+        testView.setText(latLng.toString());
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,7 +207,7 @@ public class ScorecardActivity extends FragmentActivity implements OnMapReadyCal
         inflater.inflate(R.menu.my_menu, menu);
 
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -140,6 +249,27 @@ public class ScorecardActivity extends FragmentActivity implements OnMapReadyCal
                 this.finish();
             }
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
+    }
+    public boolean checkLocationPermission() {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
     }
 
 
