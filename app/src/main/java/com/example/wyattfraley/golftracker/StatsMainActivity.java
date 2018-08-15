@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 
 public class StatsMainActivity extends AppCompatActivity {
     Button ShowAllRounds;
@@ -91,9 +92,6 @@ public class StatsMainActivity extends AppCompatActivity {
     }
     public void LoadHoleStats() {
         Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
-
-        TotalRoundStats stats = LoadTotalStats();
-        myIntent.putExtra("Stats", stats);
 
         startActivity(myIntent);
     }
