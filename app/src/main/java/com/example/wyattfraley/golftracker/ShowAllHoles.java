@@ -22,8 +22,10 @@ import java.util.List;
 
 public class ShowAllHoles extends AppCompatActivity {
     FXUtility fxUtility;
+    TextView mainText;
     List<Button> buttons;
     List<TextView> textViews;
+    TotalRoundStats stats;
 
 
 
@@ -33,10 +35,13 @@ public class ShowAllHoles extends AppCompatActivity {
         setContentView(R.layout.activity_show_all_holes);
 
         fxUtility = new FXUtility();
+        mainText = findViewById(R.id.overallHoleStats);
 
-        TotalRoundStats stats = LoadTotalStats();
+        stats = LoadTotalStats();
         InitializeButtons();
         InitializeText();
+        SetMainTextBox();
+        SetHoleStats();
     }
     public void InitializeButtons() {
         buttons = new ArrayList<>();
@@ -135,6 +140,59 @@ public class ShowAllHoles extends AppCompatActivity {
         toAdd = findViewById(R.id.holeStats18);
         toAdd.setVisibility(View.GONE);
         textViews.add(toAdd);
+    }
+    public void SetHoleStats() {
+
+        for (int i = 0; i < textViews.size(); i++) {
+            TotalHoleStats holeStats = stats.holes.get(i);
+
+
+            String statsToAdd = new String();
+            statsToAdd += "Average score: " + Float.toString(holeStats.Strokes / stats.totalRounds) + "\n";
+            statsToAdd += "Average putts: " + Float.toString(holeStats.Putts / stats.totalRounds) + "\n";
+
+            textViews.get(i).setText(statsToAdd);
+        }
+
+    }
+    public void SetMainTextBox() {
+        float par3 = 0;
+        float par4 = 0;
+        float par5 = 0;
+
+        par3 += stats.holes.get(1).Strokes;
+        par3 += stats.holes.get(5).Strokes;
+        par3 += stats.holes.get(13).Strokes;
+        par3 += stats.holes.get(16).Strokes;
+        par3 /= stats.totalRounds;
+        par3 /= 4;
+
+        par4 += stats.holes.get(2).Strokes;
+        par4 += stats.holes.get(3).Strokes;
+        par4 += stats.holes.get(4).Strokes;
+        par4 += stats.holes.get(7).Strokes;
+        par4 += stats.holes.get(8).Strokes;
+        par4 += stats.holes.get(10).Strokes;
+        par4 += stats.holes.get(11).Strokes;
+        par4 += stats.holes.get(14).Strokes;
+        par4 += stats.holes.get(15).Strokes;
+        par4 += stats.holes.get(17).Strokes;
+        par4 /= stats.totalRounds;
+        par4 /= 10;
+
+        par5 += stats.holes.get(0).Strokes;
+        par5 += stats.holes.get(6).Strokes;
+        par5 += stats.holes.get(9).Strokes;
+        par5 += stats.holes.get(12).Strokes;
+        par5 /= stats.totalRounds;
+        par5 /= 4;
+
+        String toAdd = new String();
+        toAdd += "Average Par 3 Score: " + Float.toString(par3) + "\n";
+        toAdd += "Average Par 4 Score: " + Float.toString(par4) + "\n";
+        toAdd += "Average Par 5 Score: " + Float.toString(par5) + "\n";
+
+        mainText.setText(toAdd);
     }
 
     public TotalRoundStats LoadTotalStats() {
