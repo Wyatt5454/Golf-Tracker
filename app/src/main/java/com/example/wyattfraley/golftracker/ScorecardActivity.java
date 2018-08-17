@@ -60,7 +60,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         testView = findViewById(R.id.testView);
 
 
-        List<String> CardInfo = GetCardInfo("WenatcheeGolfAndCountryClub");
+        List<String> CardInfo = GetCardInfo();
 
         GolfCourse CurrentCourse = new GolfCourse("WenatcheeGolfAndCountryClub", CardInfo);
 
@@ -485,39 +485,15 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-    private List<String> GetCardInfo(String CourseName) {
+    private List<String> GetCardInfo() {
         // This function grabs the necessary information about the current golf course
         // for display on the scorecard activity.
-        // Currently it just grabs it from a normal text file, hopefully later it will grab from
-        // a database of courses.
+        // Currently it just grabs it since they're's only one course.
 
         List<String> toReturn = new ArrayList<>();
-        File file = new File( Environment.getExternalStorageDirectory() + "/Download/WenatcheeGolfAndCountryClub.txt");
-        if (!file.exists()){
-            String line = "Could not get info";
-            toReturn.add(line);
-            return toReturn;
-        }
-        //Read text from file
-        //StringBuilder text = new StringBuilder();
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            for (int i = 0; i < 2; i++) {
-                String line = br.readLine();
-                toReturn.add(line);
-            }
+        toReturn.add("7 17 1 15 9 11 5 3 13 8 2 16 4 10 14 6 18 12");
+        toReturn.add("5 3 4 4 4 3 5 4 4 5 4 4 5 3 4 4 3 4");
 
-        }
-        catch (IOException e) {
-            System.err.format("Exception occurred trying to read '%s'.", CourseName);
-            e.printStackTrace();
-            String line = "Exception occurred trying to read " + CourseName;
-            toReturn.add(line);
-            return toReturn;
-        }
 
         return toReturn;
     }

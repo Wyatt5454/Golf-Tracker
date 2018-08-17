@@ -116,6 +116,7 @@ public class ShowAllRounds extends AppCompatActivity{
 
             ll.addView(MyButton, lp);
         }
+        scrollView.removeAllViews();
         scrollView.addView(ll);
     }
     @Override
@@ -123,7 +124,13 @@ public class ShowAllRounds extends AppCompatActivity{
 
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-                LoadRounds();
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        LoadRounds();
+                        return null;
+                    }
+                }.execute();
             }
         }
     }
