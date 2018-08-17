@@ -41,6 +41,9 @@
             android:parentActivityName=".ShowAllRounds" />
         <activity android:name=".ShowAllHoles"
             android:parentActivityName=".StatsMainActivity" />
+        <activity android:name=".DeleteRound"
+            android:parentActivityName=".ShowSingleRound"
+            android:theme="@style/AppTheme.PopStyle"/>
 
         <Spinner
             android:id="@+id/spinner1"

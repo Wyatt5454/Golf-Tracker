@@ -29,6 +29,9 @@ public class ShowAllRounds extends AppCompatActivity{
         setContentView(R.layout.activity_show_all_rounds);
         AllRounds = new ArrayList<>();
 
+        LoadRounds();
+    }
+    public void LoadRounds() {
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
 
         new AsyncTask<Void, Void, Void>() {
@@ -89,29 +92,39 @@ public class ShowAllRounds extends AppCompatActivity{
             ScoreEntry MyEntry = AllRounds.get(i);
 
             Button MyButton = new Button(this);
-            String Date = MyEntry.getUid();
+            final String uid = MyEntry.getUid();
             final String Final = MyEntry.getFinal();
             final String strokes = MyEntry.getStrokes();
             final String putts = MyEntry.getPutts();
             final String sand = MyEntry.getSand();
-            Date = Date.substring(0, 10);
-            MyButton.setText(Date + ":  Score: " + Final);
+            String toDisplay = uid.substring(0, 10);
+            MyButton.setText(toDisplay + ":  Score: " + Final);
 
             MyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
+                    myIntent.putExtra("Id", uid);
                     myIntent.putExtra("Strokes", strokes);
                     myIntent.putExtra("Putts", putts);
                     myIntent.putExtra("Sand", sand);
                     myIntent.putExtra("Final", Final);
 
-                    startActivity(myIntent);
+                    startActivityForResult(myIntent, 100);
                 }
             });
 
             ll.addView(MyButton, lp);
         }
         scrollView.addView(ll);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                LoadRounds();
+            }
+        }
     }
 }

@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class StatsMainActivity extends AppCompatActivity {
     Button ShowAllRounds;
@@ -49,10 +51,16 @@ public class StatsMainActivity extends AppCompatActivity {
     }
 
     public void LoadAllRounds() {
+        // Goes to the All Rounds stats activity
+
         Intent MyIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
         startActivity(MyIntent);
     }
     public TotalRoundStats LoadTotalStats() {
+        // This function grabs the total stats from a file locally
+        // stored on the device.
+
+
         TotalRoundStats stats = new TotalRoundStats();
 
         File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
@@ -81,18 +89,26 @@ public class StatsMainActivity extends AppCompatActivity {
         return stats;
     }
     public void DisplayTotalStats() {
+        // This function shows the average stats for all rounds
+        // and puts it in the main text box at the top of the activity.
+
         TotalRoundStats stats = LoadTotalStats();
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
+
+
 
         String toDisplay = new String();
-        toDisplay += "Average Score: " + (stats.totalScore / stats.totalRounds) + "\n";
-        toDisplay += "Average Putts: " + (stats.totalPutts / stats.totalRounds) + "\n";
-        toDisplay += "Average Sand Traps Hit: " + (stats.totalSand / stats.totalRounds);
+        toDisplay += "Average Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
+        toDisplay += "Average Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
+        toDisplay += "Average Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds));
 
         showTotalStats.setText(toDisplay);
     }
     public void LoadHoleStats() {
-        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
+        // Goes to the individual hole stats activity.
 
+        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
         startActivity(myIntent);
     }
 }

@@ -1,14 +1,13 @@
 package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Calendar;
 
-public class SaveCheck extends Activity {
+public class DeleteRound extends AppCompatActivity{
     Button Yes;
     Button No;
 
@@ -28,7 +27,7 @@ public class SaveCheck extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.save_window);
+        setContentView(R.layout.delete_window);
 
         DisplayMetrics Dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(Dm);
@@ -38,12 +37,12 @@ public class SaveCheck extends Activity {
 
         getWindow().setLayout((int)(width * .8), (int)(height * .3));
 
-        Yes = findViewById(R.id.SaveYes);
-        No = findViewById(R.id.SaveNo);
+        Yes = findViewById(R.id.DeleteYes);
+        No = findViewById(R.id.DeleteNo);
         Yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveRound();
+                Delete();
             }
         });
         No.setOnClickListener(new View.OnClickListener() {
@@ -54,45 +53,40 @@ public class SaveCheck extends Activity {
         });
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public void SaveRound() {
-        // Here we grab all the data from the ScorecardActivity, open the database,
-        // and make a new entry.  Creates an AsyncTask so that the database
-        // saving does not take place on the main thread to prevent UI locking.
 
+    public void NoPress() {
+        finish();
+    }
+
+    public void Delete() {
         Intent MyIntent = getIntent();
-        String Strokes = MyIntent.getStringExtra("Strokes");
-        String Putts = MyIntent.getStringExtra("Putts");
-        String Sand = MyIntent.getStringExtra("Sand");
+        String uid = MyIntent.getStringExtra("Id");
+        String strokes = MyIntent.getStringExtra("Strokes");
+        String putts = MyIntent.getStringExtra("Putts");
+        String sand = MyIntent.getStringExtra("Sand");
         String Final = MyIntent.getStringExtra("Final");
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
 
-        final ScoreEntry ToEnter = new ScoreEntry();
-        ToEnter.setUid(Calendar.getInstance().getTime().toString());
-        ToEnter.setStrokes(Strokes);
-        ToEnter.setPutts(Putts);
-        ToEnter.setSand(Sand);
-        ToEnter.setFinal(Final);
+        final ScoreEntry toDelete = new ScoreEntry();
+        toDelete.setUid(uid);
+        toDelete.setStrokes(strokes);
+        toDelete.setPutts(putts);
+        toDelete.setSand(sand);
+        toDelete.setFinal(Final);
 
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.MyScoreEntryDao().insertAll(ToEnter);
+                Db.MyScoreEntryDao().delete(toDelete);
                 return null;
             }
         }.execute();
 
-        // Now that the round is saved, we must update the totals.
-        UpdateTotals(Strokes, Putts, Sand, Final);
-
+        UpdateTotals(strokes, putts, sand, Final);
 
         setResult(RESULT_OK, null);
-        finish();
-    }
-
-    public void NoPress() {
         finish();
     }
     public void UpdateTotals(String strokes, String putts, String sand, String finalScore) {
@@ -166,13 +160,13 @@ public class SaveCheck extends Activity {
             k = k2 + 1;
 
             hole = stats.holes.get(l);
-            hole.UpdateStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand));
+            hole.DeleteStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand));
 
             totalPutts += Integer.parseInt(mPutt);
             totalSand += Integer.parseInt(mSand);
         }
 
         int finalS = Integer.parseInt(finalScore);
-        stats.UpdateTotals(finalS, totalPutts, totalSand);
+        stats.DeleteTotals(finalS, totalPutts, totalSand);
     }
 }

@@ -13,4 +13,9 @@ public class TotalHoleStats extends Score implements Serializable {
         Strokes += strokes;
         Sand += sand;
     }
+    public void DeleteStats(int strokes, int putts, int sand) {
+        Putts -= putts;
+        Strokes -= strokes;
+        Sand -= sand;
+    }
 }

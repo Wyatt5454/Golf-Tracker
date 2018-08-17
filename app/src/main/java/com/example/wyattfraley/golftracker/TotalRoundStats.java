@@ -60,4 +60,10 @@ public class TotalRoundStats implements Serializable{
         totalSand += sand;
         totalRounds++;
     }
+    public void DeleteTotals(int score, int putts, int sand) {
+        totalScore -= score;
+        totalPutts -= putts;
+        totalSand -= sand;
+        totalRounds--;
+    }
 }

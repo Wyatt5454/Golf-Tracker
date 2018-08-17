@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +161,8 @@ public class ShowAllHoles extends AppCompatActivity {
         float par3 = 0;
         float par4 = 0;
         float par5 = 0;
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
 
         par3 += stats.holes.get(1).Strokes;
         par3 += stats.holes.get(5).Strokes;
@@ -188,9 +192,9 @@ public class ShowAllHoles extends AppCompatActivity {
         par5 /= 4;
 
         String toAdd = new String();
-        toAdd += "Average Par 3 Score: " + Float.toString(par3) + "\n";
-        toAdd += "Average Par 4 Score: " + Float.toString(par4) + "\n";
-        toAdd += "Average Par 5 Score: " + Float.toString(par5) + "\n";
+        toAdd += "Average Par 3 Score: " + dF.format(par3) + "\n";
+        toAdd += "Average Par 4 Score: " + dF.format(par4) + "\n";
+        toAdd += "Average Par 5 Score: " + dF.format(par5) + "\n";
 
         mainText.setText(toAdd);
     }

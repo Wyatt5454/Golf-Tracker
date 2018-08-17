@@ -4,27 +4,26 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
-        android:text="Are you sure you want to end the round?"
+        android:text="Are you sure you want to delete this round?"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/SaveYes"
+        android:id="@+id/DeleteYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/SaveNo"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="34dp"
+        android:layout_alignTop="@+id/DeleteNo"
+        android:layout_marginEnd="59dp"
         android:text="Yes" />
 
     <Button
-        android:id="@+id/SaveNo"
+        android:id="@+id/DeleteNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int puttsTotal;
     int sandTotal;
     String finalScore;
+    String uid;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -30,6 +34,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         String putts = myIntent.getStringExtra("Putts");
         String sand = myIntent.getStringExtra("Sand");
         finalScore = myIntent.getStringExtra("Final");
+        uid = myIntent.getStringExtra("Id");
         puttsTotal = 0;
         sandTotal = 0;
 
@@ -45,6 +50,50 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         SetOverallTextBox();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.save_menu) {
+            Intent myIntent = getIntent();
+            String strokes = myIntent.getStringExtra("Strokes");
+            String putts = myIntent.getStringExtra("Putts");
+            String sand = myIntent.getStringExtra("Sand");
+
+
+            Intent newIntent = new Intent(ShowSingleRound.this, DeleteRound.class);
+            newIntent.putExtra("Strokes", strokes);
+            newIntent.putExtra("Putts", putts);
+            newIntent.putExtra("Sand", sand);
+            newIntent.putExtra("Id", uid);
+            newIntent.putExtra("Final", finalScore);
+            startActivityForResult(newIntent, 99);
+        }
+
+
+
+        return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 99) {
+            if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK, null);
+                this.finish();
+            }
+        }
+    }
+
     public List<Score> InitializeScores() {
         Scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
