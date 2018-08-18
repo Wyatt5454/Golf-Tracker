@@ -63,7 +63,8 @@ public class StatsMainActivity extends AppCompatActivity {
 
         TotalRoundStats stats = new TotalRoundStats();
 
-        File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
+        File filesDir = getFilesDir();
+        File file = new File( filesDir, "TotalStats.txt");
 
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},

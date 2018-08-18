@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,9 +17,14 @@ import android.widget.Button;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class SaveCheck extends Activity {
     Button Yes;
@@ -98,35 +104,55 @@ public class SaveCheck extends Activity {
     public void UpdateTotals(String strokes, String putts, String sand, String finalScore) {
         // First load the file in.
 
-        String saveName = "TotalStats.txt";
         TotalRoundStats stats = new TotalRoundStats();
+        FileInputStream inputStream = null;
+        boolean fileExists = false;
 
-        File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
-
-        try {
-            // Reading object in a file
-            FileInputStream stream = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(stream);
-
-            // Method for deserialization of object
-            stats = (TotalRoundStats)in.readObject();
+        // First we have to check if the file already exists.
+        String[] filenames = fileList();
+        for (String check : filenames) {
+            if (check == "TotalStats.txt") {
+                fileExists = true;
+                try {
+                    inputStream = openFileInput("TotalStats.txt");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        // Check to make sure the file was found.
+        // If not, make the file.
+        if (inputStream == null) {
             LoadScores(stats, strokes, putts, sand, finalScore);
+        }
+        else {
+            try {
+                // Reading object in a file
+                ObjectInputStream in = new ObjectInputStream(inputStream);
 
-            in.close();
-            stream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+                // Method for deserialization of object
+                stats = (TotalRoundStats)in.readObject();
+                LoadScores(stats, strokes, putts, sand, finalScore);
+
+                in.close();
+                inputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
-        stats.Save(this);
+        //ActivityCompat.requestPermissions(this,
+                //new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                //1);
+
+
+
+        SaveTotals(stats, fileExists);
     }
     public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String finalScore) {
         // First we have to parse the strings into 18 groups.
@@ -174,5 +200,30 @@ public class SaveCheck extends Activity {
 
         int finalS = Integer.parseInt(finalScore);
         stats.UpdateTotals(finalS, totalPutts, totalSand);
+    }
+    private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
+        // Saving will be different depending on whether or not
+        // the file already exists.
+
+        FileOutputStream outputStream = null;
+        if (!fileExists) {
+            try {
+                outputStream = openFileOutput("TotalStats.txt", Context.MODE_PRIVATE);
+                ObjectOutputStream out = new ObjectOutputStream(outputStream);
+
+                // Serializes the object.
+                out.writeObject(stats);
+
+                out.close();
+                outputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            //outputStream
+        }
     }
 }
