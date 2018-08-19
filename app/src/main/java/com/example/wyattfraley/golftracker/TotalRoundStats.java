@@ -29,6 +29,7 @@ public class TotalRoundStats implements Serializable{
         holes = new ArrayList<>();
     }
 
+    // Outdated save function
     public void Save(Activity saveActivity) {
         File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
         file.setReadable(true);
@@ -54,12 +55,14 @@ public class TotalRoundStats implements Serializable{
             e.printStackTrace();
         }
     }
+    // Simply adds to the totals.
     public void UpdateTotals(int score, int putts, int sand) {
         totalScore += score;
         totalPutts += putts;
         totalSand += sand;
         totalRounds++;
     }
+    // Deletes from the totals.
     public void DeleteTotals(int score, int putts, int sand) {
         totalScore -= score;
         totalPutts -= putts;

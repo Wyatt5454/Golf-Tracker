@@ -1,6 +1,7 @@
 package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Calendar;
 
-public class DeleteRound extends AppCompatActivity{
+public class DeleteRound extends SaveCheck {
     Button Yes;
     Button No;
 
@@ -52,12 +53,6 @@ public class DeleteRound extends AppCompatActivity{
             }
         });
     }
-
-
-    public void NoPress() {
-        finish();
-    }
-
     public void Delete() {
         Intent MyIntent = getIntent();
         String uid = MyIntent.getStringExtra("Id");
@@ -89,39 +84,7 @@ public class DeleteRound extends AppCompatActivity{
         setResult(RESULT_OK, null);
         finish();
     }
-    public void UpdateTotals(String strokes, String putts, String sand, String finalScore) {
-        // First load the file in.
-
-        String saveName = "TotalStats.txt";
-        TotalRoundStats stats = new TotalRoundStats();
-
-        File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
-
-        try {
-            // Reading object in a file
-            FileInputStream stream = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(stream);
-
-            // Method for deserialization of object
-            stats = (TotalRoundStats)in.readObject();
-            LoadScores(stats, strokes, putts, sand, finalScore);
-
-            in.close();
-            stream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        stats.Save(this);
-    }
+    @Override
     public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String finalScore) {
         // First we have to parse the strings into 18 groups.
         int i = 0;

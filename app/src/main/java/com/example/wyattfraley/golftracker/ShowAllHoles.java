@@ -8,6 +8,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -40,10 +42,20 @@ public class ShowAllHoles extends AppCompatActivity {
         mainText = findViewById(R.id.overallHoleStats);
 
         stats = LoadTotalStats();
-        InitializeButtons();
-        InitializeText();
-        SetMainTextBox();
-        SetHoleStats();
+
+        if (stats.totalRounds > 0) {
+            InitializeButtons();
+            InitializeText();
+            SetMainTextBox();
+            SetHoleStats();
+        }
+        else {
+            LinearLayout linearLayout = findViewById(R.id.allHolesLL);
+            linearLayout.removeAllViews();
+            linearLayout.addView(mainText);
+            SetMainTextBoxNoRounds();
+        }
+
     }
     public void InitializeButtons() {
         buttons = new ArrayList<>();
@@ -198,15 +210,20 @@ public class ShowAllHoles extends AppCompatActivity {
 
         mainText.setText(toAdd);
     }
+    public void SetMainTextBoxNoRounds() {
+        String toAdd = "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";
+        mainText.setText(toAdd);
+    }
 
     public TotalRoundStats LoadTotalStats() {
+        /*
+         * Grabs the total stats from a file locally stored
+         * on the device.
+         */
+
         TotalRoundStats stats = new TotalRoundStats();
-
-        File file = new File( Environment.getExternalStorageDirectory() + "/Download/TotalStats.txt");
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
+        File filesDir = getFilesDir();
+        File file = new File( filesDir, "TotalStats.txt");
 
         try {
             // Reading object in a file

@@ -1,6 +1,5 @@
 package com.example.wyattfraley.golftracker;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.arch.persistence.room.Room;
@@ -8,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -21,10 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class SaveCheck extends Activity {
     Button Yes;
@@ -62,9 +56,17 @@ public class SaveCheck extends Activity {
 
     @SuppressLint("StaticFieldLeak")
     public void SaveRound() {
-        // Here we grab all the data from the ScorecardActivity, open the database,
-        // and make a new entry.  Creates an AsyncTask so that the database
-        // saving does not take place on the main thread to prevent UI locking.
+        /*
+         *Here we grab all the data from the ScorecardActivity, open the database,
+         *and make a new entry.  Creates an AsyncTask so that the database
+         *saving does not take place on the main thread to prevent UI locking.
+         */
+
+        /*
+         * TODO: Change the way rounds are saved, so they're saved as objects instead of
+         * all the string bullshit.
+         */
+
 
         Intent MyIntent = getIntent();
         String Strokes = MyIntent.getStringExtra("Strokes");
@@ -102,7 +104,11 @@ public class SaveCheck extends Activity {
         finish();
     }
     public void UpdateTotals(String strokes, String putts, String sand, String finalScore) {
-        // First load the file in.
+        /*
+         *  This function will update the total scores on a file saved to
+         *  internal storage.  Uses serializing to load in and save the
+         *  stats object.
+         */
 
         TotalRoundStats stats = new TotalRoundStats();
         FileInputStream inputStream = null;
@@ -111,7 +117,7 @@ public class SaveCheck extends Activity {
         // First we have to check if the file already exists.
         String[] filenames = fileList();
         for (String check : filenames) {
-            if (check == "TotalStats.txt") {
+            if (check.equals("TotalStats.txt")) {
                 fileExists = true;
                 try {
                     inputStream = openFileInput("TotalStats.txt");
@@ -145,29 +151,23 @@ public class SaveCheck extends Activity {
                 e.printStackTrace();
             }
         }
-
-        //ActivityCompat.requestPermissions(this,
-                //new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                //1);
-
-
-
         SaveTotals(stats, fileExists);
     }
     public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String finalScore) {
+        /*
+         * This function parses the data strings that were sent here from the ScorecardActivity.
+         * Then it loads the new stats into the TotalRoundStats object before it is saved.
+         */
+
         // First we have to parse the strings into 18 groups.
-        int i = 0;
-        int i2 = 0;
-        int j = 0;
-        int j2 = 0;
-        int k = 0;
-        int k2 = 0;
+        int i = 0, j = 0, k = 0;
+        int i2, j2, k2;
         int totalPutts = 0;
         int totalSand = 0;
 
-        String mStroke = new String();
-        String mPutt = new String();
-        String mSand = new String();
+        String mStroke;
+        String mPutt;
+        String mSand;
         TotalHoleStats hole;
 
         if (stats.holes.size() == 0) {
@@ -177,7 +177,7 @@ public class SaveCheck extends Activity {
             }
         }
 
-
+        // This loop parses the data into 18 holes and updates the stats.
         for (int l = 0; l < 18; l++) {
             i2 = strokes.indexOf("\n", i);
             mStroke = strokes.substring(i, i2);
@@ -202,10 +202,17 @@ public class SaveCheck extends Activity {
         stats.UpdateTotals(finalS, totalPutts, totalSand);
     }
     private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
-        // Saving will be different depending on whether or not
-        // the file already exists.
+        /*
+         * This function saves the newly updated stats object.
+         * Saving is a little different depending on if the file already
+         * exists or not. Uses serialization to save the object in a file
+         * on internal storage.
+         */
 
-        FileOutputStream outputStream = null;
+        // TODO: Save the hole stats into a separate file. It isn't serializing properly
+        // TODO: so it needs a different save method.
+
+        FileOutputStream outputStream;
         if (!fileExists) {
             try {
                 outputStream = openFileOutput("TotalStats.txt", Context.MODE_PRIVATE);
@@ -223,7 +230,18 @@ public class SaveCheck extends Activity {
             }
         }
         else {
-            //outputStream
+            File directory = getFilesDir();
+            File file = new File(directory, "TotalStats.txt");
+            try {
+                outputStream = new FileOutputStream(file);
+                ObjectOutputStream out = new ObjectOutputStream(outputStream);
+
+                out.writeObject(stats);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

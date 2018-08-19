@@ -51,24 +51,30 @@ public class StatsMainActivity extends AppCompatActivity {
     }
 
     public void LoadAllRounds() {
-        // Goes to the All Rounds stats activity
+        /*
+         * Goes to the All Rounds stats activity
+         */
 
         Intent MyIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
         startActivity(MyIntent);
     }
-    public TotalRoundStats LoadTotalStats() {
-        // This function grabs the total stats from a file locally
-        // stored on the device.
+    public void LoadHoleStats() {
+        /*
+         * Goes to the individual hole stats activity
+         */
 
+        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
+        startActivity(myIntent);
+    }
+    public TotalRoundStats LoadTotalStats() {
+        /*
+         * Grabs the total stats from a file locally stored
+         * on the device.
+         */
 
         TotalRoundStats stats = new TotalRoundStats();
-
         File filesDir = getFilesDir();
         File file = new File( filesDir, "TotalStats.txt");
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
 
         try {
             // Reading object in a file
@@ -90,26 +96,29 @@ public class StatsMainActivity extends AppCompatActivity {
         return stats;
     }
     public void DisplayTotalStats() {
-        // This function shows the average stats for all rounds
-        // and puts it in the main text box at the top of the activity.
+        /*
+         * This function shows the average stats for all rounds
+         * and puts it in the main text box at the top of the activity.
+         * Will be adding more detailed stats later.
+         */
 
         TotalRoundStats stats = LoadTotalStats();
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
 
-
         String toDisplay = new String();
-        toDisplay += "Average Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
-        toDisplay += "Average Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
-        toDisplay += "Average Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds));
+        if (stats.totalRounds > 0) {
+            toDisplay += "Average Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
+            toDisplay += "Average Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
+            toDisplay += "Average Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds));
+        }
+        else {
+            toDisplay += "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";
+        }
+
+
 
         showTotalStats.setText(toDisplay);
-    }
-    public void LoadHoleStats() {
-        // Goes to the individual hole stats activity.
-
-        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
-        startActivity(myIntent);
     }
 }
