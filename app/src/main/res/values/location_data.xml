@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="one_middle_lat" format="float" type="dimen">47.43486</item>
+    <item name="one_middle_long" format="float" type="dimen">-120.29031</item>
+    <item name="two_middle_lat" format="float" type="dimen">47.43384</item>
+    <item name="two_middle_long" format="float" type="dimen">-120.29182</item>
+    <item name="three_middle_lat" format="float" type="dimen">47.43149</item>
+    <item name="three_middle_long" format="float" type="dimen">-120.28969</item>
+</resources>

@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -60,15 +61,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         testView = findViewById(R.id.testView);
 
 
-        List<String> CardInfo = GetCardInfo();
-
-        GolfCourse CurrentCourse = new GolfCourse("WenatcheeGolfAndCountryClub", CardInfo);
-
         // Grab all the spots for scores and put them in a container.
         Scores = InitializeScores();
 
         // Now we have to initialize the TextViews for each hole.
-        TextHoles = InitializeHoles(CurrentCourse);
+        TextHoles = InitializeHoles();
 
         // Set the current hole.
         currentHole = Scores.get(0);
@@ -84,16 +81,21 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setInterval(1 * 1000)        // 1 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                ActivityCompat.requestPermissions(ScorecardActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return null;
+            }
+        }.execute();
+
     }
 
     @Override
@@ -104,15 +106,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
             if (checkLocationPermission()) {
                 location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             }
         }
-        catch (Exception e){};
+        catch (Exception e){}
 
 
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-        else {
+        if (location != null) {
             handleNewLocation(location);
         }
     }
@@ -169,12 +169,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
 
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
+        float distance = location.distanceTo(currentHole.locationData.middle);
 
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
-        testView.setText(latLng.toString());
+
+        testView.setText("Distance to middle: " + distance);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,52 +248,178 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
 
 
-    public List<TextView> InitializeHoles(GolfCourse CurrentCourse) {
+    public List<TextView> InitializeHoles() {
+        /*
+         * Long and boring method which initializes all the text boxes for the scorecard.
+         * Sets the number, par, and location data for each hole.
+         */
+
         TextHoles = new ArrayList<>();
-        TextHoles.add((TextView) findViewById(R.id.tv1));
-        TextHoles.add((TextView) findViewById(R.id.tv2));
-        TextHoles.add((TextView) findViewById(R.id.tv3));
-        TextHoles.add((TextView) findViewById(R.id.tv4));
-        TextHoles.add((TextView) findViewById(R.id.tv5));
-        TextHoles.add((TextView) findViewById(R.id.tv6));
-        TextHoles.add((TextView) findViewById(R.id.tv7));
-        TextHoles.add((TextView) findViewById(R.id.tv8));
-        TextHoles.add((TextView) findViewById(R.id.tv9));
-        TextHoles.add((TextView) findViewById(R.id.tv10));
-        TextHoles.add((TextView) findViewById(R.id.tv21));
-        TextHoles.add((TextView) findViewById(R.id.tv22));
-        TextHoles.add((TextView) findViewById(R.id.tv23));
-        TextHoles.add((TextView) findViewById(R.id.tv24));
-        TextHoles.add((TextView) findViewById(R.id.tv25));
-        TextHoles.add((TextView) findViewById(R.id.tv26));
-        TextHoles.add((TextView) findViewById(R.id.tv27));
-        TextHoles.add((TextView) findViewById(R.id.tv28));
-        TextHoles.add((TextView) findViewById(R.id.tv29));
-        TextHoles.add((TextView) findViewById(R.id.tv30));
+        Location location = new Location("dummyprovider");
 
-        int Par9 = 0;
-        for (int i = 0; i < 9; i++)
-        {
-            String number = Integer.toString(CurrentCourse.Holes.get(i).number);
-            int par = CurrentCourse.Holes.get(i).par;
-            TextHoles.get(i).setText(number + "\n" + Integer.toString(par));
-            TextHoles.get(i).setTextColor(Color.WHITE);
-            Scores.get(i).Par = par;
-        }
-        TextHoles.get(9).setText("Out\n" + Integer.toString(Par9));
-        TextHoles.get(9).setTextColor(Color.WHITE);
+        TextView textView = findViewById(R.id.tv1);
+        textView.setText(R.string.hole_one);
+        textView.setTextColor(Color.WHITE);
+        Score score = Scores.get(0);
+        score.setPar(5);
+        score.setNumber(1);
+        location.setLatitude(R.dimen.one_middle_lat);
+        location.setLongitude(R.dimen.one_middle_long);
+        score.locationData.middle = location;
+        TextHoles.add(textView);
 
-        Par9 = 0;
-        for (int i = 9; i < 18; i++)
-        {
-            String number = Integer.toString(CurrentCourse.Holes.get(i).number);
-            int par = CurrentCourse.Holes.get(i).par;
-            TextHoles.get(i+1).setText(number + "\n" + Integer.toString(par));
-            TextHoles.get(i+1).setTextColor(Color.WHITE);
-            Scores.get(i).Par = par;
-        }
-        TextHoles.get(19).setText("In\n" + Integer.toString(Par9));
-        TextHoles.get(19).setTextColor(Color.WHITE);
+        textView = findViewById(R.id.tv2);
+        textView.setText(R.string.hole_two);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(1);
+        score.setPar(3);
+        score.setNumber(2);
+        location.setLatitude(R.dimen.two_middle_lat);
+        location.setLongitude(R.dimen.two_middle_long);
+        score.locationData.middle = location;
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv3);
+        textView.setText(R.string.hole_three);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(2);
+        score.setPar(4);
+        score.setNumber(3);
+        location.setLatitude(R.dimen.three_middle_lat);
+        location.setLongitude(R.dimen.three_middle_long);
+        score.locationData.middle = location;
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv4);
+        textView.setText(R.string.hole_four);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(3);
+        score.setPar(4);
+        score.setNumber(4);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv5);
+        textView.setText(R.string.hole_five);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(4);
+        score.setPar(4);
+        score.setNumber(5);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv6);
+        textView.setText(R.string.hole_six);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(5);
+        score.setPar(4);
+        score.setNumber(6);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv7);
+        textView.setText(R.string.hole_seven);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(6);
+        score.setPar(5);
+        score.setNumber(7);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv8);
+        textView.setText(R.string.hole_eight);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(7);
+        score.setPar(4);
+        score.setNumber(8);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv9);
+        textView.setText(R.string.hole_nine);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(8);
+        score.setPar(4);
+        score.setNumber(9);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv10);
+        textView.setText(R.string.hole_out);
+        textView.setTextColor(Color.WHITE);
+        TextHoles.add(textView);
+
+
+        textView = findViewById(R.id.tv21);
+        textView.setText(R.string.hole_ten);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(9);
+        score.setPar(5);
+        score.setNumber(10);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv22);
+        textView.setText(R.string.hole_eleven);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(10);
+        score.setPar(4);
+        score.setNumber(11);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv23);
+        textView.setText(R.string.hole_twelve);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(11);
+        score.setPar(4);
+        score.setNumber(12);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv24);
+        textView.setText(R.string.hole_thirteen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(12);
+        score.setPar(5);
+        score.setNumber(13);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv25);
+        textView.setText(R.string.hole_fourteen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(13);
+        score.setPar(3);
+        score.setNumber(14);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv26);
+        textView.setText(R.string.hole_fifteen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(14);
+        score.setPar(4);
+        score.setNumber(15);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv27);
+        textView.setText(R.string.hole_sixteen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(15);
+        score.setPar(4);
+        score.setNumber(16);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv28);
+        textView.setText(R.string.hole_seventeen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(16);
+        score.setPar(3);
+        score.setNumber(17);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv29);
+        textView.setText(R.string.hole_eighteen);
+        textView.setTextColor(Color.WHITE);
+        score = Scores.get(17);
+        score.setPar(4);
+        score.setNumber(18);
+        TextHoles.add(textView);
+
+        textView = findViewById(R.id.tv30);
+        textView.setText(R.string.hole_in);
+        textView.setTextColor(Color.WHITE);
+        TextHoles.add(textView);
 
         return TextHoles;
     }
@@ -485,18 +610,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-    private List<String> GetCardInfo() {
-        // This function grabs the necessary information about the current golf course
-        // for display on the scorecard activity.
-        // Currently it just grabs it since they're's only one course.
-
-        List<String> toReturn = new ArrayList<>();
-        toReturn.add("7 17 1 15 9 11 5 3 13 8 2 16 4 10 14 6 18 12");
-        toReturn.add("5 3 4 4 4 3 5 4 4 5 4 4 5 3 4 4 3 4");
-
-
-        return toReturn;
-    }
     public void NextHole(View v) {
         // First we have to check what kind of score it is
         // and show its relation to par.
@@ -520,6 +633,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
                     else {
                         SandCheck.setChecked(true);
                     }
+                }
+                else {
+                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
                 break;
             }
@@ -548,6 +664,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
                     else {
                         SandCheck.setChecked(true);
                     }
+                }
+                else {
+                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
                 break;
             }

@@ -108,7 +108,7 @@ public class SaveCheck extends Activity {
         /*
          *  This function will update the total scores on a file saved to
          *  internal storage.  Uses serializing to load in and save the
-         *  stats object.
+         *  stats object. Test
          */
 
         TotalRoundStats stats = new TotalRoundStats();

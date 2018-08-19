@@ -7,10 +7,12 @@ import java.util.Stack;
 public class Score {
     Stack<String> Actions;
     TextView Hole;
+    public int number;
     public int Strokes;
     public int Putts;
     public int Sand;
     int Par;
+    HoleLocationData locationData;
 
     Score(TextView newHole) {
         Hole = newHole;
@@ -19,6 +21,7 @@ public class Score {
         Sand = 0;
         Par = 0;
         Actions = new Stack<>();
+        locationData = new HoleLocationData();
     }
 
     Score() {
@@ -58,4 +61,5 @@ public class Score {
     public void setPar(int par) {
         Par = par;
     }
+    public void setNumber(int nNumber) { number = nNumber; }
 }
