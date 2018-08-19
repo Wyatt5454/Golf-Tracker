@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SaveCheck extends Activity {
@@ -111,7 +112,8 @@ public class SaveCheck extends Activity {
          */
 
         TotalRoundStats stats = new TotalRoundStats();
-        FileInputStream inputStream = null;
+        FileInputStream inputStreamTotal = null;
+        FileInputStream inputStreamHoles = null;
         boolean fileExists = false;
 
         // First we have to check if the file already exists.
@@ -120,7 +122,8 @@ public class SaveCheck extends Activity {
             if (check.equals("TotalStats.txt")) {
                 fileExists = true;
                 try {
-                    inputStream = openFileInput("TotalStats.txt");
+                    inputStreamTotal = openFileInput("TotalStats.txt");
+                    inputStreamHoles = openFileInput("HoleStats.txt");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -129,20 +132,24 @@ public class SaveCheck extends Activity {
         }
         // Check to make sure the file was found.
         // If not, make the file.
-        if (inputStream == null) {
+        if (inputStreamTotal == null) {
             LoadScores(stats, strokes, putts, sand, finalScore);
         }
         else {
             try {
                 // Reading object in a file
-                ObjectInputStream in = new ObjectInputStream(inputStream);
+                ObjectInputStream inTotal = new ObjectInputStream(inputStreamTotal);
+                ObjectInputStream inHoles = new ObjectInputStream(inputStreamHoles);
 
                 // Method for deserialization of object
-                stats = (TotalRoundStats)in.readObject();
+                stats = (TotalRoundStats)inTotal.readObject();
+                stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
                 LoadScores(stats, strokes, putts, sand, finalScore);
 
-                in.close();
-                inputStream.close();
+                inTotal.close();
+                inHoles.close();
+                inputStreamTotal.close();
+                inputStreamHoles.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -209,20 +216,23 @@ public class SaveCheck extends Activity {
          * on internal storage.
          */
 
-        // TODO: Save the hole stats into a separate file. It isn't serializing properly
-        // TODO: so it needs a different save method.
-
-        FileOutputStream outputStream;
+        FileOutputStream outputStreamTotal;
+        FileOutputStream outputStreamHoles;
         if (!fileExists) {
             try {
-                outputStream = openFileOutput("TotalStats.txt", Context.MODE_PRIVATE);
-                ObjectOutputStream out = new ObjectOutputStream(outputStream);
+                outputStreamTotal = openFileOutput("TotalStats.txt", Context.MODE_PRIVATE);
+                outputStreamHoles = openFileOutput("HoleStats.txt", Context.MODE_PRIVATE);
+                ObjectOutputStream outTotal = new ObjectOutputStream(outputStreamTotal);
+                ObjectOutputStream outHoles = new ObjectOutputStream(outputStreamHoles);
 
-                // Serializes the object.
-                out.writeObject(stats);
+                // Serializes the objects.
+                outTotal.writeObject(stats);
+                outHoles.writeObject(stats.holes);
 
-                out.close();
-                outputStream.close();
+                outTotal.close();
+                outHoles.close();
+                outputStreamTotal.close();
+                outputStreamHoles.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -231,12 +241,21 @@ public class SaveCheck extends Activity {
         }
         else {
             File directory = getFilesDir();
-            File file = new File(directory, "TotalStats.txt");
+            File fileTotal = new File(directory, "TotalStats.txt");
+            File fileHoles = new File(directory, "HoleStats.txt");
             try {
-                outputStream = new FileOutputStream(file);
-                ObjectOutputStream out = new ObjectOutputStream(outputStream);
+                outputStreamTotal = new FileOutputStream(fileTotal);
+                outputStreamHoles = new FileOutputStream(fileHoles);
+                ObjectOutputStream outTotal = new ObjectOutputStream(outputStreamTotal);
+                ObjectOutputStream outHoles = new ObjectOutputStream(outputStreamHoles);
 
-                out.writeObject(stats);
+                outTotal.writeObject(stats);
+                outHoles.writeObject(stats.holes);
+
+                outTotal.close();
+                outHoles.close();
+                outputStreamTotal.close();
+                outputStreamHoles.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

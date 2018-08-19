@@ -223,18 +223,26 @@ public class ShowAllHoles extends AppCompatActivity {
 
         TotalRoundStats stats = new TotalRoundStats();
         File filesDir = getFilesDir();
-        File file = new File( filesDir, "TotalStats.txt");
+        File fileTotal = new File( filesDir, "TotalStats.txt");
+        File fileHoles = new File(filesDir, "HoleStats.txt");
 
         try {
             // Reading object in a file
-            FileInputStream stream = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(stream);
+            FileInputStream inputStreamTotal = new FileInputStream(fileTotal);
+            FileInputStream inputStreamHoles = new FileInputStream(fileHoles);
+
+            // Reading object in a file
+            ObjectInputStream inTotal = new ObjectInputStream(inputStreamTotal);
+            ObjectInputStream inHoles = new ObjectInputStream(inputStreamHoles);
 
             // Method for deserialization of object
-            stats = (TotalRoundStats)in.readObject();
+            stats = (TotalRoundStats)inTotal.readObject();
+            stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
 
-            in.close();
-            stream.close();
+            inTotal.close();
+            inHoles.close();
+            inputStreamTotal.close();
+            inputStreamHoles.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
