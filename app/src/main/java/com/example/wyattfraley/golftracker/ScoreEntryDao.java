@@ -12,7 +12,7 @@ public interface ScoreEntryDao {
     @Query("SELECT * FROM ScoreEntry")
     List<ScoreEntry> getAll();
 
-    @Query("SELECT * FROM ScoreEntry WHERE Uid IN (:userIds)")
+    @Query("SELECT * FROM ScoreEntry WHERE uId IN (:userIds)")
     List<ScoreEntry> loadAllByIds(int[] userIds);
 
     @Insert

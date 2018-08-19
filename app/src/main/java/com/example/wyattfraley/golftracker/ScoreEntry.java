@@ -13,48 +13,48 @@ import java.util.Date;
 public class ScoreEntry {
     @PrimaryKey
     @NonNull
-    private String Uid;
+    private String uId;
 
     @ColumnInfo(name = "strokes")
-    private String Strokes;
+    private String strokes;
 
     @ColumnInfo(name = "putts")
-    private String Putts;
+    private String putts;
 
     @ColumnInfo(name = "sand")
-    private String Sand;
+    private String sand;
 
     @ColumnInfo(name = "finalscore")
-    private String Final;
+    private String finalScore;
 
-    public String getUid() {
-        return Uid;
-    }
-    public void setUid(String NUid) {
-        Uid = NUid;
+    public String getUId() { return uId; }
+    public void setUId(String NUid) {
+        uId = NUid;
     }
 
     public String getStrokes() {
-        return Strokes;
+        return strokes;
     }
     public void setStrokes(String NStrokes) {
-        Strokes = NStrokes;
+        strokes = NStrokes;
     }
 
     public String getPutts() {
-        return Putts;
+        return putts;
     }
     public void setPutts(String NPutts) {
-        Putts = NPutts;
+        putts = NPutts;
     }
 
     public String getSand() {
-        return Sand;
+        return sand;
     }
     public void setSand(String NSand) {
-        Sand = NSand;
+        sand = NSand;
     }
 
-    public String getFinal() { return Final; }
-    public void setFinal(String aFinal) { Final = aFinal; }
+    public String getFinalScore() {
+        return finalScore;
+    }
+    public void setFinalScore(String aFinal) { finalScore = aFinal; }
 }

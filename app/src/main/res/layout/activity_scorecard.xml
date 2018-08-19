@@ -400,7 +400,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="344dp"
         android:checked="false"
-        android:text="Sand"
+        android:text="sand"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3"

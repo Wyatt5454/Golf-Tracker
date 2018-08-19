@@ -9,23 +9,23 @@ public class TotalHoleStats implements Serializable {
      * Not sure why.
      */
 
-    public int Strokes;
-    public int Putts;
-    public int Sand;
+    public int strokes;
+    public int putts;
+    public int sand;
 
     TotalHoleStats() {
-        Putts = 0;
-        Strokes = 0;
-        Sand = 0;
+        putts = 0;
+        strokes = 0;
+        sand = 0;
     }
     public void UpdateStats(int strokes, int putts, int sand) {
-        Putts += putts;
-        Strokes += strokes;
-        Sand += sand;
+        putts += putts;
+        strokes += strokes;
+        sand += sand;
     }
     public void DeleteStats(int strokes, int putts, int sand) {
-        Putts -= putts;
-        Strokes -= strokes;
-        Sand -= sand;
+        putts -= putts;
+        strokes -= strokes;
+        sand -= sand;
     }
 }

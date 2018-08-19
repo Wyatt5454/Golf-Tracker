@@ -39,11 +39,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     Score currentHole;
-    List<TextView> TextHoles;
-    List<Score> Scores;
-    Button NextButton;
-    Button PrevButton;
-    CheckBox SandCheck;
+    List<TextView> textHoles;
+    List<Score> scores;
+    Button nextButton;
+    Button prevButton;
+    CheckBox sandCheck;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -55,21 +55,21 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorecard);
 
-        NextButton = findViewById(R.id.button3);
-        PrevButton = findViewById(R.id.button6);
-        SandCheck = findViewById(R.id.CheckSand);
+        nextButton = findViewById(R.id.button3);
+        prevButton = findViewById(R.id.button6);
+        sandCheck = findViewById(R.id.CheckSand);
         testView = findViewById(R.id.testView);
 
 
         // Grab all the spots for scores and put them in a container.
-        Scores = InitializeScores();
+        scores = InitializeScores();
 
         // Now we have to initialize the TextViews for each hole.
-        TextHoles = InitializeHoles();
+        textHoles = InitializeHoles();
 
         // Set the current hole.
-        currentHole = Scores.get(0);
-        currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+        currentHole = scores.get(0);
+        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
 
 
 
@@ -169,11 +169,16 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
 
-        float distance = location.distanceTo(currentHole.locationData.middle);
+        Location location1 = new Location("dummyprovider");
 
+        if (currentHole.locationData.middle != location1) {
+            float distance = location.distanceTo(currentHole.locationData.middle);
+            testView.setText("Distance to middle: " + distance);
+        }
+        else {
+            testView.setText("Sorry no data for this hole.");
+        }
 
-
-        testView.setText("Distance to middle: " + distance);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -190,28 +195,28 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         if (id == R.id.save_menu) {
             //  Here we create a pop up window asking if they are done with the round and want to save.
-            // Have to convert the scores into a saveable format
-            Intent MyIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
+            // Have to convert the scores into a savable format
+            Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
             String MStrokes = new String();
             String MPutts = new String();
             String MSand = new String();
-            String MFinal = new String();
+            String MFinal;
 
-            for (int i = 0; i < Scores.size(); i++)
+            for (int i = 0; i < scores.size(); i++)
             {
-                MStrokes += Integer.toString(Scores.get(i).Strokes) + "\n";
-                MPutts += Integer.toString(Scores.get(i).Putts) + "\n";
-                MSand += Integer.toString(Scores.get(i).Sand) + "\n";
+                MStrokes += Integer.toString(scores.get(i).strokes) + "\n";
+                MPutts += Integer.toString(scores.get(i).putts) + "\n";
+                MSand += Integer.toString(scores.get(i).sand) + "\n";
             }
             TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
             MFinal = Integer.toString(Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString()));
 
-            MyIntent.putExtra("Strokes", MStrokes);
-            MyIntent.putExtra("Putts", MPutts);
-            MyIntent.putExtra("Sand", MSand);
-            MyIntent.putExtra("Final", MFinal);
-            startActivityForResult(MyIntent, 99);
+            myIntent.putExtra("strokes", MStrokes);
+            myIntent.putExtra("putts", MPutts);
+            myIntent.putExtra("sand", MSand);
+            myIntent.putExtra("finalScore", MFinal);
+            startActivityForResult(myIntent, 99);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -254,359 +259,359 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * Sets the number, par, and location data for each hole.
          */
 
-        TextHoles = new ArrayList<>();
+        textHoles = new ArrayList<>();
         Location location = new Location("dummyprovider");
 
         TextView textView = findViewById(R.id.tv1);
         textView.setText(R.string.hole_one);
         textView.setTextColor(Color.WHITE);
-        Score score = Scores.get(0);
+        Score score = scores.get(0);
         score.setPar(5);
         score.setNumber(1);
         location.setLatitude(R.dimen.one_middle_lat);
         location.setLongitude(R.dimen.one_middle_long);
         score.locationData.middle = location;
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv2);
         textView.setText(R.string.hole_two);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(1);
+        score = scores.get(1);
         score.setPar(3);
         score.setNumber(2);
         location.setLatitude(R.dimen.two_middle_lat);
         location.setLongitude(R.dimen.two_middle_long);
         score.locationData.middle = location;
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv3);
         textView.setText(R.string.hole_three);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(2);
+        score = scores.get(2);
         score.setPar(4);
         score.setNumber(3);
         location.setLatitude(R.dimen.three_middle_lat);
         location.setLongitude(R.dimen.three_middle_long);
         score.locationData.middle = location;
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv4);
         textView.setText(R.string.hole_four);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(3);
+        score = scores.get(3);
         score.setPar(4);
         score.setNumber(4);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv5);
         textView.setText(R.string.hole_five);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(4);
+        score = scores.get(4);
         score.setPar(4);
         score.setNumber(5);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv6);
         textView.setText(R.string.hole_six);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(5);
+        score = scores.get(5);
         score.setPar(4);
         score.setNumber(6);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv7);
         textView.setText(R.string.hole_seven);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(6);
+        score = scores.get(6);
         score.setPar(5);
         score.setNumber(7);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv8);
         textView.setText(R.string.hole_eight);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(7);
+        score = scores.get(7);
         score.setPar(4);
         score.setNumber(8);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv9);
         textView.setText(R.string.hole_nine);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(8);
+        score = scores.get(8);
         score.setPar(4);
         score.setNumber(9);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv10);
         textView.setText(R.string.hole_out);
         textView.setTextColor(Color.WHITE);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
 
         textView = findViewById(R.id.tv21);
         textView.setText(R.string.hole_ten);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(9);
+        score = scores.get(9);
         score.setPar(5);
         score.setNumber(10);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv22);
         textView.setText(R.string.hole_eleven);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(10);
+        score = scores.get(10);
         score.setPar(4);
         score.setNumber(11);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv23);
         textView.setText(R.string.hole_twelve);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(11);
+        score = scores.get(11);
         score.setPar(4);
         score.setNumber(12);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv24);
         textView.setText(R.string.hole_thirteen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(12);
+        score = scores.get(12);
         score.setPar(5);
         score.setNumber(13);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv25);
         textView.setText(R.string.hole_fourteen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(13);
+        score = scores.get(13);
         score.setPar(3);
         score.setNumber(14);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv26);
         textView.setText(R.string.hole_fifteen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(14);
+        score = scores.get(14);
         score.setPar(4);
         score.setNumber(15);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv27);
         textView.setText(R.string.hole_sixteen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(15);
+        score = scores.get(15);
         score.setPar(4);
         score.setNumber(16);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv28);
         textView.setText(R.string.hole_seventeen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(16);
+        score = scores.get(16);
         score.setPar(3);
         score.setNumber(17);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv29);
         textView.setText(R.string.hole_eighteen);
         textView.setTextColor(Color.WHITE);
-        score = Scores.get(17);
+        score = scores.get(17);
         score.setPar(4);
         score.setNumber(18);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
         textView = findViewById(R.id.tv30);
         textView.setText(R.string.hole_in);
         textView.setTextColor(Color.WHITE);
-        TextHoles.add(textView);
+        textHoles.add(textView);
 
-        return TextHoles;
+        return textHoles;
     }
     public List<Score> InitializeScores() {
-        Scores = new ArrayList<>();
+        scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
-        score1.Hole.setOnClickListener(new View.OnClickListener() {
+        score1.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score1;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score1);
+        scores.add(score1);
         final Score score2 = new Score((TextView)findViewById(R.id.tv12));
-        score2.Hole.setOnClickListener(new View.OnClickListener() {
+        score2.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score2;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score2);
+        scores.add(score2);
         final Score score3 = new Score((TextView)findViewById(R.id.tv13));
-        score3.Hole.setOnClickListener(new View.OnClickListener() {
+        score3.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score3;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score3);
+        scores.add(score3);
         final Score score4 = new Score((TextView)findViewById(R.id.tv14));
-        score4.Hole.setOnClickListener(new View.OnClickListener() {
+        score4.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score4;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score4);
+        scores.add(score4);
         final Score score5 = new Score((TextView)findViewById(R.id.tv15));
-        score5.Hole.setOnClickListener(new View.OnClickListener() {
+        score5.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score5;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score5);
+        scores.add(score5);
         final Score score6 = new Score((TextView)findViewById(R.id.tv16));
-        score6.Hole.setOnClickListener(new View.OnClickListener() {
+        score6.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score6;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score6);
+        scores.add(score6);
         final Score score7 = new Score((TextView)findViewById(R.id.tv17));
-        score7.Hole.setOnClickListener(new View.OnClickListener() {
+        score7.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score7;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score7);
+        scores.add(score7);
         final Score score8 = new Score((TextView)findViewById(R.id.tv18));
-        score8.Hole.setOnClickListener(new View.OnClickListener() {
+        score8.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score8;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score8);
+        scores.add(score8);
         final Score score9 = new Score((TextView)findViewById(R.id.tv19));
-        score9.Hole.setOnClickListener(new View.OnClickListener() {
+        score9.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score9;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score9);
+        scores.add(score9);
         final Score score10 = new Score((TextView)findViewById(R.id.tv31));
-        score10.Hole.setOnClickListener(new View.OnClickListener() {
+        score10.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score10;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score10);
+        scores.add(score10);
         final Score score11 = new Score((TextView)findViewById(R.id.tv32));
-        score11.Hole.setOnClickListener(new View.OnClickListener() {
+        score11.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score11;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score11);
+        scores.add(score11);
         final Score score12 = new Score((TextView)findViewById(R.id.tv33));
-        score12.Hole.setOnClickListener(new View.OnClickListener() {
+        score12.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score12;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score12);
+        scores.add(score12);
         final Score score13 = new Score((TextView)findViewById(R.id.tv34));
-        score13.Hole.setOnClickListener(new View.OnClickListener() {
+        score13.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score13;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score13);
+        scores.add(score13);
         final Score score14 = new Score((TextView)findViewById(R.id.tv35));
-        score14.Hole.setOnClickListener(new View.OnClickListener() {
+        score14.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score14;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score14);
+        scores.add(score14);
         final Score score15 = new Score((TextView)findViewById(R.id.tv36));
-        score15.Hole.setOnClickListener(new View.OnClickListener() {
+        score15.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score15;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score15);
+        scores.add(score15);
         final Score score16 = new Score((TextView)findViewById(R.id.tv37));
-        score16.Hole.setOnClickListener(new View.OnClickListener() {
+        score16.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score16;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score16);
+        scores.add(score16);
         final Score score17 = new Score((TextView)findViewById(R.id.tv38));
-        score17.Hole.setOnClickListener(new View.OnClickListener() {
+        score17.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score17;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score17);
+        scores.add(score17);
         final Score score18 = new Score((TextView)findViewById(R.id.tv39));
-        score18.Hole.setOnClickListener(new View.OnClickListener() {
+        score18.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MarkScore(v);
                 currentHole = score18;
-                currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             }
         });
-        Scores.add(score18);
+        scores.add(score18);
 
-        return Scores;
+        return scores;
     }
 
 
@@ -615,27 +620,27 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // and show its relation to par.
         MarkScore(v);
 
-        if (SandCheck.isChecked()) {
-            currentHole.Sand = 1;
+        if (sandCheck.isChecked()) {
+            currentHole.sand = 1;
         }
         else {
-            currentHole.Sand = 0;
+            currentHole.sand = 0;
         }
 
-        for (int i = 0; i < Scores.size(); i++) {
-            if (currentHole == Scores.get(i)) {
-                if (i < Scores.size() - 1) {
-                    currentHole = Scores.get(i + 1);
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
-                    if (currentHole.Sand == 0) {
-                        SandCheck.setChecked(false);
+        for (int i = 0; i < scores.size(); i++) {
+            if (currentHole == scores.get(i)) {
+                if (i < scores.size() - 1) {
+                    currentHole = scores.get(i + 1);
+                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                    if (currentHole.sand == 0) {
+                        sandCheck.setChecked(false);
                     }
                     else {
-                        SandCheck.setChecked(true);
+                        sandCheck.setChecked(true);
                     }
                 }
                 else {
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
                 break;
             }
@@ -646,27 +651,27 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // and show its relation to par.
         MarkScore(v);
 
-        if (SandCheck.isChecked()) {
-            currentHole.Sand = 1;
+        if (sandCheck.isChecked()) {
+            currentHole.sand = 1;
         }
         else {
-            currentHole.Sand = 0;
+            currentHole.sand = 0;
         }
 
-        for (int i = 0; i < Scores.size(); i++) {
-            if (currentHole == Scores.get(i)) {
+        for (int i = 0; i < scores.size(); i++) {
+            if (currentHole == scores.get(i)) {
                 if (i > 0) {
-                    currentHole = Scores.get(i - 1);
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
-                    if (currentHole.Sand == 0) {
-                        SandCheck.setChecked(false);
+                    currentHole = scores.get(i - 1);
+                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                    if (currentHole.sand == 0) {
+                        sandCheck.setChecked(false);
                     }
                     else {
-                        SandCheck.setChecked(true);
+                        sandCheck.setChecked(true);
                     }
                 }
                 else {
-                    currentHole.Hole.setBackground(getDrawable(R.drawable.holeselected));
+                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 }
                 break;
             }
@@ -678,53 +683,53 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // circle for birdie, nothing for par, single square for bogey,
         // and double square for double bogey or worse.
 
-        if (currentHole.Strokes == 0 || currentHole.Strokes == currentHole.Par)
-            currentHole.Hole.setBackground(getDrawable(R.drawable.holeback));
-        else if (currentHole.Strokes <= currentHole.Par - 2)
-            currentHole.Hole.setBackground(getDrawable(R.drawable.eagle));
-        else if (currentHole.Strokes == currentHole.Par - 1)
-            currentHole.Hole.setBackground(getDrawable(R.drawable.birdie));
-        else if (currentHole.Strokes == currentHole.Par + 1)
-            currentHole.Hole.setBackground(getDrawable(R.drawable.bogey));
-        else if (currentHole.Strokes >= currentHole.Par + 2)
-            currentHole.Hole.setBackground(getDrawable(R.drawable.doublebogey));
+        if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
+            currentHole.hole.setBackground(getDrawable(R.drawable.holeback));
+        else if (currentHole.strokes <= currentHole.par - 2)
+            currentHole.hole.setBackground(getDrawable(R.drawable.eagle));
+        else if (currentHole.strokes == currentHole.par - 1)
+            currentHole.hole.setBackground(getDrawable(R.drawable.birdie));
+        else if (currentHole.strokes == currentHole.par + 1)
+            currentHole.hole.setBackground(getDrawable(R.drawable.bogey));
+        else if (currentHole.strokes >= currentHole.par + 2)
+            currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
 
     }
 
     public void AddScore(View v) {
         int intScore;
-        currentHole.Strokes++;
-        intScore = currentHole.Strokes;
-        currentHole.Hole.setText(Integer.toString(intScore));
-        currentHole.Actions.push(getString(R.string.stroke));
+        currentHole.strokes++;
+        intScore = currentHole.strokes;
+        currentHole.hole.setText(Integer.toString(intScore));
+        currentHole.actions.push(getString(R.string.stroke));
 
         updateTotals(v);
     }
     public void AddPutt(View v) {
         int intScore;
-        currentHole.Putts++;
-        currentHole.Strokes++;
-        intScore = currentHole.Strokes;
-        currentHole.Hole.setText(Integer.toString(intScore));
-        currentHole.Actions.push(getString(R.string.putt));
+        currentHole.putts++;
+        currentHole.strokes++;
+        intScore = currentHole.strokes;
+        currentHole.hole.setText(Integer.toString(intScore));
+        currentHole.actions.push(getString(R.string.putt));
 
         updateTotals(v);
 
     }
     public void UndoStroke(View v) {
         try {
-            String lastAction = currentHole.Actions.pop();
+            String lastAction = currentHole.actions.pop();
             if (lastAction.equals("putt")) {
-                currentHole.Putts--;
-                currentHole.Strokes--;
+                currentHole.putts--;
+                currentHole.strokes--;
             } else if (lastAction.equals("stroke")) {
-                currentHole.Strokes--;
+                currentHole.strokes--;
             }
         }
         catch (EmptyStackException e) {
 
         }
-        currentHole.Hole.setText(Integer.toString(currentHole.Strokes));
+        currentHole.hole.setText(Integer.toString(currentHole.strokes));
         updateTotals(v);
     }
 
@@ -738,8 +743,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         int intScore;
 
         for (int i = 0; i < 9; i++) {
-            current = Scores.get(i);
-            score = (String)current.Hole.getText();
+            current = scores.get(i);
+            score = (String)current.hole.getText();
 
             if (score.isEmpty()){
                 intScore = 0;
@@ -752,8 +757,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         ninth.setText(Integer.toString(ninthS));
 
         for (int i = 9; i < 18; i++) {
-            current = Scores.get(i);
-            score = (String)current.Hole.getText();
+            current = scores.get(i);
+            score = (String)current.hole.getText();
 
             if (score.isEmpty()){
                 intScore = 0;

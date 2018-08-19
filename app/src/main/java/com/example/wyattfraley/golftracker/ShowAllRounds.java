@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ShowAllRounds extends AppCompatActivity{
-    List<ScoreEntry> AllRounds;
+    List<ScoreEntry> allRounds;
 
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_show_all_rounds);
-        AllRounds = new ArrayList<>();
+        allRounds = new ArrayList<>();
 
         LoadRounds();
     }
@@ -37,7 +37,7 @@ public class ShowAllRounds extends AppCompatActivity{
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                AllRounds = Db.MyScoreEntryDao().getAll();
+                allRounds = Db.myScoreEntryDao().getAll();
                 return null;
             }
 
@@ -49,72 +49,72 @@ public class ShowAllRounds extends AppCompatActivity{
     }
 
     public void DisplayScores() {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.ShowAllRounds);
+        LinearLayout ll = findViewById(R.id.ShowAllRounds);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        for (int i = 0; i < AllRounds.size(); i++) {
-            ScoreEntry MyEntry = AllRounds.get(i);
+        for (int i = 0; i < allRounds.size(); i++) {
+            ScoreEntry myEntry = allRounds.get(i);
 
-            Button MyButton = new Button(this);
-            String Date = MyEntry.getUid();
-            final String Final = MyEntry.getFinal();
-            final String strokes = MyEntry.getStrokes();
-            final String putts = MyEntry.getPutts();
-            final String sand = MyEntry.getSand();
+            Button myButton = new Button(this);
+            String Date = myEntry.getUId();
+            final String finalScore = myEntry.getFinalScore();
+            final String strokes = myEntry.getStrokes();
+            final String putts = myEntry.getPutts();
+            final String sand = myEntry.getSand();
             Date = Date.substring(0, 10);
-            MyButton.setText(Date + ":  Score: " + Final);
+            myButton.setText(Date + ":  Score: " + finalScore);
 
-            MyButton.setOnClickListener(new View.OnClickListener() {
+            myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
-                    myIntent.putExtra("Strokes", strokes);
-                    myIntent.putExtra("Putts", putts);
-                    myIntent.putExtra("Sand", sand);
-                    myIntent.putExtra("Final", Final);
+                    myIntent.putExtra("strokes", strokes);
+                    myIntent.putExtra("putts", putts);
+                    myIntent.putExtra("sand", sand);
+                    myIntent.putExtra("finalScore", finalScore);
 
                     startActivity(myIntent);
                 }
             });
 
-            ll.addView(MyButton, lp);
+            ll.addView(myButton, lp);
         }
 
     }
     public void DisplayScoresV2() {
-        ScrollView scrollView = (ScrollView)findViewById(R.id.RoundScroll);
+        ScrollView scrollView = findViewById(R.id.RoundScroll);
 
         LinearLayout ll = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         ll.setOrientation(LinearLayout.VERTICAL);
 
-        for (int i = 0; i < AllRounds.size(); i++) {
-            ScoreEntry MyEntry = AllRounds.get(i);
+        for (int i = 0; i < allRounds.size(); i++) {
+            ScoreEntry myEntry = allRounds.get(i);
 
-            Button MyButton = new Button(this);
-            final String uid = MyEntry.getUid();
-            final String Final = MyEntry.getFinal();
-            final String strokes = MyEntry.getStrokes();
-            final String putts = MyEntry.getPutts();
-            final String sand = MyEntry.getSand();
+            Button myButton = new Button(this);
+            final String uid = myEntry.getUId();
+            final String finalScore = myEntry.getFinalScore();
+            final String strokes = myEntry.getStrokes();
+            final String putts = myEntry.getPutts();
+            final String sand = myEntry.getSand();
             String toDisplay = uid.substring(0, 10);
-            MyButton.setText(toDisplay + ":  Score: " + Final);
+            myButton.setText(toDisplay + ":  Score: " + finalScore);
 
-            MyButton.setOnClickListener(new View.OnClickListener() {
+            myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
                     myIntent.putExtra("Id", uid);
-                    myIntent.putExtra("Strokes", strokes);
-                    myIntent.putExtra("Putts", putts);
-                    myIntent.putExtra("Sand", sand);
-                    myIntent.putExtra("Final", Final);
+                    myIntent.putExtra("strokes", strokes);
+                    myIntent.putExtra("putts", putts);
+                    myIntent.putExtra("sand", sand);
+                    myIntent.putExtra("finalScore", finalScore);
 
                     startActivityForResult(myIntent, 100);
                 }
             });
 
-            ll.addView(MyButton, lp);
+            ll.addView(myButton, lp);
         }
         scrollView.removeAllViews();
         scrollView.addView(ll);

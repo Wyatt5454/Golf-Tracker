@@ -20,7 +20,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class StatsMainActivity extends AppCompatActivity {
-    Button ShowAllRounds;
+    Button showAllRounds;
     Button showAllHoles;
     TextView showTotalStats;
 
@@ -29,11 +29,11 @@ public class StatsMainActivity extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_stats_main);
 
-        ShowAllRounds = findViewById(R.id.ViewAllRounds);
+        showAllRounds = findViewById(R.id.ViewAllRounds);
         showTotalStats = findViewById(R.id.StatsHolder);
         showAllHoles = findViewById(R.id.viewAllHoles);
 
-        ShowAllRounds.setOnClickListener(new View.OnClickListener() {
+        showAllRounds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadAllRounds();
@@ -55,8 +55,8 @@ public class StatsMainActivity extends AppCompatActivity {
          * Goes to the All Rounds stats activity
          */
 
-        Intent MyIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
-        startActivity(MyIntent);
+        Intent myIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
+        startActivity(myIntent);
     }
     public void LoadHoleStats() {
         /*
@@ -110,8 +110,8 @@ public class StatsMainActivity extends AppCompatActivity {
         String toDisplay = new String();
         if (stats.totalRounds > 0) {
             toDisplay += "Average Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
-            toDisplay += "Average Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
-            toDisplay += "Average Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds));
+            toDisplay += "Average putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
+            toDisplay += "Average sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds));
         }
         else {
             toDisplay += "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";

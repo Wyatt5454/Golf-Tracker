@@ -5,5 +5,5 @@ import android.arch.persistence.room.RoomDatabase;
 
 @Database(entities = {ScoreEntry.class}, version = 2)
 public abstract class GolfDatabase extends RoomDatabase {
-    public abstract  ScoreEntryDao MyScoreEntryDao();
+    public abstract  ScoreEntryDao myScoreEntryDao();
 }

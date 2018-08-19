@@ -162,8 +162,8 @@ public class ShowAllHoles extends AppCompatActivity {
 
 
             String statsToAdd = new String();
-            statsToAdd += "Average score: " + Float.toString(holeStats.Strokes / stats.totalRounds) + "\n";
-            statsToAdd += "Average putts: " + Float.toString(holeStats.Putts / stats.totalRounds) + "\n";
+            statsToAdd += "Average score: " + Float.toString(holeStats.strokes / stats.totalRounds) + "\n";
+            statsToAdd += "Average putts: " + Float.toString(holeStats.putts / stats.totalRounds) + "\n";
 
             textViews.get(i).setText(statsToAdd);
         }
@@ -176,37 +176,37 @@ public class ShowAllHoles extends AppCompatActivity {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        par3 += stats.holes.get(1).Strokes;
-        par3 += stats.holes.get(5).Strokes;
-        par3 += stats.holes.get(13).Strokes;
-        par3 += stats.holes.get(16).Strokes;
+        par3 += stats.holes.get(1).strokes;
+        par3 += stats.holes.get(5).strokes;
+        par3 += stats.holes.get(13).strokes;
+        par3 += stats.holes.get(16).strokes;
         par3 /= stats.totalRounds;
         par3 /= 4;
 
-        par4 += stats.holes.get(2).Strokes;
-        par4 += stats.holes.get(3).Strokes;
-        par4 += stats.holes.get(4).Strokes;
-        par4 += stats.holes.get(7).Strokes;
-        par4 += stats.holes.get(8).Strokes;
-        par4 += stats.holes.get(10).Strokes;
-        par4 += stats.holes.get(11).Strokes;
-        par4 += stats.holes.get(14).Strokes;
-        par4 += stats.holes.get(15).Strokes;
-        par4 += stats.holes.get(17).Strokes;
+        par4 += stats.holes.get(2).strokes;
+        par4 += stats.holes.get(3).strokes;
+        par4 += stats.holes.get(4).strokes;
+        par4 += stats.holes.get(7).strokes;
+        par4 += stats.holes.get(8).strokes;
+        par4 += stats.holes.get(10).strokes;
+        par4 += stats.holes.get(11).strokes;
+        par4 += stats.holes.get(14).strokes;
+        par4 += stats.holes.get(15).strokes;
+        par4 += stats.holes.get(17).strokes;
         par4 /= stats.totalRounds;
         par4 /= 10;
 
-        par5 += stats.holes.get(0).Strokes;
-        par5 += stats.holes.get(6).Strokes;
-        par5 += stats.holes.get(9).Strokes;
-        par5 += stats.holes.get(12).Strokes;
+        par5 += stats.holes.get(0).strokes;
+        par5 += stats.holes.get(6).strokes;
+        par5 += stats.holes.get(9).strokes;
+        par5 += stats.holes.get(12).strokes;
         par5 /= stats.totalRounds;
         par5 /= 4;
 
         String toAdd = new String();
-        toAdd += "Average Par 3 Score: " + dF.format(par3) + "\n";
-        toAdd += "Average Par 4 Score: " + dF.format(par4) + "\n";
-        toAdd += "Average Par 5 Score: " + dF.format(par5) + "\n";
+        toAdd += "Average par 3 Score: " + dF.format(par3) + "\n";
+        toAdd += "Average par 4 Score: " + dF.format(par4) + "\n";
+        toAdd += "Average par 5 Score: " + dF.format(par5) + "\n";
 
         mainText.setText(toAdd);
     }

@@ -5,61 +5,61 @@ import android.widget.TextView;
 import java.util.Stack;
 
 public class Score {
-    Stack<String> Actions;
-    TextView Hole;
+    Stack<String> actions;
+    TextView hole;
     public int number;
-    public int Strokes;
-    public int Putts;
-    public int Sand;
-    int Par;
+    public int strokes;
+    public int putts;
+    public int sand;
+    int par;
     HoleLocationData locationData;
 
     Score(TextView newHole) {
-        Hole = newHole;
-        Strokes = 0;
-        Putts = 0;
-        Sand = 0;
-        Par = 0;
-        Actions = new Stack<>();
+        hole = newHole;
+        strokes = 0;
+        putts = 0;
+        sand = 0;
+        par = 0;
+        actions = new Stack<>();
         locationData = new HoleLocationData();
     }
 
     Score() {
-        Strokes = 0;
-        Putts = 0;
-        Sand = 0;
-        Par = 0;
-        Actions = new Stack<>();
+        strokes = 0;
+        putts = 0;
+        sand = 0;
+        par = 0;
+        actions = new Stack<>();
     }
 
     String ToSaveFormat() {
-        return Integer.toString(Strokes) + " " + Integer.toString(Putts) + " " + Integer.toString(Sand) + "\n";
+        return Integer.toString(strokes) + " " + Integer.toString(putts) + " " + Integer.toString(sand) + "\n";
     }
 
     public int getPutts() {
-        return Putts;
+        return putts;
     }
     public void setPutts(int nPutts) {
-        Putts = nPutts;
+        putts = nPutts;
     }
     public int getStrokes() {
-        return Strokes;
+        return strokes;
     }
 
     public void setStrokes(int strokes) {
-        Strokes = strokes;
+        strokes = strokes;
     }
 
     public int getSand() {
-        return Sand;
+        return sand;
     }
 
     public void setSand(int sand) {
-        Sand = sand;
+        sand = sand;
     }
 
     public void setPar(int par) {
-        Par = par;
+        par = par;
     }
     public void setNumber(int nNumber) { number = nNumber; }
 }

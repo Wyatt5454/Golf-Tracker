@@ -17,15 +17,15 @@ public class HomeScreen extends AppCompatActivity {
 
     public void selectCourse(View view) {
         // Goes to the select course activity
-        Intent intent = new Intent(this, SelectCourseActivity.class);
-        startActivity(intent);
+        Intent myIntent = new Intent(this, SelectCourseActivity.class);
+        startActivity(myIntent);
     }
     public void Scorecard(View view)  {
-        Intent MyIntent = new Intent(HomeScreen.this, ScorecardActivity.class);
-        startActivity(MyIntent);
+        Intent myIntent = new Intent(HomeScreen.this, ScorecardActivity.class);
+        startActivity(myIntent);
     }
     public void StatsMain(View view) {
-        Intent MyIntent = new Intent(HomeScreen.this, StatsMainActivity.class);
-        startActivity(MyIntent);
+        Intent myIntent = new Intent(HomeScreen.this, StatsMainActivity.class);
+        startActivity(myIntent);
     }
 }

@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SaveCheck extends Activity {
-    Button Yes;
-    Button No;
+    Button yes;
+    Button no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +31,23 @@ public class SaveCheck extends Activity {
 
         setContentView(R.layout.save_window);
 
-        DisplayMetrics Dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(Dm);
+        DisplayMetrics dM = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dM);
 
-        int width = Dm.widthPixels;
-        int height = Dm.heightPixels;
+        int width = dM.widthPixels;
+        int height = dM.heightPixels;
 
         getWindow().setLayout((int)(width * .8), (int)(height * .3));
 
-        Yes = findViewById(R.id.SaveYes);
-        No = findViewById(R.id.SaveNo);
-        Yes.setOnClickListener(new View.OnClickListener() {
+        yes = findViewById(R.id.SaveYes);
+        no = findViewById(R.id.SaveNo);
+        yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SaveRound();
             }
         });
-        No.setOnClickListener(new View.OnClickListener() {
+        no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NoPress();
@@ -69,32 +69,32 @@ public class SaveCheck extends Activity {
          */
 
 
-        Intent MyIntent = getIntent();
-        String Strokes = MyIntent.getStringExtra("Strokes");
-        String Putts = MyIntent.getStringExtra("Putts");
-        String Sand = MyIntent.getStringExtra("Sand");
-        String Final = MyIntent.getStringExtra("Final");
+        Intent myIntent = getIntent();
+        String strokes = myIntent.getStringExtra("strokes");
+        String putts = myIntent.getStringExtra("putts");
+        String sand = myIntent.getStringExtra("sand");
+        String finalScore = myIntent.getStringExtra("finalScore");
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
 
         final ScoreEntry ToEnter = new ScoreEntry();
-        ToEnter.setUid(Calendar.getInstance().getTime().toString());
-        ToEnter.setStrokes(Strokes);
-        ToEnter.setPutts(Putts);
-        ToEnter.setSand(Sand);
-        ToEnter.setFinal(Final);
+        ToEnter.setUId(Calendar.getInstance().getTime().toString());
+        ToEnter.setStrokes(strokes);
+        ToEnter.setPutts(putts);
+        ToEnter.setSand(sand);
+        ToEnter.setFinalScore(finalScore);
 
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.MyScoreEntryDao().insertAll(ToEnter);
+                Db.myScoreEntryDao().insertAll(ToEnter);
                 return null;
             }
         }.execute();
 
         // Now that the round is saved, we must update the totals.
-        UpdateTotals(Strokes, Putts, Sand, Final);
+        UpdateTotals(strokes, putts, sand, finalScore);
 
 
         setResult(RESULT_OK, null);

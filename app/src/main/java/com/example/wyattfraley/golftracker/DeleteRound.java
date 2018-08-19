@@ -21,8 +21,8 @@ import java.io.ObjectInputStream;
 import java.util.Calendar;
 
 public class DeleteRound extends SaveCheck {
-    Button Yes;
-    Button No;
+    Button yes;
+    Button no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +30,23 @@ public class DeleteRound extends SaveCheck {
 
         setContentView(R.layout.delete_window);
 
-        DisplayMetrics Dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(Dm);
+        DisplayMetrics dM = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dM);
 
-        int width = Dm.widthPixels;
-        int height = Dm.heightPixels;
+        int width = dM.widthPixels;
+        int height = dM.heightPixels;
 
         getWindow().setLayout((int)(width * .8), (int)(height * .3));
 
-        Yes = findViewById(R.id.DeleteYes);
-        No = findViewById(R.id.DeleteNo);
-        Yes.setOnClickListener(new View.OnClickListener() {
+        yes = findViewById(R.id.DeleteYes);
+        no = findViewById(R.id.DeleteNo);
+        yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Delete();
             }
         });
-        No.setOnClickListener(new View.OnClickListener() {
+        no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NoPress();
@@ -54,32 +54,32 @@ public class DeleteRound extends SaveCheck {
         });
     }
     public void Delete() {
-        Intent MyIntent = getIntent();
-        String uid = MyIntent.getStringExtra("Id");
-        String strokes = MyIntent.getStringExtra("Strokes");
-        String putts = MyIntent.getStringExtra("Putts");
-        String sand = MyIntent.getStringExtra("Sand");
-        String Final = MyIntent.getStringExtra("Final");
+        Intent myIntent = getIntent();
+        String uid = myIntent.getStringExtra("Id");
+        String strokes = myIntent.getStringExtra("strokes");
+        String putts = myIntent.getStringExtra("putts");
+        String sand = myIntent.getStringExtra("sand");
+        String finalScore = myIntent.getStringExtra("finalScore");
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
 
         final ScoreEntry toDelete = new ScoreEntry();
-        toDelete.setUid(uid);
+        toDelete.setUId(uid);
         toDelete.setStrokes(strokes);
         toDelete.setPutts(putts);
         toDelete.setSand(sand);
-        toDelete.setFinal(Final);
+        toDelete.setFinalScore(finalScore);
 
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.MyScoreEntryDao().delete(toDelete);
+                Db.myScoreEntryDao().delete(toDelete);
                 return null;
             }
         }.execute();
 
-        UpdateTotals(strokes, putts, sand, Final);
+        UpdateTotals(strokes, putts, sand, finalScore);
 
         setResult(RESULT_OK, null);
         finish();
