@@ -61,7 +61,7 @@ public class DeleteRound extends SaveCheck {
         String sand = myIntent.getStringExtra("sand");
         String finalScore = myIntent.getStringExtra("finalScore");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
 
         final ScoreEntry toDelete = new ScoreEntry();
         toDelete.setUId(uid);

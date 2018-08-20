@@ -18,14 +18,14 @@ public class TotalHoleStats implements Serializable {
         strokes = 0;
         sand = 0;
     }
-    public void UpdateStats(int strokes, int putts, int sand) {
-        putts += putts;
-        strokes += strokes;
-        sand += sand;
+    public void UpdateStats(int nStrokes, int nPutts, int nSand) {
+        putts += nPutts;
+        strokes += nStrokes;
+        sand += nSand;
     }
-    public void DeleteStats(int strokes, int putts, int sand) {
-        putts -= putts;
-        strokes -= strokes;
-        sand -= sand;
+    public void DeleteStats(int nStrokes, int nPutts, int nSand) {
+        putts -= nPutts;
+        strokes -= nStrokes;
+        sand -= nSand;
     }
 }

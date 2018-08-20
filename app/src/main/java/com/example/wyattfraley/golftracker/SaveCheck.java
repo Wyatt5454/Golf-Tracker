@@ -75,7 +75,7 @@ public class SaveCheck extends Activity {
         String sand = myIntent.getStringExtra("sand");
         String finalScore = myIntent.getStringExtra("finalScore");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V2").build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
 
         final ScoreEntry ToEnter = new ScoreEntry();
         ToEnter.setUId(Calendar.getInstance().getTime().toString());
