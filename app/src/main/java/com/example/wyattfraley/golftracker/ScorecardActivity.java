@@ -176,16 +176,17 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
         DecimalFormat dF = new DecimalFormat("##.##");
-        dF.setRoundingMode(RoundingMode.DOWN);
+        dF.setRoundingMode(RoundingMode.UNNECESSARY);
 
         float distance = location.distanceTo(currentHole.locationData.middle);
-        toMiddle.setText((int)distance /1000 + "KM To Middle");
+        String toDisplay = String.format("%d yds to middle", (int)(distance * 1.09361));
+        toMiddle.setText(toDisplay);
         distance = location.distanceTo(currentHole.locationData.back);
-        toBack.setText((int)distance / 1000 + " KM To Back");
+        toDisplay = String.format("%d yds to back", (int)(distance * 1.09361));
+        toBack.setText(toDisplay);
         distance = location.distanceTo(currentHole.locationData.front);
-        toFront.setText((int)distance / 1000 + "KM To Front");
-        LatLng latLng = new LatLng(currentHole.locationData.back.getLatitude(), currentHole.locationData.back.getLongitude());
-
+        toDisplay = String.format("%d yds to front", (int)(distance * 1.09361));
+        toFront.setText(toDisplay);
 
     }
     @Override
@@ -271,7 +272,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         TextView textView;
 
 
-        InitializeSingleHole(R.id.tv1, R.string.hole_one, 1, 3, R.dimen.one_front_lat,
+        InitializeSingleHole(R.id.tv1, R.string.hole_one, 0, 5, R.dimen.one_front_lat,
                 R.dimen.one_front_long, R.dimen.one_middle_lat, R.dimen.one_middle_long,
                 R.dimen.one_back_lat, R.dimen.one_back_long);
         InitializeSingleHole(R.id.tv2, R.string.hole_two, 1, 3, R.dimen.two_front_lat,
@@ -361,17 +362,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         textView.setTextColor(Color.WHITE);
         Score score = scores.get(scoreToGet);
         score.setPar(par);
-        score.setNumber(scoreToGet++);
-        Location location = new Location("dummyprovider");
-        location.setLatitude(frontLat);
-        location.setLongitude(frontLong);
-        score.locationData.front = location;
-        location.setLatitude(midLat);
-        location.setLongitude(midLong);
-        score.locationData.middle = location;
-        location.setLatitude(backLat);
-        location.setLongitude(backLong);
-        score.locationData.back = location;
+        score.setNumber(scoreToGet + 1);
+        score.locationData.front.setLatitude(frontLat);
+        score.locationData.front.setLongitude(frontLong);
+        score.locationData.middle.setLatitude(midLat);
+        score.locationData.middle.setLongitude(midLong);
+        score.locationData.back.setLatitude(backLat);
+        score.locationData.back.setLongitude(backLong);
         textHoles.add(textView);
     }
     public List<Score> InitializeScores() {
@@ -603,7 +600,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         else {
             currentHole.sand = 0;
         }
-
         for (int i = 0; i < scores.size(); i++) {
             if (currentHole == scores.get(i)) {
                 if (i > 0) {

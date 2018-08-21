@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/landscape"
     tools:context=".ScorecardActivity">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginStart="135dp"
         android:layout_marginTop="4dp"
         android:text="TextView"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -425,18 +425,16 @@
         android:id="@+id/toMiddle"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
-        android:layout_marginEnd="139dp"
-        android:layout_marginStart="110dp"
+        android:layout_marginStart="68dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl1" />
+        app:layout_constraintTop_toBottomOf="@+id/tl1"
+        app:layout_constraintVertical_bias="0.497" />
 
     <TextView
         android:id="@+id/toBack"
@@ -446,7 +444,7 @@
         android:layout_marginEnd="164dp"
         android:layout_marginStart="135dp"
         android:text="TextView"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/toMiddle"

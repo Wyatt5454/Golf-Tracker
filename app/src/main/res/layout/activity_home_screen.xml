@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_back"
     tools:context=".HomeScreen">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Wenatchee Golf And Country Club"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         app:fontFamily="sans-serif"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,21 +25,22 @@
 
     <Button
         android:id="@+id/button"
+        style="@style/main_button_style"
+        android:layout_marginBottom="20dp"
         android:onClick="Scorecard"
         android:text="Start New Round"
         app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/main_button_style" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_marginBottom="60dp"
+        style="@style/main_button_style"
+        android:layout_marginBottom="28dp"
         android:onClick="StatsMain"
         android:text="View Stats"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/main_button_style"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

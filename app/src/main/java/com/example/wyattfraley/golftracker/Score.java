@@ -46,20 +46,20 @@ public class Score {
         return strokes;
     }
 
-    public void setStrokes(int strokes) {
-        strokes = strokes;
+    public void setStrokes(int nStrokes) {
+        strokes = nStrokes;
     }
 
     public int getSand() {
         return sand;
     }
 
-    public void setSand(int sand) {
-        sand = sand;
+    public void setSand(int nSand) {
+        sand = nSand;
     }
 
-    public void setPar(int par) {
-        par = par;
+    public void setPar(int nPar) {
+        par = nPar;
     }
     public void setNumber(int nNumber) { number = nNumber; }
 }
