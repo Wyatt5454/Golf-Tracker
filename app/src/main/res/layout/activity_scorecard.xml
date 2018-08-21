@@ -7,6 +7,21 @@
     android:background="@color/colorPrimary"
     tools:context=".ScorecardActivity">
 
+    <TextView
+        android:id="@+id/toFront"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toMiddle" />
+
     <Button
         android:id="@+id/button7"
         android:layout_width="wrap_content"
@@ -407,18 +422,36 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/testView"
-        android:layout_width="162dp"
-        android:layout_height="103dp"
+        android:id="@+id/toMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginEnd="139dp"
         android:layout_marginStart="110dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tl1" />
+
+    <TextView
+        android:id="@+id/toBack"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginStart="135dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/toMiddle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

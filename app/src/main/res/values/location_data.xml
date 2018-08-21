@@ -1,9 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="one_middle_lat" format="float" type="dimen">47.43486</item>
-    <item name="one_middle_long" format="float" type="dimen">-120.29031</item>
-    <item name="two_middle_lat" format="float" type="dimen">47.43384</item>
-    <item name="two_middle_long" format="float" type="dimen">-120.29182</item>
-    <item name="three_middle_lat" format="float" type="dimen">47.43149</item>
-    <item name="three_middle_long" format="float" type="dimen">-120.28969</item>
+    <item name="one_front_lat" format="float" type="dimen">47.4347782</item>
+    <item name="one_front_long" format="float" type="dimen">-120.2902905</item>
+    <item name="one_middle_lat" format="float" type="dimen">47.4349008</item>
+    <item name="one_middle_long" format="float" type="dimen">-120.2903323</item>
+    <item name="one_back_lat" format="float" type="dimen">47.4349954</item>
+    <item name="one_back_long" format="float" type="dimen">-120.2903745</item>
+
+    <item name="two_front_lat" format="float" type="dimen">47.433922</item>
+    <item name="two_front_long" format="float" type="dimen">-120.2918449</item>
+    <item name="two_middle_lat" format="float" type="dimen">47.4338422</item>
+    <item name="two_middle_long" format="float" type="dimen">-120.2918646</item>
+    <item name="two_back_lat" format="float" type="dimen">47.4337614</item>
+    <item name="two_back_long" format="float" type="dimen">-120.291869</item>
+
+    <item name="three_front_lat" format="float" type="dimen">47.4315367</item>
+    <item name="three_front_long" format="float" type="dimen">-120.2898207</item>
+    <item name="three_middle_lat" format="float" type="dimen">47.4314763</item>
+    <item name="three_middle_long" format="float" type="dimen">-120.2897592</item>
+    <item name="three_back_lat" format="float" type="dimen">47.4313813</item>
+    <item name="three_back_long" format="float" type="dimen">-120.2896838</item>
+
+    <item name="four_front_lat" format="float" type="dimen">47.4290001</item>
+    <item name="four_front_long" format="float" type="dimen">-120.290333</item>
+    <item name="four_middle_lat" format="float" type="dimen">47.4288669</item>
+    <item name="four_middle_long" format="float" type="dimen">-120.2903383</item>
+    <item name="four_back_lat" format="float" type="dimen">47.4287624</item>
+    <item name="four_back_long" format="float" type="dimen">-120.2903903</item>
+
+    <item name="five_front_lat" format="float" type="dimen">47.4316049</item>
+    <item name="five_front_long" format="float" type="dimen">-120.2910296</item>
+    <item name="five_middle_lat" format="float" type="dimen">47.4316821</item>
+    <item name="five_middle_long" format="float" type="dimen">-120.2910777</item>
+    <item name="five_back_lat" format="float" type="dimen">47.4317971</item>
+    <item name="five_back_long" format="float" type="dimen">-120.291066</item>
+
+    <item name="six_front_lat" format="float" type="dimen">47.4333207</item>
+    <item name="six_front_long" format="float" type="dimen">-120.2913499</item>
+    <item name="six_middle_lat" format="float" type="dimen">47.4334037</item>
+    <item name="six_middle_long" format="float" type="dimen">-120.291423</item>
+    <item name="six_back_lat" format="float" type="dimen">47.4335754</item>
+    <item name="six_back_long" format="float" type="dimen">-120.2914952</item>
+
+    <item name="seven_front_lat" format="float" type="dimen">47.4289025</item>
+    <item name="seven_front_long" format="float" type="dimen">-120.2917617</item>
+    <item name="seven_middle_lat" format="float" type="dimen">47.4288202</item>
+    <item name="seven_middle_long" format="float" type="dimen">-120.2917124</item>
+    <item name="seven_back_lat" format="float" type="dimen">47.4287555</item>
+    <item name="seven_back_long" format="float" type="dimen">-120.2917149</item>
+
+    <item name="eight_front_lat" format="float" type="dimen">47.4280865</item>
+    <item name="eight_front_long" format="float" type="dimen">-120.2873506</item>
+    <item name="eight_middle_lat" format="float" type="dimen">47.4280748</item>
+    <item name="eight_middle_long" format="float" type="dimen">-120.2872359</item>
+    <item name="eight_back_lat" format="float" type="dimen">47.4280457</item>
+    <item name="eight_back_long" format="float" type="dimen">-120.2870908</item>
+
+    <item name="nine_front_lat" format="float" type="dimen">47.4303196</item>
+    <item name="nine_front_long" format="float" type="dimen">-120.2885005</item>
+    <item name="nine_middle_lat" format="float" type="dimen">47.4304835</item>
+    <item name="nine_middle_long" format="float" type="dimen">-120.2885599</item>
+    <item name="nine_back_lat" format="float" type="dimen">47.4305928</item>
+    <item name="nine_back_long" format="float" type="dimen">-120.2886565</item>
+
+    <item name="ten_front_lat" format="float" type="dimen">47.4343743</item>
+    <item name="ten_front_long" format="float" type="dimen">-120.2871543</item>
+    <item name="ten_middle_lat" format="float" type="dimen">47.4344905</item>
+    <item name="ten_middle_long" format="float" type="dimen">-120.2872042</item>
+    <item name="ten_back_lat" format="float" type="dimen">47.4346277</item>
+    <item name="ten_back_long" format="float" type="dimen">-120.2871959</item>
+
+    <item name="eleven_front_lat" format="float" type="dimen">47.4313377</item>
+    <item name="eleven_front_long" format="float" type="dimen">-120.2847561</item>
+    <item name="eleven_middle_lat" format="float" type="dimen">47.4312153</item>
+    <item name="eleven_middle_long" format="float" type="dimen">-120.2846747</item>
+    <item name="eleven_back_lat" format="float" type="dimen">47.4311189</item>
+    <item name="eleven_back_long" format="float" type="dimen">-120.2846242</item>
+
+    <item name="twelve_front_lat" format="float" type="dimen">47.4290415</item>
+    <item name="twelve_front_long" format="float" type="dimen">-120.2837222</item>
+    <item name="twelve_middle_lat" format="float" type="dimen">47.4289747</item>
+    <item name="twelve_middle_long" format="float" type="dimen">-120.2836861</item>
+    <item name="twelve_back_lat" format="float" type="dimen">47.4288906</item>
+    <item name="twelve_back_long" format="float" type="dimen">-120.2835595</item>
+
+    <item name="thirteen_front_lat" format="float" type="dimen">47.4325741</item>
+    <item name="thirteen_front_long" format="float" type="dimen">-120.2847863</item>
+    <item name="thirteen_middle_lat" format="float" type="dimen">47.4326534</item>
+    <item name="thirteen_middle_long" format="float" type="dimen">-120.2849027</item>
+    <item name="thirteen_back_lat" format="float" type="dimen">47.4327657</item>
+    <item name="thirteen_back_long" format="float" type="dimen">-120.2850419</item>
+
+    <item name="fourteen_front_lat" format="float" type="dimen">47.4329817</item>
+    <item name="fourteen_front_long" format="float" type="dimen">-120.283154</item>
+    <item name="fourteen_middle_lat" format="float" type="dimen">47.4328804</item>
+    <item name="fourteen_middle_long" format="float" type="dimen">-120.2829603</item>
+    <item name="fourteen_back_lat" format="float" type="dimen">47.4328768</item>
+    <item name="fourteen_back_long" format="float" type="dimen">-120.2828839</item>
+
+    <item name="fifteen_front_lat" format="float" type="dimen">47.4309376</item>
+    <item name="fifteen_front_long" format="float" type="dimen">-120.2830026</item>
+    <item name="fifteen_middle_lat" format="float" type="dimen">47.4308673</item>
+    <item name="fifteen_middle_long" format="float" type="dimen">-120.2829676</item>
+    <item name="fifteen_back_lat" format="float" type="dimen">47.4307772</item>
+    <item name="fifteen_back_long" format="float" type="dimen">-120.2829353</item>
+
+    <item name="sixteen_front_lat" format="float" type="dimen">47.4284532</item>
+    <item name="sixteen_front_long" format="float" type="dimen">-120.2825825</item>
+    <item name="sixteen_middle_lat" format="float" type="dimen">47.42832</item>
+    <item name="sixteen_middle_long" format="float" type="dimen">-120.2825865</item>
+    <item name="sixteen_back_lat" format="float" type="dimen">47.4282179</item>
+    <item name="sixteen_back_long" format="float" type="dimen">-120.2825487</item>
+
+    <item name="seventeen_front_lat" format="float" type="dimen">47.4287236</item>
+    <item name="seventeen_front_long" format="float" type="dimen">-120.2841376</item>
+    <item name="seventeen_middle_lat" format="float" type="dimen">47.4287846</item>
+    <item name="seventeen_middle_long" format="float" type="dimen">-120.284344</item>
+    <item name="seventeen_back_lat" format="float" type="dimen">47.4288285</item>
+    <item name="seventeen_back_long" format="float" type="dimen">-120.2845702</item>
+
+    <item name="eighteen_front_lat" format="float" type="dimen">47.4307982</item>
+    <item name="eighteen_front_long" format="float" type="dimen">-120.2857805</item>
+    <item name="eighteen_middle_lat" format="float" type="dimen">47.4308346</item>
+    <item name="eighteen_middle_long" format="float" type="dimen">-120.285835</item>
+    <item name="eighteen_back_lat" format="float" type="dimen">47.430936</item>
+    <item name="eighteen_back_long" format="float" type="dimen">-120.2858639</item>
 </resources>

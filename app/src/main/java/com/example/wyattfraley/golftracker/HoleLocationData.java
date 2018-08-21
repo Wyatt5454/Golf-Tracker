@@ -8,9 +8,9 @@ public class HoleLocationData {
     public Location back;
 
     HoleLocationData() {
-        front = null;
+        front = new Location("dummyprovider");
         middle = new Location("dummyprovider");
-        back = null;
+        back = new Location("dummyprovider");
     }
     HoleLocationData(Location nMiddle) {
         middle = nMiddle;

@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -48,7 +51,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final String TAG = MapsActivity.class.getSimpleName();
-    TextView testView;
+    TextView toFront;
+    TextView toMiddle;
+    TextView toBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +63,16 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         nextButton = findViewById(R.id.button3);
         prevButton = findViewById(R.id.button6);
         sandCheck = findViewById(R.id.CheckSand);
-        testView = findViewById(R.id.testView);
+        toFront = findViewById(R.id.toFront);
+        toMiddle = findViewById(R.id.toMiddle);
+        toBack = findViewById(R.id.toBack);
 
 
         // Grab all the spots for scores and put them in a container.
         scores = InitializeScores();
 
         // Now we have to initialize the TextViews for each hole.
-        textHoles = InitializeHoles();
+        InitializeHoles();
 
         // Set the current hole.
         currentHole = scores.get(0);
@@ -168,16 +175,17 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
 
-        Location location1 = new Location("dummyprovider");
+        float distance = location.distanceTo(currentHole.locationData.middle);
+        toMiddle.setText((int)distance /1000 + "KM To Middle");
+        distance = location.distanceTo(currentHole.locationData.back);
+        toBack.setText((int)distance / 1000 + " KM To Back");
+        distance = location.distanceTo(currentHole.locationData.front);
+        toFront.setText((int)distance / 1000 + "KM To Front");
+        LatLng latLng = new LatLng(currentHole.locationData.back.getLatitude(), currentHole.locationData.back.getLongitude());
 
-        if (currentHole.locationData.middle != location1) {
-            float distance = location.distanceTo(currentHole.locationData.middle);
-            testView.setText("Distance to middle: " + distance);
-        }
-        else {
-            testView.setText("Sorry no data for this hole.");
-        }
 
     }
     @Override
@@ -253,180 +261,118 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
 
 
-    public List<TextView> InitializeHoles() {
+    public void InitializeHoles() {
         /*
          * Long and boring method which initializes all the text boxes for the scorecard.
          * Sets the number, par, and location data for each hole.
          */
 
         textHoles = new ArrayList<>();
-        Location location = new Location("dummyprovider");
+        TextView textView;
 
-        TextView textView = findViewById(R.id.tv1);
-        textView.setText(R.string.hole_one);
-        textView.setTextColor(Color.WHITE);
-        Score score = scores.get(0);
-        score.setPar(5);
-        score.setNumber(1);
-        location.setLatitude(R.dimen.one_middle_lat);
-        location.setLongitude(R.dimen.one_middle_long);
-        score.locationData.middle = location;
-        textHoles.add(textView);
 
-        textView = findViewById(R.id.tv2);
-        textView.setText(R.string.hole_two);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(1);
-        score.setPar(3);
-        score.setNumber(2);
-        location.setLatitude(R.dimen.two_middle_lat);
-        location.setLongitude(R.dimen.two_middle_long);
-        score.locationData.middle = location;
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv3);
-        textView.setText(R.string.hole_three);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(2);
-        score.setPar(4);
-        score.setNumber(3);
-        location.setLatitude(R.dimen.three_middle_lat);
-        location.setLongitude(R.dimen.three_middle_long);
-        score.locationData.middle = location;
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv4);
-        textView.setText(R.string.hole_four);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(3);
-        score.setPar(4);
-        score.setNumber(4);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv5);
-        textView.setText(R.string.hole_five);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(4);
-        score.setPar(4);
-        score.setNumber(5);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv6);
-        textView.setText(R.string.hole_six);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(5);
-        score.setPar(4);
-        score.setNumber(6);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv7);
-        textView.setText(R.string.hole_seven);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(6);
-        score.setPar(5);
-        score.setNumber(7);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv8);
-        textView.setText(R.string.hole_eight);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(7);
-        score.setPar(4);
-        score.setNumber(8);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv9);
-        textView.setText(R.string.hole_nine);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(8);
-        score.setPar(4);
-        score.setNumber(9);
-        textHoles.add(textView);
+        InitializeSingleHole(R.id.tv1, R.string.hole_one, 1, 3, R.dimen.one_front_lat,
+                R.dimen.one_front_long, R.dimen.one_middle_lat, R.dimen.one_middle_long,
+                R.dimen.one_back_lat, R.dimen.one_back_long);
+        InitializeSingleHole(R.id.tv2, R.string.hole_two, 1, 3, R.dimen.two_front_lat,
+                R.dimen.two_front_long, R.dimen.two_middle_lat, R.dimen.two_middle_long,
+                R.dimen.two_back_lat, R.dimen.two_back_long);
+        InitializeSingleHole(R.id.tv3, R.string.hole_three, 2, 4, R.dimen.three_front_lat,
+                R.dimen.three_front_long, R.dimen.three_middle_lat, R.dimen.three_middle_long,
+                R.dimen.three_back_lat, R.dimen.three_back_long);
+        InitializeSingleHole(R.id.tv4, R.string.hole_four, 3, 4, R.dimen.four_front_lat,
+                R.dimen.four_front_long, R.dimen.four_middle_lat, R.dimen.four_middle_long,
+                R.dimen.four_back_lat, R.dimen.four_back_long);
+        InitializeSingleHole(R.id.tv5, R.string.hole_five, 4, 4, R.dimen.five_front_lat,
+                R.dimen.five_front_long, R.dimen.five_middle_lat, R.dimen.five_middle_long,
+                R.dimen.five_back_lat, R.dimen.five_back_long);
+        InitializeSingleHole(R.id.tv6, R.string.hole_six, 5, 3, R.dimen.six_front_lat,
+                R.dimen.six_front_long, R.dimen.six_middle_lat, R.dimen.six_middle_long,
+                R.dimen.six_back_lat, R.dimen.six_back_long);
+        InitializeSingleHole(R.id.tv7, R.string.hole_seven, 6, 5, R.dimen.seven_front_lat,
+                R.dimen.seven_front_long, R.dimen.seven_middle_lat, R.dimen.seven_middle_long,
+                R.dimen.seven_back_lat, R.dimen.seven_back_long);
+        InitializeSingleHole(R.id.tv8, R.string.hole_eight, 7, 4, R.dimen.eight_front_lat,
+                R.dimen.eight_front_long, R.dimen.eight_middle_lat, R.dimen.eight_middle_long,
+                R.dimen.eight_back_lat, R.dimen.eight_back_long);
+        InitializeSingleHole(R.id.tv9, R.string.hole_nine, 8, 4, R.dimen.nine_front_lat,
+                R.dimen.nine_front_long, R.dimen.nine_middle_lat, R.dimen.nine_middle_long,
+                R.dimen.nine_back_lat, R.dimen.nine_back_long);
 
         textView = findViewById(R.id.tv10);
         textView.setText(R.string.hole_out);
         textView.setTextColor(Color.WHITE);
         textHoles.add(textView);
 
+        InitializeSingleHole(R.id.tv21, R.string.hole_ten, 9, 5, R.dimen.ten_front_lat,
+                R.dimen.ten_front_long, R.dimen.ten_middle_lat, R.dimen.ten_middle_long,
+                R.dimen.ten_back_lat, R.dimen.ten_back_long);
+        InitializeSingleHole(R.id.tv22, R.string.hole_eleven, 10, 4, R.dimen.eleven_front_lat,
+                R.dimen.eleven_front_long, R.dimen.eleven_middle_lat, R.dimen.eleven_middle_long,
+                R.dimen.eleven_back_lat, R.dimen.eleven_back_long);
+        InitializeSingleHole(R.id.tv23, R.string.hole_twelve, 11, 4, R.dimen.twelve_front_lat,
+                R.dimen.twelve_front_long, R.dimen.twelve_middle_lat, R.dimen.twelve_middle_long,
+                R.dimen.twelve_back_lat, R.dimen.twelve_back_long);
+        InitializeSingleHole(R.id.tv24, R.string.hole_thirteen, 12, 5, R.dimen.thirteen_front_lat,
+                R.dimen.thirteen_front_long, R.dimen.thirteen_middle_lat, R.dimen.thirteen_middle_long,
+                R.dimen.thirteen_back_lat, R.dimen.thirteen_back_long);
+        InitializeSingleHole(R.id.tv25, R.string.hole_fourteen, 13, 3, R.dimen.fourteen_front_lat,
+                R.dimen.fourteen_front_long, R.dimen.fourteen_middle_lat, R.dimen.fourteen_middle_long,
+                R.dimen.fourteen_back_lat, R.dimen.fourteen_back_long);
+        InitializeSingleHole(R.id.tv26, R.string.hole_fifteen, 14, 4, R.dimen.fifteen_front_lat,
+                R.dimen.fifteen_front_long, R.dimen.fifteen_middle_lat, R.dimen.fifteen_middle_long,
+                R.dimen.fifteen_back_lat, R.dimen.fifteen_back_long);
+        InitializeSingleHole(R.id.tv27, R.string.hole_sixteen, 15, 4, R.dimen.sixteen_front_lat,
+                R.dimen.sixteen_front_long, R.dimen.sixteen_middle_lat, R.dimen.sixteen_middle_long,
+                R.dimen.sixteen_back_lat, R.dimen.sixteen_back_long);
+        InitializeSingleHole(R.id.tv28, R.string.hole_seventeen, 16, 3, R.dimen.seventeen_front_lat,
+                R.dimen.seventeen_front_long, R.dimen.seventeen_middle_lat, R.dimen.seventeen_middle_long,
+                R.dimen.seventeen_back_lat, R.dimen.seventeen_back_long);
+        InitializeSingleHole(R.id.tv29, R.string.hole_eighteen, 17, 4, R.dimen.eighteen_front_lat,
+                R.dimen.eighteen_front_long, R.dimen.eighteen_middle_lat, R.dimen.eighteen_middle_long,
+                R.dimen.eighteen_back_lat, R.dimen.eighteen_back_long);
 
-        textView = findViewById(R.id.tv21);
-        textView.setText(R.string.hole_ten);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(9);
-        score.setPar(5);
-        score.setNumber(10);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv22);
-        textView.setText(R.string.hole_eleven);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(10);
-        score.setPar(4);
-        score.setNumber(11);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv23);
-        textView.setText(R.string.hole_twelve);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(11);
-        score.setPar(4);
-        score.setNumber(12);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv24);
-        textView.setText(R.string.hole_thirteen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(12);
-        score.setPar(5);
-        score.setNumber(13);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv25);
-        textView.setText(R.string.hole_fourteen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(13);
-        score.setPar(3);
-        score.setNumber(14);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv26);
-        textView.setText(R.string.hole_fifteen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(14);
-        score.setPar(4);
-        score.setNumber(15);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv27);
-        textView.setText(R.string.hole_sixteen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(15);
-        score.setPar(4);
-        score.setNumber(16);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv28);
-        textView.setText(R.string.hole_seventeen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(16);
-        score.setPar(3);
-        score.setNumber(17);
-        textHoles.add(textView);
-
-        textView = findViewById(R.id.tv29);
-        textView.setText(R.string.hole_eighteen);
-        textView.setTextColor(Color.WHITE);
-        score = scores.get(17);
-        score.setPar(4);
-        score.setNumber(18);
-        textHoles.add(textView);
 
         textView = findViewById(R.id.tv30);
         textView.setText(R.string.hole_in);
         textView.setTextColor(Color.WHITE);
         textHoles.add(textView);
+    }
+    private void InitializeSingleHole(Integer viewID, Integer holeText, Integer scoreToGet, Integer par,
+                                      Integer frontLatID, Integer frontLongID, Integer midLatID, Integer midLongID,
+                                      Integer backLatID, Integer backLongID) {
+        TypedValue outValue = new TypedValue();
+        getResources().getValue(frontLatID, outValue, true);
+        float frontLat = outValue.getFloat();
+        getResources().getValue(frontLongID, outValue, true);
+        float frontLong = outValue.getFloat();
+        getResources().getValue(midLatID, outValue, true);
+        float midLat = outValue.getFloat();
+        getResources().getValue(midLongID, outValue, true);
+        float midLong = outValue.getFloat();
+        getResources().getValue(backLatID, outValue, true);
+        float backLat = outValue.getFloat();
+        getResources().getValue(backLongID, outValue, true);
+        float backLong = outValue.getFloat();
 
-        return textHoles;
+
+        TextView textView = findViewById(viewID);
+        textView.setText(holeText);
+        textView.setTextColor(Color.WHITE);
+        Score score = scores.get(scoreToGet);
+        score.setPar(par);
+        score.setNumber(scoreToGet++);
+        Location location = new Location("dummyprovider");
+        location.setLatitude(frontLat);
+        location.setLongitude(frontLong);
+        score.locationData.front = location;
+        location.setLatitude(midLat);
+        location.setLongitude(midLong);
+        score.locationData.middle = location;
+        location.setLatitude(backLat);
+        location.setLongitude(backLong);
+        score.locationData.back = location;
+        textHoles.add(textView);
     }
     public List<Score> InitializeScores() {
         scores = new ArrayList<>();
