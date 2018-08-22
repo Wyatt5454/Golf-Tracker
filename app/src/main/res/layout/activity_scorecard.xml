@@ -24,8 +24,7 @@
 
     <Button
         android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="UndoStroke"
@@ -35,8 +34,7 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -47,8 +45,7 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -59,8 +56,7 @@
 
     <Button
         android:id="@+id/button6"
-        android:layout_width="76dp"
-        android:layout_height="37dp"
+        style="@style/nav_button_style"
         android:layout_marginTop="16dp"
         android:onClick="PrevHole"
         android:text="Prev Hole"
@@ -398,8 +394,7 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="76dp"
-        android:layout_height="37dp"
+        style="@style/nav_button_style"
         android:layout_marginTop="16dp"
         android:onClick="NextHole"
         android:text="Next Hole"

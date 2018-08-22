@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -31,6 +32,7 @@ public class ShowAllRounds extends AppCompatActivity{
 
         LoadRounds();
     }
+    @SuppressLint("StaticFieldLeak")
     public void LoadRounds() {
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
 
@@ -38,6 +40,7 @@ public class ShowAllRounds extends AppCompatActivity{
             @Override
             protected Void doInBackground(Void... voids) {
                 allRounds = Db.myScoreEntryDao().getAll();
+                Collections.reverse(allRounds);
                 return null;
             }
 
@@ -98,7 +101,9 @@ public class ShowAllRounds extends AppCompatActivity{
             final String putts = myEntry.getPutts();
             final String sand = myEntry.getSand();
             String toDisplay = uid.substring(0, 10);
-            myButton.setText(toDisplay + ":  Score: " + finalScore);
+            myButton.setText(String.format("%s:  Score: %s", toDisplay, finalScore));
+            myButton.setBackgroundResource(R.drawable.round_button);
+
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,9 +124,13 @@ public class ShowAllRounds extends AppCompatActivity{
         scrollView.removeAllViews();
         scrollView.addView(ll);
     }
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        /*
+         * This function reloads the rounds if a round was deleted in
+         * the ShowSingleRound activity.
+         */
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 new AsyncTask<Void, Void, Void>() {

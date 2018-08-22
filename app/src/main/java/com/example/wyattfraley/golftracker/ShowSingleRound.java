@@ -447,16 +447,16 @@ public class ShowSingleRound  extends AppCompatActivity{
         overallInfo += "Final Score: " + finalScore + "\n";
         overallInfo += "Net Score: " + Integer.toString(Integer.parseInt(finalScore) - 72) + "\n\n";
         overallInfo += "Total putts: " + puttsTotal + "\n";
-        overallInfo += "putts Per Hole: " + Integer.toString(puttsTotal / 18) + "\n\n";
+        overallInfo += "putts Per Hole: " + Float.toString((float)puttsTotal / 18) + "\n";
 
         overallStats.setText(overallInfo);
     }
     public void SetIndividualTextBox() {
         String individualInfo = new String();
 
-        individualInfo += "par: " + currentHole.par + "\n";
+        individualInfo += "Par: " + currentHole.par + "\n";
         individualInfo += "Score: " + currentHole.strokes + "\n";
-        individualInfo += "putts: " + currentHole.putts + "\n";
+        individualInfo += "Putts: " + currentHole.putts;
 
         holeStats.setText(individualInfo);
     }

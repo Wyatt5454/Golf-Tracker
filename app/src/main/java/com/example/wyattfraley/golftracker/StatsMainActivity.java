@@ -100,6 +100,9 @@ public class StatsMainActivity extends AppCompatActivity {
          * This function shows the average stats for all rounds
          * and puts it in the main text box at the top of the activity.
          * Will be adding more detailed stats later.
+         *
+         * Gets rid of the stats buttons if there are no rounds
+         * to show.
          */
 
         TotalRoundStats stats = LoadTotalStats();
@@ -115,6 +118,8 @@ public class StatsMainActivity extends AppCompatActivity {
         }
         else {
             toDisplay += "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";
+            showAllHoles.setVisibility(View.GONE);
+            showAllRounds.setVisibility(View.GONE);
         }
 
 
