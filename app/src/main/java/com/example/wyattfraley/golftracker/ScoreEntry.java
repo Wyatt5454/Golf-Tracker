@@ -24,6 +24,12 @@ public class ScoreEntry {
     @ColumnInfo(name = "sand")
     private String sand;
 
+    @ColumnInfo(name = "fairway")
+    private String fairway;
+
+    @ColumnInfo(name = "greenInRegulation")
+    private String greenInRegulation;
+
     @ColumnInfo(name = "finalscore")
     private String finalScore;
 
@@ -51,6 +57,18 @@ public class ScoreEntry {
     }
     public void setSand(String NSand) {
         sand = NSand;
+    }
+
+    public String getFairway() { return fairway; }
+    public void setFairway(String nFairway) {
+        fairway = nFairway;
+    }
+
+    public String getGreenInRegulation() {
+        return greenInRegulation;
+    }
+    public void setGreenInRegulation(String nGreenInRegulation) {
+        greenInRegulation = nGreenInRegulation;
     }
 
     public String getFinalScore() {

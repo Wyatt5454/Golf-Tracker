@@ -44,11 +44,7 @@
 
             <TextView
                 android:id="@+id/holeStats1"
-                android:background="#FFFFFF"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton1" />
@@ -65,10 +61,7 @@
 
             <TextView
                 android:id="@+id/holeStats2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton2" />
@@ -85,10 +78,7 @@
 
             <TextView
                 android:id="@+id/holeStats3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton3" />
@@ -105,10 +95,7 @@
 
             <TextView
                 android:id="@+id/holeStats4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton4" />
@@ -125,10 +112,7 @@
 
             <TextView
                 android:id="@+id/holeStats5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton5" />
@@ -145,10 +129,7 @@
 
             <TextView
                 android:id="@+id/holeStats6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton6" />
@@ -165,10 +146,7 @@
 
             <TextView
                 android:id="@+id/holeStats7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton7" />
@@ -185,10 +163,7 @@
 
             <TextView
                 android:id="@+id/holeStats8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton8" />
@@ -205,10 +180,7 @@
 
             <TextView
                 android:id="@+id/holeStats9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton9" />
@@ -225,10 +197,7 @@
 
             <TextView
                 android:id="@+id/holeStats10"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton10" />
@@ -245,10 +214,7 @@
 
             <TextView
                 android:id="@+id/holeStats11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton11" />
@@ -265,10 +231,7 @@
 
             <TextView
                 android:id="@+id/holeStats12"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton12" />
@@ -285,10 +248,7 @@
 
             <TextView
                 android:id="@+id/holeStats13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton13" />
@@ -305,10 +265,7 @@
 
             <TextView
                 android:id="@+id/holeStats14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton14" />
@@ -325,10 +282,7 @@
 
             <TextView
                 android:id="@+id/holeStats15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton15" />
@@ -345,10 +299,7 @@
 
             <TextView
                 android:id="@+id/holeStats16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton16" />
@@ -365,10 +316,7 @@
 
             <TextView
                 android:id="@+id/holeStats17"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton17" />
@@ -385,10 +333,7 @@
 
             <TextView
                 android:id="@+id/holeStats18"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
+                style="@style/hole_text_stats_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holeButton18" />

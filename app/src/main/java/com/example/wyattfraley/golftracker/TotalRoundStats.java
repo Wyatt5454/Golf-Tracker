@@ -19,6 +19,8 @@ public class TotalRoundStats implements Serializable{
     public int totalScore;
     public int totalPutts;
     public int totalSand;
+    public int totalFairway;
+    public int totalGIR;
     public List<TotalHoleStats> holes;
 
     public TotalRoundStats() {
@@ -56,17 +58,21 @@ public class TotalRoundStats implements Serializable{
         }
     }
     // Simply adds to the totals.
-    public void UpdateTotals(int score, int putts, int sand) {
+    public void UpdateTotals(int score, int putts, int sand, int fairway, int gir) {
         totalScore += score;
         totalPutts += putts;
         totalSand += sand;
+        totalFairway += fairway;
+        totalGIR += gir;
         totalRounds++;
     }
     // Deletes from the totals.
-    public void DeleteTotals(int score, int putts, int sand) {
+    public void DeleteTotals(int score, int putts, int sand, int fairway, int gir) {
         totalScore -= score;
         totalPutts -= putts;
         totalSand -= sand;
+        totalFairway += fairway;
+        totalGIR += gir;
         totalRounds--;
     }
 }

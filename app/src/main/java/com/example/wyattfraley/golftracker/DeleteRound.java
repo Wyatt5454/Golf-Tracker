@@ -59,6 +59,8 @@ public class DeleteRound extends SaveCheck {
         String strokes = myIntent.getStringExtra("strokes");
         String putts = myIntent.getStringExtra("putts");
         String sand = myIntent.getStringExtra("sand");
+        String fairway = myIntent.getStringExtra("fairway");
+        String gir = myIntent.getStringExtra("gir");
         String finalScore = myIntent.getStringExtra("finalScore");
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
@@ -68,6 +70,8 @@ public class DeleteRound extends SaveCheck {
         toDelete.setStrokes(strokes);
         toDelete.setPutts(putts);
         toDelete.setSand(sand);
+        toDelete.setFairway(fairway);
+        toDelete.setGreenInRegulation(gir);
         toDelete.setFinalScore(finalScore);
 
 
@@ -79,26 +83,26 @@ public class DeleteRound extends SaveCheck {
             }
         }.execute();
 
-        UpdateTotals(strokes, putts, sand, finalScore);
+        UpdateTotals(strokes, putts, sand, fairway, gir, finalScore);
 
         setResult(RESULT_OK, null);
         finish();
     }
     @Override
-    public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String finalScore) {
+    public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String fairway, String gir, String finalScore) {
         // First we have to parse the strings into 18 groups.
-        int i = 0;
-        int i2 = 0;
-        int j = 0;
-        int j2 = 0;
-        int k = 0;
-        int k2 = 0;
+        int i = 0, j = 0, k = 0, l = 0, m = 0;
+        int i2, j2, k2, l2, m2;
         int totalPutts = 0;
         int totalSand = 0;
+        int totalFairway = 0;
+        int totalGir = 0;
 
-        String mStroke = new String();
-        String mPutt = new String();
-        String mSand = new String();
+        String mStroke;
+        String mPutt;
+        String mSand;
+        String mFairway;
+        String mGir;
         TotalHoleStats hole;
 
         if (stats.holes.size() == 0) {
@@ -109,7 +113,7 @@ public class DeleteRound extends SaveCheck {
         }
 
 
-        for (int l = 0; l < 18; l++) {
+        for (int n = 0; n < 18; n++) {
             i2 = strokes.indexOf("\n", i);
             mStroke = strokes.substring(i, i2);
             i = i2 + 1;
@@ -122,14 +126,25 @@ public class DeleteRound extends SaveCheck {
             mSand = sand.substring(k, k2);
             k = k2 + 1;
 
-            hole = stats.holes.get(l);
-            hole.DeleteStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand));
+            l2 = fairway.indexOf("\n", l);
+            mFairway = fairway.substring(l, l2);
+            l = l2 + 1;
+
+            m2 = gir.indexOf("\n", m);
+            mGir = gir.substring(m, m2);
+            m = m2 + 1;
+
+            hole = stats.holes.get(n);
+            hole.DeleteStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand),
+                                                    Integer.parseInt(mFairway), Integer.parseInt(mGir));
 
             totalPutts += Integer.parseInt(mPutt);
             totalSand += Integer.parseInt(mSand);
+            totalFairway += Integer.parseInt(mFairway);
+            totalGir += Integer.parseInt(mGir);
         }
 
         int finalS = Integer.parseInt(finalScore);
-        stats.DeleteTotals(finalS, totalPutts, totalSand);
+        stats.DeleteTotals(finalS, totalPutts, totalSand, totalFairway, totalGir);
     }
 }

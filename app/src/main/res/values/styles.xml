@@ -64,4 +64,11 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
+    <style name="hole_text_stats_style">
+        <item name="android:background">@drawable/hole_stats_text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>

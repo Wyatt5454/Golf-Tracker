@@ -11,6 +11,8 @@ public class Score {
     public int strokes;
     public int putts;
     public int sand;
+    public int fairway;
+    public int greenInRegulation;
     int par;
     HoleLocationData locationData;
 
@@ -62,4 +64,18 @@ public class Score {
         par = nPar;
     }
     public void setNumber(int nNumber) { number = nNumber; }
+
+    public int getFairway() {
+        return fairway;
+    }
+    public void setFairway(int fairway) {
+        this.fairway = fairway;
+    }
+
+    public int getGreenInRegulation() {
+        return greenInRegulation;
+    }
+    public void setGreenInRegulation(int greenInRegulation) {
+        this.greenInRegulation = greenInRegulation;
+    }
 }

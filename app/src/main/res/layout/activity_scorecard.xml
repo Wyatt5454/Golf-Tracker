@@ -23,17 +23,17 @@
         app:layout_constraintTop_toBottomOf="@+id/toMiddle" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/undoButton"
         style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="UndoStroke"
         android:text="Undo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5" />
+        app:layout_constraintEnd_toStartOf="@+id/puttButton" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/strokeButton"
         style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/puttButton"
         style="@style/stroke_button_style"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -52,15 +52,15 @@
         android:onClick="AddPutt"
         android:text="Putt+"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button4" />
+        app:layout_constraintEnd_toStartOf="@+id/strokeButton" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/prevButton"
         style="@style/nav_button_style"
         android:layout_marginTop="16dp"
         android:onClick="PrevHole"
         android:text="Prev Hole"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tl1"
         app:layout_constraintTop_toBottomOf="@+id/tl1" />
 
@@ -393,27 +393,28 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/nextButton"
         style="@style/nav_button_style"
         android:layout_marginTop="16dp"
         android:onClick="NextHole"
         android:text="Next Hole"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/tl1"
         app:layout_constraintTop_toBottomOf="@+id/tl1" />
 
     <CheckBox
-        android:id="@+id/CheckSand"
+        android:id="@+id/checkSand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="344dp"
         android:checked="false"
-        android:text="sand"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        android:onClick="SandChecked"
+        android:text="Sand"
+        app:layout_constraintBottom_toTopOf="@+id/strokeButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -445,6 +446,17 @@
         app:layout_constraintBottom_toTopOf="@+id/toMiddle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkFairway"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:onClick="FairwayChecked"
+        android:text="Fairway"
+        app:layout_constraintBottom_toTopOf="@+id/puttButton"
+        app:layout_constraintEnd_toStartOf="@+id/checkSand" />
 
 
 </android.support.constraint.ConstraintLayout>
