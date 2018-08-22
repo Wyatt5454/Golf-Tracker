@@ -230,6 +230,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             myIntent.putExtra("finalScore", MFinal);
             startActivityForResult(myIntent, 99);
         }
+        else if (id == android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
     @Override

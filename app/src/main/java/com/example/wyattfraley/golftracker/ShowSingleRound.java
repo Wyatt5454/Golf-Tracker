@@ -53,7 +53,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_menu, menu);
+        inflater.inflate(R.menu.delete_menu, menu);
 
 
         return super.onCreateOptionsMenu(menu);
@@ -63,7 +63,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.save_menu) {
+        if (id == R.id.delete_menu) {
             Intent myIntent = getIntent();
             String strokes = myIntent.getStringExtra("strokes");
             String putts = myIntent.getStringExtra("putts");
@@ -77,6 +77,9 @@ public class ShowSingleRound  extends AppCompatActivity{
             newIntent.putExtra("Id", uid);
             newIntent.putExtra("finalScore", finalScore);
             startActivityForResult(newIntent, 99);
+        }
+        else if (id == android.R.id.home) {
+            finish();
         }
 
 

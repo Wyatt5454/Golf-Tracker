@@ -57,4 +57,11 @@
         <item name="android:shadowRadius">5</item>
     </style>
 
+    <style name="hole_button_style">
+        <item name="android:background">@drawable/round_button</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>

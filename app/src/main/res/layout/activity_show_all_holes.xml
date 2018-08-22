@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/landscape">
 
     <ScrollView
         android:id="@+id/allHolesScroll"
@@ -22,6 +23,7 @@
 
             <TextView
                 android:id="@+id/overallHoleStats"
+                android:background="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
@@ -32,9 +34,7 @@
 
             <Button
                 android:id="@+id/holeButton1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 1    par 5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +44,7 @@
 
             <TextView
                 android:id="@+id/holeStats1"
+                android:background="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -54,9 +55,7 @@
 
             <Button
                 android:id="@+id/holeButton2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 2    par 3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,9 +75,7 @@
 
             <Button
                 android:id="@+id/holeButton3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 3    par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,9 +95,7 @@
 
             <Button
                 android:id="@+id/holeButton4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 4    par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,9 +115,7 @@
 
             <Button
                 android:id="@+id/holeButton5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 5    par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,9 +135,7 @@
 
             <Button
                 android:id="@+id/holeButton6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 6    par 3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -164,9 +155,7 @@
 
             <Button
                 android:id="@+id/holeButton7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 7    par 5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -186,9 +175,7 @@
 
             <Button
                 android:id="@+id/holeButton8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 8    par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -208,9 +195,7 @@
 
             <Button
                 android:id="@+id/holeButton9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 9    par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -230,9 +215,7 @@
 
             <Button
                 android:id="@+id/holeButton10"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 10   par 5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -252,9 +235,7 @@
 
             <Button
                 android:id="@+id/holeButton11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 11   par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -274,9 +255,7 @@
 
             <Button
                 android:id="@+id/holeButton12"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 12   par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -296,9 +275,7 @@
 
             <Button
                 android:id="@+id/holeButton13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 13   par 5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -318,9 +295,7 @@
 
             <Button
                 android:id="@+id/holeButton14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 14   par 3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -340,9 +315,7 @@
 
             <Button
                 android:id="@+id/holeButton15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 15   par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -362,9 +335,7 @@
 
             <Button
                 android:id="@+id/holeButton16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 16   par 4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -384,9 +355,7 @@
 
             <Button
                 android:id="@+id/holeButton17"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 17   par 3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -406,9 +375,7 @@
 
             <Button
                 android:id="@+id/holeButton18"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                style="@style/hole_button_style"
                 android:onClick="toggle_contents"
                 android:text="Hole 18   par 4"
                 app:layout_constraintEnd_toEndOf="parent"
