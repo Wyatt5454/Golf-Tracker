@@ -119,8 +119,8 @@ public class StatsMainActivity extends AppCompatActivity {
             toDisplay += "Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
             toDisplay += "Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds)) + "\n\n";
 
-            fairwayPercentage = (stats.totalFairway / (stats.totalRounds * 14)) * 10;
-            girPercentage = (stats.totalGIR / (stats.totalRounds * 18)) * 10;
+            fairwayPercentage = ((float)stats.totalFairway / ((float)stats.totalRounds * 14)) * 100;
+            girPercentage = ((float)stats.totalGIR / ((float)stats.totalRounds * 18)) * 100;
             toDisplay += "Fairway in Regulation: " + dF.format(fairwayPercentage) + "%\n";
             toDisplay += "Green in Regulation: " + dF.format(girPercentage) + "%";
         }

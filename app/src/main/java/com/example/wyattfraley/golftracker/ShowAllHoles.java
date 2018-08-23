@@ -157,13 +157,24 @@ public class ShowAllHoles extends AppCompatActivity {
     }
     public void SetHoleStats() {
 
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
+
         for (int i = 0; i < textViews.size(); i++) {
             TotalHoleStats holeStats = stats.holes.get(i);
 
 
             String statsToAdd = new String();
-            statsToAdd += "Average score: " + Float.toString(holeStats.strokes / stats.totalRounds) + "\n";
-            statsToAdd += "Average putts: " + Float.toString(holeStats.putts / stats.totalRounds) + "\n";
+            statsToAdd += "Average score: " + dF.format(holeStats.strokes / stats.totalRounds) + "\n";
+            statsToAdd += "Average putts: " + dF.format(holeStats.putts / stats.totalRounds) + "\n\n";
+
+            if (i != 1 && i != 5 && i != 13 && i != 16) {
+                float fairwayPercentage = ((float)holeStats.fairway / (float)stats.totalRounds) * 100;
+                statsToAdd += "Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
+            }
+
+            float girPercentage = ((float)holeStats.greenInRegulation / (float)stats.totalRounds) * 100;
+            statsToAdd += "GIR Percentage: " + dF.format(girPercentage) + "%";
 
             textViews.get(i).setText(statsToAdd);
         }

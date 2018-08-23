@@ -415,6 +415,11 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.hole.setText(mStroke);
             MarkScoreSpecific(mScore);
 
+            puttsTotal += Integer.parseInt(mPutt);
+            sandTotal += Integer.parseInt(mSand);
+            fairwayTotal += Integer.parseInt(mFairway);
+            girTotal += Integer.parseInt(mGir);
+
             eighteenth += Integer.parseInt(mStroke);
         }
 
@@ -475,11 +480,11 @@ public class ShowSingleRound  extends AppCompatActivity{
         overallInfo += "Total putts: " + puttsTotal + "\n";
         overallInfo += "Putts Per Hole: " + Float.toString((float)puttsTotal / 18) + "\n\n";
 
-        float fairwayPercentage = (fairwayTotal / 14) * 10;
-        float girPercentage = (girTotal / 18) * 10;
+        float fairwayPercentage = ((float)fairwayTotal / 14) * 100;
+        float girPercentage = ((float)girTotal / 18) * 100;
 
-        overallInfo += "Fairways hit: " + dF.format(fairwayPercentage) + "\n";
-        overallInfo += "Greens hit: " + dF.format(girPercentage);
+        overallInfo += "Fairways hit: " + dF.format(fairwayPercentage) + "%\n";
+        overallInfo += "Greens hit: " + dF.format(girPercentage) + "%";
 
         overallStats.setText(overallInfo);
     }
