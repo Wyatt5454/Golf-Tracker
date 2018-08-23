@@ -55,25 +55,10 @@ public class DeleteRound extends SaveCheck {
     }
     public void Delete() {
         Intent myIntent = getIntent();
-        String uid = myIntent.getStringExtra("Id");
-        String strokes = myIntent.getStringExtra("strokes");
-        String putts = myIntent.getStringExtra("putts");
-        String sand = myIntent.getStringExtra("sand");
-        String fairway = myIntent.getStringExtra("fairway");
-        String gir = myIntent.getStringExtra("gir");
-        String finalScore = myIntent.getStringExtra("finalScore");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").fallbackToDestructiveMigration().build();
 
-        final ScoreEntry toDelete = new ScoreEntry();
-        toDelete.setUId(uid);
-        toDelete.setStrokes(strokes);
-        toDelete.setPutts(putts);
-        toDelete.setSand(sand);
-        toDelete.setFairway(fairway);
-        toDelete.setGreenInRegulation(gir);
-        toDelete.setFinalScore(finalScore);
-
+        final ScoreEntry toDelete = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -83,13 +68,13 @@ public class DeleteRound extends SaveCheck {
             }
         }.execute();
 
-        UpdateTotals(strokes, putts, sand, fairway, gir, finalScore);
+        UpdateTotals(toDelete);
 
         setResult(RESULT_OK, null);
         finish();
     }
     @Override
-    public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String fairway, String gir, String finalScore) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry) {
         // First we have to parse the strings into 18 groups.
         int i = 0, j = 0, k = 0, l = 0, m = 0;
         int i2, j2, k2, l2, m2;
@@ -104,6 +89,13 @@ public class DeleteRound extends SaveCheck {
         String mFairway;
         String mGir;
         TotalHoleStats hole;
+
+        String strokes = myEntry.getStrokes();
+        String putts = myEntry.getPutts();
+        String sand = myEntry.getSand();
+        String fairway = myEntry.getFairway();
+        String gir = myEntry.getGreenInRegulation();
+        String finalScore = myEntry.getFinalScore();
 
         if (stats.holes.size() == 0) {
             for (int z = 0; z < 18; z++) {

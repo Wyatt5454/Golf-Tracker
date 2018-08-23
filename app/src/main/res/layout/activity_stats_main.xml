@@ -10,25 +10,25 @@
     <Button
         android:id="@+id/ViewAllRounds"
         style="@style/main_button_style"
+        android:layout_marginBottom="52dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="288dp"
         android:text="View All Rounds"
+        app:layout_constraintBottom_toTopOf="@+id/viewAllHoles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StatsHolder" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/viewAllHoles"
         style="@style/main_button_style"
+        android:layout_marginBottom="56dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
         android:text="View Hole By Hole"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ViewAllRounds" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/StatsHolder"

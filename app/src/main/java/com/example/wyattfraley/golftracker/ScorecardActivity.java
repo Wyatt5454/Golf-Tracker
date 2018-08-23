@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationServices;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.List;
 
@@ -204,31 +205,28 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             //  Here we create a pop up window asking if they are done with the round and want to save.
             // Have to convert the scores into a savable format
             Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
-            String MStrokes = new String();
-            String MPutts = new String();
-            String MSand = new String();
+            String mStrokes = new String();
+            String mPutts = new String();
+            String mSand = new String();
             String mFairway = new String();
             String mGIR = new String();
-            String MFinal;
+            String mFinal;
 
             for (int i = 0; i < scores.size(); i++)
             {
-                MStrokes += Integer.toString(scores.get(i).getStrokes()) + "\n";
-                MPutts += Integer.toString(scores.get(i).getPutts()) + "\n";
-                MSand += Integer.toString(scores.get(i).getSand()) + "\n";
+                mStrokes += Integer.toString(scores.get(i).getStrokes()) + "\n";
+                mPutts += Integer.toString(scores.get(i).getPutts()) + "\n";
+                mSand += Integer.toString(scores.get(i).getSand()) + "\n";
                 mFairway += Integer.toString(scores.get(i).getFairway()) + "\n";
                 mGIR += Integer.toString(scores.get(i).getGreenInRegulation()) + "\n";
             }
             TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
-            MFinal = Integer.toString(Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString()));
+            mFinal = Integer.toString(Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString()));
 
-            myIntent.putExtra("strokes", MStrokes);
-            myIntent.putExtra("putts", MPutts);
-            myIntent.putExtra("sand", MSand);
-            myIntent.putExtra("fairway", mFairway);
-            myIntent.putExtra("gir", mGIR);
-            myIntent.putExtra("finalScore", MFinal);
+            String uId = Calendar.getInstance().getTime().toString();
+            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mSand, mFairway, mGIR, mFinal);
+            myIntent.putExtra("Score", myEntry);
             startActivityForResult(myIntent, 99);
         }
         else if (id == android.R.id.home) {
@@ -743,7 +741,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
-    public void updateTotals(View v) {
+    private void updateTotals(View v) {
         TextView ninth = findViewById(R.id.tv20);
         TextView eighteenth = findViewById(R.id.tv40);
         Score current;

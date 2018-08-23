@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,11 @@ public class ShowSingleRound  extends AppCompatActivity{
     TextView holeStats;
     List<Score> scores;
     Score currentHole;
+    ScoreEntry myEntry;
     int puttsTotal;
     int sandTotal;
+    int fairwayTotal;
+    int girTotal;
     String finalScore;
     String uid;
 
@@ -30,13 +35,12 @@ public class ShowSingleRound  extends AppCompatActivity{
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_show_single_round);
         Intent myIntent = getIntent();
-        String strokes = myIntent.getStringExtra("strokes");
-        String putts = myIntent.getStringExtra("putts");
-        String sand = myIntent.getStringExtra("sand");
-        finalScore = myIntent.getStringExtra("finalScore");
-        uid = myIntent.getStringExtra("Id");
+        myEntry = (ScoreEntry)myIntent.getSerializableExtra("Score");
+
         puttsTotal = 0;
         sandTotal = 0;
+        fairwayTotal = 0;
+        girTotal = 0;
 
         overallStats = findViewById(R.id.overallStats);
         overallStats.setBackgroundColor(Color.WHITE);
@@ -45,8 +49,9 @@ public class ShowSingleRound  extends AppCompatActivity{
         holeStats.setBackgroundColor(Color.WHITE);
 
         scores = InitializeScores();
-        LoadScores(strokes, putts, sand);
+        LoadScores(myEntry);
         currentHole = scores.get(0);
+        finalScore = myEntry.getFinalScore();
 
         SetOverallTextBox();
     }
@@ -64,18 +69,8 @@ public class ShowSingleRound  extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.delete_menu) {
-            Intent myIntent = getIntent();
-            String strokes = myIntent.getStringExtra("strokes");
-            String putts = myIntent.getStringExtra("putts");
-            String sand = myIntent.getStringExtra("sand");
-
-
             Intent newIntent = new Intent(ShowSingleRound.this, DeleteRound.class);
-            newIntent.putExtra("strokes", strokes);
-            newIntent.putExtra("putts", putts);
-            newIntent.putExtra("sand", sand);
-            newIntent.putExtra("Id", uid);
-            newIntent.putExtra("finalScore", finalScore);
+            newIntent.putExtra("Score", myEntry);
             startActivityForResult(newIntent, 99);
         }
         else if (id == android.R.id.home) {
@@ -326,25 +321,29 @@ public class ShowSingleRound  extends AppCompatActivity{
         return pars;
     }
 
-    public void LoadScores(String strokes, String putts, String sand) {
+    public void LoadScores(ScoreEntry myEntry) {
         // First we have to parse the strings into 18 groups.
-        int i = 0;
-        int i2 = 0;
-        int j = 0;
-        int j2 = 0;
-        int k = 0;
-        int k2 = 0;
+        int i = 0, j = 0, k = 0, l = 0, m = 0;
+        int i2, j2, k2, l2, m2;
+
+        String mStroke;
+        String mPutt;
+        String mSand;
+        String mFairway;
+        String mGir;
         int ninth = 0;
         int eighteenth = 0;
 
-        String mStroke = new String();
-        String mPutt = new String();
-        String mSand = new String();
+        String strokes = myEntry.getStrokes();
+        String putts = myEntry.getPutts();
+        String sand = myEntry.getSand();
+        String fairway = myEntry.getFairway();
+        String gir = myEntry.getGreenInRegulation();
         List<Integer> pars = InitializePars();
         Score mScore;
 
 
-        for (int l = 0; l < 9; l++) {
+        for (int n = 0; n < 9; n++) {
             i2 = strokes.indexOf("\n", i);
             mStroke = strokes.substring(i, i2);
             i = i2 + 1;
@@ -357,23 +356,35 @@ public class ShowSingleRound  extends AppCompatActivity{
             mSand = sand.substring(k, k2);
             k = k2 + 1;
 
-            mScore = scores.get(l);
+            l2 = fairway.indexOf("\n", l);
+            mFairway = fairway.substring(l, l2);
+            l = l2 + 1;
+
+            m2 = gir.indexOf("\n", m);
+            mGir = gir.substring(m, m2);
+            m = m2 + 1;
+
+            mScore = scores.get(n);
             mScore.setPutts(Integer.parseInt(mPutt));
             mScore.setSand(Integer.parseInt(mSand));
             mScore.setStrokes(Integer.parseInt(mStroke));
-            mScore.setPar(pars.get(l));
+            mScore.setFairway(Integer.parseInt(mFairway));
+            mScore.setGreenInRegulation(Integer.parseInt(mGir));
+            mScore.setPar(pars.get(n));
             mScore.hole.setText(mStroke);
             MarkScoreSpecific(mScore);
 
             puttsTotal += Integer.parseInt(mPutt);
             sandTotal += Integer.parseInt(mSand);
+            fairwayTotal += Integer.parseInt(mFairway);
+            girTotal += Integer.parseInt(mGir);
             ninth += Integer.parseInt(mStroke);
         }
 
         mScore = scores.get(9);
         mScore.hole.setText(Integer.toString(ninth));
 
-        for (int l = 10; l < 19; l++) {
+        for (int n = 10; n < 19; n++) {
             i2 = strokes.indexOf("\n", i);
             mStroke = strokes.substring(i, i2);
             i = i2 + 1;
@@ -386,11 +397,21 @@ public class ShowSingleRound  extends AppCompatActivity{
             mSand = sand.substring(k, k2);
             k = k2 + 1;
 
-            mScore = scores.get(l);
+            l2 = fairway.indexOf("\n", l);
+            mFairway = fairway.substring(l, l2);
+            l = l2 + 1;
+
+            m2 = gir.indexOf("\n", m);
+            mGir = gir.substring(m, m2);
+            m = m2 + 1;
+
+            mScore = scores.get(n);
             mScore.setPutts(Integer.parseInt(mPutt));
             mScore.setSand(Integer.parseInt(mSand));
             mScore.setStrokes(Integer.parseInt(mStroke));
-            mScore.setPar(pars.get(l - 1));
+            mScore.setFairway(Integer.parseInt(mFairway));
+            mScore.setGreenInRegulation(Integer.parseInt(mGir));
+            mScore.setPar(pars.get(n - 1));
             mScore.hole.setText(mStroke);
             MarkScoreSpecific(mScore);
 
@@ -446,11 +467,19 @@ public class ShowSingleRound  extends AppCompatActivity{
 
     public void SetOverallTextBox() {
         String overallInfo = new String();
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
 
         overallInfo += "Final Score: " + finalScore + "\n";
         overallInfo += "Net Score: " + Integer.toString(Integer.parseInt(finalScore) - 72) + "\n\n";
         overallInfo += "Total putts: " + puttsTotal + "\n";
-        overallInfo += "putts Per Hole: " + Float.toString((float)puttsTotal / 18) + "\n";
+        overallInfo += "Putts Per Hole: " + Float.toString((float)puttsTotal / 18) + "\n\n";
+
+        float fairwayPercentage = (fairwayTotal / 14) * 10;
+        float girPercentage = (girTotal / 18) * 10;
+
+        overallInfo += "Fairways hit: " + dF.format(fairwayPercentage) + "\n";
+        overallInfo += "Greens hit: " + dF.format(girPercentage);
 
         overallStats.setText(overallInfo);
     }
@@ -459,7 +488,20 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         individualInfo += "Par: " + currentHole.par + "\n";
         individualInfo += "Score: " + currentHole.strokes + "\n";
-        individualInfo += "Putts: " + currentHole.putts;
+        individualInfo += "Putts: " + currentHole.putts + "\n\n";
+
+        if (currentHole.getFairway() == 1) {
+            individualInfo += "You hit the fairway.\n";
+        }
+        else if (currentHole.par != 3){
+            individualInfo += "You missed the fairway.\n";
+        }
+        if (currentHole.getGreenInRegulation() == 1) {
+            individualInfo += "You were on the green in regulation.";
+        }
+        else {
+            individualInfo += "You missed the green in regulation.";
+        }
 
         holeStats.setText(individualInfo);
     }

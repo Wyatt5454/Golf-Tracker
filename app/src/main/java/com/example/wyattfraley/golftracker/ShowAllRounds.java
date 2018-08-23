@@ -34,7 +34,7 @@ public class ShowAllRounds extends AppCompatActivity{
     }
     @SuppressLint("StaticFieldLeak")
     public void LoadRounds() {
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").fallbackToDestructiveMigration().build();
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -92,14 +92,11 @@ public class ShowAllRounds extends AppCompatActivity{
         ll.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < allRounds.size(); i++) {
-            ScoreEntry myEntry = allRounds.get(i);
+            final ScoreEntry myEntry = allRounds.get(i);
 
             Button myButton = new Button(this);
             final String uid = myEntry.getUId();
             final String finalScore = myEntry.getFinalScore();
-            final String strokes = myEntry.getStrokes();
-            final String putts = myEntry.getPutts();
-            final String sand = myEntry.getSand();
             String toDisplay = uid.substring(0, 10);
             myButton.setText(String.format("%s:  Score: %s", toDisplay, finalScore));
             myButton.setBackgroundResource(R.drawable.round_button);
@@ -109,11 +106,7 @@ public class ShowAllRounds extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
-                    myIntent.putExtra("Id", uid);
-                    myIntent.putExtra("strokes", strokes);
-                    myIntent.putExtra("putts", putts);
-                    myIntent.putExtra("sand", sand);
-                    myIntent.putExtra("finalScore", finalScore);
+                    myIntent.putExtra("Score", myEntry);
 
                     startActivityForResult(myIntent, 100);
                 }

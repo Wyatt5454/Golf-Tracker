@@ -70,23 +70,9 @@ public class SaveCheck extends Activity {
 
 
         Intent myIntent = getIntent();
-        String strokes = myIntent.getStringExtra("strokes");
-        String putts = myIntent.getStringExtra("putts");
-        String sand = myIntent.getStringExtra("sand");
-        String fairway = myIntent.getStringExtra("fairway");
-        String gir = myIntent.getStringExtra("gir");
-        String finalScore = myIntent.getStringExtra("finalScore");
+        final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").build();
-
-        final ScoreEntry toEnter = new ScoreEntry();
-        toEnter.setUId(Calendar.getInstance().getTime().toString());
-        toEnter.setStrokes(strokes);
-        toEnter.setPutts(putts);
-        toEnter.setSand(sand);
-        toEnter.setFairway(fairway);
-        toEnter.setGreenInRegulation(gir);
-        toEnter.setFinalScore(finalScore);
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").fallbackToDestructiveMigration().build();
 
 
         new AsyncTask<Void, Void, Void>() {
@@ -98,7 +84,7 @@ public class SaveCheck extends Activity {
         }.execute();
 
         // Now that the round is saved, we must update the totals.
-        UpdateTotals(strokes, putts, sand, fairway, gir, finalScore);
+        UpdateTotals(toEnter);
 
 
         setResult(RESULT_OK, null);
@@ -108,7 +94,7 @@ public class SaveCheck extends Activity {
     public void NoPress() {
         finish();
     }
-    public void UpdateTotals(String strokes, String putts, String sand, String fairway, String gir, String finalScore) {
+    public void UpdateTotals(ScoreEntry myEntry) {
         /*
          *  This function will update the total scores on a file saved to
          *  internal storage.  Uses serializing to load in and save the
@@ -137,7 +123,7 @@ public class SaveCheck extends Activity {
         // Check to make sure the file was found.
         // If not, make the file.
         if (inputStreamTotal == null) {
-            LoadScores(stats, strokes, putts, sand, fairway, gir, finalScore);
+            LoadScores(stats, myEntry);
         }
         else {
             try {
@@ -148,7 +134,7 @@ public class SaveCheck extends Activity {
                 // Method for deserialization of object
                 stats = (TotalRoundStats)inTotal.readObject();
                 stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
-                LoadScores(stats, strokes, putts, sand, fairway, gir, finalScore);
+                LoadScores(stats, myEntry);
 
                 inTotal.close();
                 inHoles.close();
@@ -164,7 +150,7 @@ public class SaveCheck extends Activity {
         }
         SaveTotals(stats, fileExists);
     }
-    public void LoadScores(TotalRoundStats stats, String strokes, String putts, String sand, String fairway, String gir, String finalScore) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
@@ -184,6 +170,13 @@ public class SaveCheck extends Activity {
         String mFairway;
         String mGir;
         TotalHoleStats hole;
+
+        String strokes = myEntry.getStrokes();
+        String putts = myEntry.getPutts();
+        String sand = myEntry.getSand();
+        String fairway = myEntry.getFairway();
+        String gir = myEntry.getGreenInRegulation();
+        String finalScore = myEntry.getFinalScore();
 
         if (stats.holes.size() == 0) {
             for (int z = 0; z < 18; z++) {

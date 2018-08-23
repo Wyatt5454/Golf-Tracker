@@ -6,11 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class ScoreEntry {
+public class ScoreEntry implements Serializable{
     @PrimaryKey
     @NonNull
     private String uId;
@@ -32,6 +33,17 @@ public class ScoreEntry {
 
     @ColumnInfo(name = "finalscore")
     private String finalScore;
+
+    ScoreEntry(String uId, String strokes, String putts, String sand, String fairway, String greenInRegulation, String finalScore) {
+        setUId(uId);
+        setStrokes(strokes);
+        setPutts(putts);
+        setSand(sand);
+        setFairway(fairway);
+        setGreenInRegulation(greenInRegulation);
+        setFinalScore(finalScore);
+    }
+    ScoreEntry() {}
 
     public String getUId() { return uId; }
     public void setUId(String NUid) {
