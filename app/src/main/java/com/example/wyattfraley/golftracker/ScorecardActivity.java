@@ -377,6 +377,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         textHoles.add(textView);
     }
     public List<Score> InitializeScores() {
+        /*
+         * Long boring method which sets up all the holes for scoring.
+         */
         scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
         score1.hole.setOnClickListener(new View.OnClickListener() {
@@ -742,6 +745,10 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     private void updateTotals(View v) {
+        /*
+         * Updates the score boxes for each nine holes.
+         * Used whenever a score box is changed.
+         */
         TextView ninth = findViewById(R.id.tv20);
         TextView eighteenth = findViewById(R.id.tv40);
         Score current;

@@ -21,10 +21,16 @@ public class HomeScreen extends AppCompatActivity {
         startActivity(myIntent);
     }
     public void Scorecard(View view)  {
+        /*
+         * Opens the scorecard activity.
+         */
         Intent myIntent = new Intent(HomeScreen.this, ScorecardActivity.class);
         startActivity(myIntent);
     }
     public void StatsMain(View view) {
+        /*
+         * Opens the main stats activity.
+         */
         Intent myIntent = new Intent(HomeScreen.this, StatsMainActivity.class);
         startActivity(myIntent);
     }

@@ -1,18 +1,12 @@
 package com.example.wyattfraley.golftracker;
 
-import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,6 +52,9 @@ public class ShowAllHoles extends AppCompatActivity {
 
     }
     public void InitializeButtons() {
+        /*
+         * Simple boring function that initializes all the hole buttons.
+         */
         buttons = new ArrayList<>();
 
         Button toAdd = findViewById(R.id.holeButton1);
@@ -98,6 +95,9 @@ public class ShowAllHoles extends AppCompatActivity {
         buttons.add(toAdd);
     }
     public void InitializeText() {
+        /*
+         * Simple boring function that sets up all the text boxes.
+         */
         textViews = new ArrayList<>();
 
         TextView toAdd = findViewById(R.id.holeStats1);
@@ -156,6 +156,10 @@ public class ShowAllHoles extends AppCompatActivity {
         textViews.add(toAdd);
     }
     public void SetHoleStats() {
+        /*
+         * Goes through all of the text boxes, and sets the text boxes
+         * with the relevant statistics for each particular hole.
+         */
 
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
@@ -181,6 +185,10 @@ public class ShowAllHoles extends AppCompatActivity {
 
     }
     public void SetMainTextBox() {
+        /*
+         * Grabs the average stats for each type of hole.
+         * TODO: Come up with more interesting stats to include in this box.
+         */
         float par3 = 0;
         float par4 = 0;
         float par5 = 0;
@@ -265,7 +273,9 @@ public class ShowAllHoles extends AppCompatActivity {
     }
 
     public void toggle_contents(View v){
-        // First have to find the appropriate text box.
+        /*
+         * Uses the FX utility to animate the boxes opening and closing.
+         */
         int found = 0;
         for (int i = 0; i < buttons.size(); i++) {
             if (buttons.get(i).isPressed()) {

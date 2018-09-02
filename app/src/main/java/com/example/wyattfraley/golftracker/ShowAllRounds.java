@@ -85,6 +85,11 @@ public class ShowAllRounds extends AppCompatActivity{
 
     }
     public void DisplayScoresV2() {
+        /*
+         * Initializes each round as its own button,
+         * and sets up the on click listener to open up a new activity,
+         * which allows the user to look at more detailed stats for an individual round.
+         */
         ScrollView scrollView = findViewById(R.id.RoundScroll);
 
         LinearLayout ll = new LinearLayout(this);

@@ -471,6 +471,11 @@ public class ShowSingleRound  extends AppCompatActivity{
     }
 
     public void SetOverallTextBox() {
+        /*
+         * Sets the main text box with the main
+         * statistics related to this
+         * particular round.
+         */
         String overallInfo = new String();
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
@@ -489,6 +494,9 @@ public class ShowSingleRound  extends AppCompatActivity{
         overallStats.setText(overallInfo);
     }
     public void SetIndividualTextBox() {
+        /*
+         * Sets up the text box details for each individual hole.
+         */
         String individualInfo = new String();
 
         individualInfo += "Par: " + currentHole.par + "\n";

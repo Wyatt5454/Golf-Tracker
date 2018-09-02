@@ -34,10 +34,6 @@ public class Score {
         actions = new Stack<>();
     }
 
-    String ToSaveFormat() {
-        return Integer.toString(strokes) + " " + Integer.toString(putts) + " " + Integer.toString(sand) + "\n";
-    }
-
     public int getPutts() {
         return putts;
     }

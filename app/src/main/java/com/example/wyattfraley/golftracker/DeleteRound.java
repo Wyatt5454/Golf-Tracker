@@ -1,24 +1,12 @@
 package com.example.wyattfraley.golftracker;
 
-import android.Manifest;
-import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Calendar;
 
 public class DeleteRound extends SaveCheck {
     Button yes;
@@ -54,6 +42,10 @@ public class DeleteRound extends SaveCheck {
         });
     }
     public void Delete() {
+        /*
+         * Deletes the round from the database, and then updates the total
+         * stats using an inherited function from SaveCheck.
+         */
         Intent myIntent = getIntent();
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").fallbackToDestructiveMigration().build();
@@ -75,7 +67,13 @@ public class DeleteRound extends SaveCheck {
     }
     @Override
     public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry) {
-        // First we have to parse the strings into 18 groups.
+        /*
+         * This function is called by an inherited function from ScoreCheck.
+         * Updates the total stats by deleting the stats from the totals.
+         *
+         * TODO: The string parsing code here is kinda messy.  Figure out a way to store them differently.
+         */
+
         int i = 0, j = 0, k = 0, l = 0, m = 0;
         int i2, j2, k2, l2, m2;
         int totalPutts = 0;

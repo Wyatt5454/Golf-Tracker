@@ -1,13 +1,11 @@
 package com.example.wyattfraley.golftracker;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
+/*
+ * Not used anymore.  But could be used later for a database interaction.
+ */
 public class GolfCourse {
     String Name;
     int NumHoles;
