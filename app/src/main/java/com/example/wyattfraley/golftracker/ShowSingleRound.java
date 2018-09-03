@@ -42,10 +42,8 @@ public class ShowSingleRound  extends AppCompatActivity{
         girTotal = 0;
 
         overallStats = findViewById(R.id.overallStats);
-        overallStats.setBackgroundColor(Color.WHITE);
 
         holeStats = findViewById(R.id.holeStats);
-        holeStats.setBackgroundColor(Color.WHITE);
 
         scores = InitializeScores();
         LoadScores(myEntry);
@@ -489,16 +487,21 @@ public class ShowSingleRound  extends AppCompatActivity{
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        overallInfo += "Final Score: " + finalScore + "\n";
-        overallInfo += "Net Score: " + Integer.toString(Integer.parseInt(finalScore) - 72) + "\n\n";
-        overallInfo += "Total putts: " + puttsTotal + "\n";
-        overallInfo += "Putts Per Hole: " + Float.toString((float)puttsTotal / 18) + "\n\n";
+        overallInfo += " Final Score: " + finalScore + "\n";
+        overallInfo += " Net Score: ";
+        int score = Integer.parseInt(finalScore) - 72;
+        if (score > 0) {
+            overallInfo += "+";
+        }
+        overallInfo += Integer.toString(score) + "\n\n";
+        overallInfo += " Total putts: " + puttsTotal + "\n";
+        overallInfo += " Putts Per Hole: " + dF.format((float)puttsTotal / 18) + "\n\n";
 
         float fairwayPercentage = ((float)fairwayTotal / 14) * 100;
         float girPercentage = ((float)girTotal / 18) * 100;
 
-        overallInfo += "Fairways hit: " + dF.format(fairwayPercentage) + "%\n";
-        overallInfo += "Greens hit: " + dF.format(girPercentage) + "%";
+        overallInfo += " Fairways hit: " + dF.format(fairwayPercentage) + "%\n";
+        overallInfo += " Greens hit: " + dF.format(girPercentage) + "%";
 
         overallStats.setText(overallInfo);
     }
@@ -508,24 +511,23 @@ public class ShowSingleRound  extends AppCompatActivity{
          */
         String individualInfo = new String();
 
-        individualInfo += "Par: " + currentHole.par + "\n";
-        individualInfo += "Score: " + currentHole.strokes + "\n";
-        individualInfo += "Putts: " + currentHole.putts + "\n\n";
+        individualInfo += " Par: " + currentHole.par + "\n";
+        individualInfo += " Score: " + currentHole.strokes + "\n";
+        individualInfo += " Putts: " + currentHole.putts + "\n\n";
 
         if (currentHole.getFairway() == 1) {
-            individualInfo += "You hit the fairway.\n";
+            individualInfo += " " + getString(R.string.hit_fairway);
         }
         else if (currentHole.par != 3){
-            individualInfo += "You missed the fairway.\n";
+            individualInfo += " " + getString(R.string.miss_fairway);
         }
         if (currentHole.getGreenInRegulation() == 1) {
-            individualInfo += "You were on the green in regulation.";
+            individualInfo += " " + getString(R.string.hit_green);
         }
         else {
-            individualInfo += "You missed the green in regulation.";
+            individualInfo += " " + getString(R.string.miss_green);
         }
 
         holeStats.setText(individualInfo);
     }
-
 }

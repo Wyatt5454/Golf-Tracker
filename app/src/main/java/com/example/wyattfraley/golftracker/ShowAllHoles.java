@@ -169,16 +169,16 @@ public class ShowAllHoles extends AppCompatActivity {
 
 
             String statsToAdd = new String();
-            statsToAdd += "Average score: " + dF.format(holeStats.strokes / stats.totalRounds) + "\n";
-            statsToAdd += "Average putts: " + dF.format(holeStats.putts / stats.totalRounds) + "\n\n";
+            statsToAdd += " Average score: " + dF.format(holeStats.strokes / stats.totalRounds) + "\n";
+            statsToAdd += " Average putts: " + dF.format(holeStats.putts / stats.totalRounds) + "\n\n";
 
             if (i != 1 && i != 5 && i != 13 && i != 16) {
                 float fairwayPercentage = ((float)holeStats.fairway / (float)stats.totalRounds) * 100;
-                statsToAdd += "Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
+                statsToAdd += " Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
             }
 
             float girPercentage = ((float)holeStats.greenInRegulation / (float)stats.totalRounds) * 100;
-            statsToAdd += "GIR Percentage: " + dF.format(girPercentage) + "%";
+            statsToAdd += " GIR Percentage: " + dF.format(girPercentage) + "%";
 
             textViews.get(i).setText(statsToAdd);
         }
@@ -223,9 +223,9 @@ public class ShowAllHoles extends AppCompatActivity {
         par5 /= 4;
 
         String toAdd = new String();
-        toAdd += "Average par 3 Score: " + dF.format(par3) + "\n";
-        toAdd += "Average par 4 Score: " + dF.format(par4) + "\n";
-        toAdd += "Average par 5 Score: " + dF.format(par5) + "\n";
+        toAdd += " Average par 3 Score: " + dF.format(par3) + "\n";
+        toAdd += " Average par 4 Score: " + dF.format(par4) + "\n";
+        toAdd += " Average par 5 Score: " + dF.format(par5);
 
         mainText.setText(toAdd);
     }

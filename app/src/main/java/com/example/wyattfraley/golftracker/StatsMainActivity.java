@@ -110,15 +110,15 @@ public class StatsMainActivity extends AppCompatActivity {
 
         String toDisplay = new String();
         if (stats.totalRounds > 0) {
-            toDisplay += "Average Overall Statistics\n\n";
-            toDisplay += "Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
-            toDisplay += "Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
-            toDisplay += "Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds)) + "\n\n";
+            toDisplay += " Average Overall Statistics\n\n";
+            toDisplay += " Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
+            toDisplay += " Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
+            toDisplay += " Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds)) + "\n\n";
 
             fairwayPercentage = ((float)stats.totalFairway / ((float)stats.totalRounds * 14)) * 100;
             girPercentage = ((float)stats.totalGIR / ((float)stats.totalRounds * 18)) * 100;
-            toDisplay += "Fairway in Regulation: " + dF.format(fairwayPercentage) + "%\n";
-            toDisplay += "Green in Regulation: " + dF.format(girPercentage) + "%";
+            toDisplay += " Fairway in Regulation: " + dF.format(fairwayPercentage) + "%\n";
+            toDisplay += " Green in Regulation: " + dF.format(girPercentage) + "%";
         }
         else {
             toDisplay += "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";

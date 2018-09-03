@@ -339,11 +339,11 @@
 
     <TextView
         android:id="@+id/holeStats"
-        android:layout_width="224dp"
+        style="@style/stats_text_style"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:text="Select a hole for more data."
-        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -352,11 +352,11 @@
 
     <TextView
         android:id="@+id/overallStats"
-        android:layout_width="187dp"
+        style="@style/stats_text_style"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Show the data for the round"
-        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

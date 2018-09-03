@@ -66,9 +66,14 @@
 
     <style name="hole_text_stats_style">
         <item name="android:background">@drawable/hole_stats_text</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <style name="stats_text_style">
+        <item name="android:background">@drawable/stats_back</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 </resources>

@@ -23,11 +23,10 @@
 
             <TextView
                 android:id="@+id/overallHoleStats"
-                android:background="#FFFFFF"
+                style="@style/stats_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:text="To be filled with interesting hole stats."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
