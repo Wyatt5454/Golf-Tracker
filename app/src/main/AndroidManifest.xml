@@ -45,12 +45,6 @@
             android:parentActivityName=".ShowSingleRound"
             android:theme="@style/AppTheme.PopStyle"/>
 
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

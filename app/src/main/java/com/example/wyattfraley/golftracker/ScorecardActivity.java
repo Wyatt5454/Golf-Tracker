@@ -1,6 +1,7 @@
 package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -87,8 +88,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(1 * 1000)        // 1 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                .setInterval(3 * 1000)        // 3 seconds, in milliseconds
+                .setFastestInterval(3 * 1000); // 3 second, in milliseconds
     }
 
     @Override
@@ -186,7 +187,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         distance = location.distanceTo(currentHole.locationData.front);
         toDisplay = String.format("%d yds to front", (int)(distance * 1.09361));
         toFront.setText(toDisplay);
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -382,10 +382,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          */
         scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
+        score1.setNumber(1);
         score1.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score1;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -393,10 +394,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score1);
         final Score score2 = new Score((TextView)findViewById(R.id.tv12));
+        score2.setNumber(2);
         score2.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score2;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.GONE);
@@ -404,10 +406,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score2);
         final Score score3 = new Score((TextView)findViewById(R.id.tv13));
+        score3.setNumber(3);
         score3.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score3;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -415,10 +418,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score3);
         final Score score4 = new Score((TextView)findViewById(R.id.tv14));
+        score4.setNumber(4);
         score4.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score4;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -426,10 +430,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score4);
         final Score score5 = new Score((TextView)findViewById(R.id.tv15));
+        score5.setNumber(5);
         score5.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score5;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -437,10 +442,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score5);
         final Score score6 = new Score((TextView)findViewById(R.id.tv16));
+        score6.setNumber(6);
         score6.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score6;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.GONE);
@@ -448,10 +454,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score6);
         final Score score7 = new Score((TextView)findViewById(R.id.tv17));
+        score7.setNumber(7);
         score7.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score7;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -459,10 +466,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score7);
         final Score score8 = new Score((TextView)findViewById(R.id.tv18));
+        score8.setNumber(8);
         score8.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score8;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -470,10 +478,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score8);
         final Score score9 = new Score((TextView)findViewById(R.id.tv19));
+        score9.setNumber(9);
         score9.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score9;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -481,10 +490,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score9);
         final Score score10 = new Score((TextView)findViewById(R.id.tv31));
+        score10.setNumber(10);
         score10.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score10;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -492,10 +502,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score10);
         final Score score11 = new Score((TextView)findViewById(R.id.tv32));
+        score11.setNumber(11);
         score11.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score11;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -503,10 +514,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score11);
         final Score score12 = new Score((TextView)findViewById(R.id.tv33));
+        score12.setNumber(12);
         score12.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score12;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -514,10 +526,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score12);
         final Score score13 = new Score((TextView)findViewById(R.id.tv34));
+        score13.setNumber(13);
         score13.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score13;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -525,10 +538,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score13);
         final Score score14 = new Score((TextView)findViewById(R.id.tv35));
+        score14.setNumber(14);
         score14.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score14;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.GONE);
@@ -536,10 +550,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score14);
         final Score score15 = new Score((TextView)findViewById(R.id.tv36));
+        score15.setNumber(15);
         score15.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score15;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -547,10 +562,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score15);
         final Score score16 = new Score((TextView)findViewById(R.id.tv37));
+        score16.setNumber(16);
         score16.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score16;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -558,10 +574,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score16);
         final Score score17 = new Score((TextView)findViewById(R.id.tv38));
+        score17.setNumber(17);
         score17.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score17;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.GONE);
@@ -569,10 +586,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         });
         scores.add(score17);
         final Score score18 = new Score((TextView)findViewById(R.id.tv39));
+        score18.setNumber(18);
         score18.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score18;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 fairwayCheck.setVisibility(View.VISIBLE);
@@ -585,79 +603,32 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
 
     public void NextHole(View v) {
-        // First we have to check what kind of score it is
-        // and show its relation to par.
-        MarkScore(v);
 
-        for (int i = 0; i < scores.size(); i++) {
-            if (currentHole == scores.get(i)) {
-                if (i < scores.size() - 1) {
-                    currentHole = scores.get(i + 1);
-                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
-                    if (currentHole.par == 3) {
-                        fairwayCheck.setVisibility(View.GONE);
-                    }
-                    else {
-                        fairwayCheck.setVisibility(View.VISIBLE);
-                    }
-                    if (currentHole.sand == 0) {
-                        sandCheck.setChecked(false);
-                    }
-                    else {
-                        sandCheck.setChecked(true);
-                    }
-                    if (currentHole.fairway == 0) {
-                        fairwayCheck.setChecked(false);
-                    }
-                    else {
-                        fairwayCheck.setChecked(true);
-                    }
-                }
-                else {
-                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
-                }
-                break;
-            }
+        // Since the hole numbers are indexed at 1 instead of 0
+        // grabbing the score at the hole number is the one after
+        // the current hole.
+        int holeNumber = currentHole.number;
+        if (holeNumber < 18) {
+            MarkScore();
+            currentHole = scores.get(holeNumber);
+            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            SetBoxes();
         }
     }
     public void PrevHole(View v) {
-        // First we have to check what kind of score it is
-        // and show its relation to par.
-        MarkScore(v);
 
-
-        for (int i = 0; i < scores.size(); i++) {
-            if (currentHole == scores.get(i)) {
-                if (i > 0) {
-                    currentHole = scores.get(i - 1);
-                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
-                    if (currentHole.par == 3) {
-                        fairwayCheck.setVisibility(View.GONE);
-                    }
-                    else {
-                        fairwayCheck.setVisibility(View.VISIBLE);
-                    }
-                    if (currentHole.sand == 0) {
-                        sandCheck.setChecked(false);
-                    }
-                    else {
-                        sandCheck.setChecked(true);
-                    }
-                    if (currentHole.fairway == 0) {
-                        fairwayCheck.setChecked(false);
-                    }
-                    else {
-                        fairwayCheck.setChecked(true);
-                    }
-                }
-                else {
-                    currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
-                }
-                break;
-            }
+        // Since the hole numbers are indexed at 1 instead of 0
+        // grabbing the score at the hole number is the one after
+        // the current hole.
+        int holeNumber = currentHole.number;
+        if (holeNumber > 1) {
+            MarkScore();
+            currentHole = scores.get(holeNumber - 2);
+            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            SetBoxes();
         }
     }
-    public void MarkScore(View v){
+    public void MarkScore(){
         // This function is responsible for altering the look of the score
         // in the hole textbox. Double circle for eagle or better, single
         // circle for birdie, nothing for par, single square for bogey,
@@ -675,11 +646,31 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
 
     }
+    private void SetBoxes() {
+        if (currentHole.par == 3) {
+            fairwayCheck.setVisibility(View.GONE);
+        }
+        else {
+            fairwayCheck.setVisibility(View.VISIBLE);
+        }
+        if (currentHole.sand == 0) {
+            sandCheck.setChecked(false);
+        }
+        else {
+            sandCheck.setChecked(true);
+        }
+        if (currentHole.fairway == 0) {
+            fairwayCheck.setChecked(false);
+        }
+        else {
+            fairwayCheck.setChecked(true);
+        }
+    }
 
     public void AddScore(View v) {
         int intScore;
         currentHole.strokes++;
-        intScore = currentHole.strokes;
+        intScore = currentHole.getStrokes();
         currentHole.hole.setText(Integer.toString(intScore));
         currentHole.actions.push(getString(R.string.stroke));
 
@@ -690,27 +681,28 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             currentHole.setGreenInRegulation(0);
         }
 
-        updateTotals(v);
+        updateTotals(1);
     }
     public void AddPutt(View v) {
         int intScore;
         currentHole.putts++;
         currentHole.strokes++;
-        intScore = currentHole.strokes;
+        intScore = currentHole.getStrokes();
         currentHole.hole.setText(Integer.toString(intScore));
         currentHole.actions.push(getString(R.string.putt));
 
 
-        updateTotals(v);
+        updateTotals(1);
 
     }
+    @SuppressLint("SetTextI18n")
     public void UndoStroke(View v) {
         try {
             String lastAction = currentHole.actions.pop();
-            if (lastAction.equals("putt")) {
+            if (lastAction.equals(getString(R.string.putt))) {
                 currentHole.putts--;
                 currentHole.strokes--;
-            } else if (lastAction.equals("stroke")) {
+            } else if (lastAction.equals(getString(R.string.stroke))) {
                 currentHole.strokes--;
             }
 
@@ -720,12 +712,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             else {
                 currentHole.setGreenInRegulation(0);
             }
+            currentHole.hole.setText(Integer.toString(currentHole.getStrokes()));
+            updateTotals(-1);
         }
-        catch (EmptyStackException e) {
+        catch (EmptyStackException e) { }
 
-        }
-        currentHole.hole.setText(Integer.toString(currentHole.strokes));
-        updateTotals(v);
     }
     public void SandChecked(View v) {
         if (sandCheck.isChecked()) {
@@ -744,45 +735,43 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
-    private void updateTotals(View v) {
+    private void updateTotals(int change) {
         /*
          * Updates the score boxes for each nine holes.
          * Used whenever a score box is changed.
          */
         TextView ninth = findViewById(R.id.tv20);
         TextView eighteenth = findViewById(R.id.tv40);
-        Score current;
-        int ninthS = 0;
-        int eighteenthS = 0;
-        String score;
-        int intScore;
+        String text;
+        int current;
 
-        for (int i = 0; i < 9; i++) {
-            current = scores.get(i);
-            score = (String)current.hole.getText();
-
-            if (score.isEmpty()){
-                intScore = 0;
+        if (change == 1) {
+            if (currentHole.number < 10) {
+                text = (String)ninth.getText();
+                current = Integer.parseInt(text);
+                current++;
+                ninth.setText(Integer.toString(current));
             }
             else {
-                intScore = Integer.parseInt(score);
+                text = (String)eighteenth.getText();
+                current = Integer.parseInt(text);
+                current++;
+                eighteenth.setText(Integer.toString(current));
             }
-            ninthS += intScore;
         }
-        ninth.setText(Integer.toString(ninthS));
-
-        for (int i = 9; i < 18; i++) {
-            current = scores.get(i);
-            score = (String)current.hole.getText();
-
-            if (score.isEmpty()){
-                intScore = 0;
+        else {
+            if (currentHole.number < 10) {
+                text = (String)ninth.getText();
+                current = Integer.parseInt(text);
+                current--;
+                ninth.setText(Integer.toString(current));
             }
             else {
-                intScore = Integer.parseInt(score);
+                text = (String)eighteenth.getText();
+                current = Integer.parseInt(text);
+                current--;
+                eighteenth.setText(Integer.toString(current));
             }
-            eighteenthS += intScore;
         }
-        eighteenth.setText(Integer.toString(eighteenthS));
     }
 }

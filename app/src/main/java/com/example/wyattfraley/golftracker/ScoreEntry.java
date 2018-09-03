@@ -2,6 +2,7 @@ package com.example.wyattfraley.golftracker;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ public class ScoreEntry implements Serializable{
     @ColumnInfo(name = "finalscore")
     private String finalScore;
 
+    @Ignore
     ScoreEntry(String uId, String strokes, String putts, String sand, String fairway, String greenInRegulation, String finalScore) {
         setUId(uId);
         setStrokes(strokes);
