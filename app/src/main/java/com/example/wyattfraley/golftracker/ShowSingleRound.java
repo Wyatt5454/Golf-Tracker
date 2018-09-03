@@ -28,7 +28,6 @@ public class ShowSingleRound  extends AppCompatActivity{
     int fairwayTotal;
     int girTotal;
     String finalScore;
-    String uid;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -66,6 +65,10 @@ public class ShowSingleRound  extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+         * Starts the delete round activity when the menu button
+         * is clicked, or quits if the back button is pressed.
+         */
         int id = item.getItemId();
 
         if (id == R.id.delete_menu) {
@@ -77,13 +80,13 @@ public class ShowSingleRound  extends AppCompatActivity{
             finish();
         }
 
-
-
         return true;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        /*
+         * Checks to see if the round was deleted, and quits out if it was.
+         */
         if (requestCode == 99) {
             if (resultCode == RESULT_OK) {
                 setResult(RESULT_OK, null);
@@ -93,6 +96,11 @@ public class ShowSingleRound  extends AppCompatActivity{
     }
 
     public List<Score> InitializeScores() {
+        /*
+         * Sets on click listeners for all the text boxes, so the
+         * stats boxes will display the proper info for the
+         * selected hole.
+         */
         scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
         score1.hole.setOnClickListener(new View.OnClickListener() {
@@ -298,6 +306,9 @@ public class ShowSingleRound  extends AppCompatActivity{
         return scores;
     }
     public List<Integer> InitializePars() {
+        /*
+         * Assigns a par to each hole.
+         */
         List<Integer> pars = new ArrayList<>();
         pars.add(5);
         pars.add(3);
@@ -322,6 +333,11 @@ public class ShowSingleRound  extends AppCompatActivity{
     }
 
     public void LoadScores(ScoreEntry myEntry) {
+        /*
+         * Parses the round data into each individual hole
+         * and makes the text box appropriately.  Also adds
+         * up all the totals for the round.
+         */
         // First we have to parse the strings into 18 groups.
         int i = 0, j = 0, k = 0, l = 0, m = 0;
         int i2, j2, k2, l2, m2;
@@ -428,10 +444,12 @@ public class ShowSingleRound  extends AppCompatActivity{
     }
 
     public void MarkScore(View v){
-        // This function is responsible for altering the look of the score
-        // in the hole textbox. Double circle for eagle or better, single
-        // circle for birdie, nothing for par, single square for bogey,
-        // and double square for double bogey or worse.
+        /*
+         * This function is responsible for altering the look of the score
+         * in the hole text box. Double circle for eagle or better, single
+         * circle for birdie, nothing for par, single square for bogey,
+         * and double square for double bogey or worse.
+         */
 
         if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
             currentHole.hole.setBackground(getDrawable(R.drawable.holeback));
@@ -446,10 +464,9 @@ public class ShowSingleRound  extends AppCompatActivity{
 
     }
     public void MarkScoreSpecific(Score specificHole) {
-        // This function is responsible for altering the look of the score
-        // in the hole textbox. Double circle for eagle or better, single
-        // circle for birdie, nothing for par, single square for bogey,
-        // and double square for double bogey or worse.
+        /*
+         * Same as MarkScore, but for a specific hole.
+         */
 
         if (specificHole.strokes == 0 || specificHole.strokes == specificHole.par)
             specificHole.hole.setBackground(getDrawable(R.drawable.holeback));
@@ -462,19 +479,11 @@ public class ShowSingleRound  extends AppCompatActivity{
         else if (specificHole.strokes >= specificHole.par + 2)
             specificHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
     }
-    public void SetScoreData(Score currentHole, String mPutt, String mSand, String mStroke, List<Integer> pars, Integer l) {
-        currentHole.setPutts(Integer.parseInt(mPutt));
-        currentHole.setSand(Integer.parseInt(mSand));
-        currentHole.setPar(pars.get(l - 1));
-        currentHole.hole.setText(mStroke);
-        MarkScoreSpecific(currentHole);
-    }
 
     public void SetOverallTextBox() {
         /*
          * Sets the main text box with the main
-         * statistics related to this
-         * particular round.
+         * statistics related to this particular round.
          */
         String overallInfo = new String();
         DecimalFormat dF = new DecimalFormat("##.##");
