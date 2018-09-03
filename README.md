@@ -23,24 +23,22 @@ The checkbox icon in the action bar will prompt the user if they want to save a 
 
 Here is where the average overall statistics are displayed.  For a golfer this will be essessentially the assessment of how good they are as a player.  These averages are tracked with a file saved to internal storage using a serialized data object.  This activity holds two more buttons for more detailed statistics.
 
-<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-120403.png" width="250">
+<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180903-093844.png" width="250">
 
 
 ## Look at old rounds
 
 Here the user can go back and look at how they did on past rounds.  You can see the score, fairway and green in regulation percentages, putts, and sand shots on each hole.  Select a hole to get statistics for that hole specifically.
 
-<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-120409.png" width="250">
-
-<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-120418.png" width="250">
+<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180903-093855.png" width="250">
 
 ## Track statistics hole by hole
 
 On this page users are able to see how they do on each individual hole over time.  These stats are meant to show the user what holes they need to improve on, and which ones they can count on for low scores.  More detailed statistics will be added.
 
-<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-120444.png" width="250">
+<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180903-093909.png" width="250">
 
-<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-121722.png" width="250">
+<img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180903-093930.png" width="250">
 
 
 ## Future work
