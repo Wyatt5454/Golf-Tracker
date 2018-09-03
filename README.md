@@ -5,7 +5,7 @@
  
  Here is the title screen
  
- <img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180823-120143.png" width="250">
+ <img src="https://github.com/Wyatt54/Golf-Tracker/blob/master/Pictures%20for%20Readme/Screenshot_20180903-073830.png" width="250">
 
 
 ## Scorecard Activity
