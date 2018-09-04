@@ -2,6 +2,13 @@
     <string name="app_name">GolfTracker</string>
     <string name="putt">putt</string>
     <string name="stroke">stroke</string>
+    <string name="next">Next Hole</string>
+    <string name="previous">Prev Hole</string>
+    <string name="undo">Undo</string>
+    <string name="putt_up">Putt+</string>
+    <string name="stroke_up">Stroke+</string>
+    <string name="fairway">Fairway</string>
+    <string name="sand">Sand</string>
     <string name="title_activity_maps">Map</string>
     <string name="hole_one">1\n5</string>
     <string name="hole_two">2\n3</string>
@@ -27,4 +34,5 @@
     <string name="hit_fairway">You hit the fairway.\n</string>
     <string name="hit_green">You were on the green in regulation.</string>
     <string name="miss_green">You missed the green in regulation.</string>
+    <string name="select_hole">Select a hole for more data.</string>
 </resources>

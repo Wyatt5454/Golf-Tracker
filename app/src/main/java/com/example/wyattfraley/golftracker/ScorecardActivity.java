@@ -236,7 +236,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 99) {
             if (resultCode == RESULT_OK) {
                 this.finish();
@@ -277,74 +276,70 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         TextView textView;
 
 
-        InitializeSingleHole(R.id.tv1, R.string.hole_one, 0, 5, R.dimen.one_front_lat,
+        InitializeSingleHole(R.id.tv1, 0, 5, R.dimen.one_front_lat,
                 R.dimen.one_front_long, R.dimen.one_middle_lat, R.dimen.one_middle_long,
                 R.dimen.one_back_lat, R.dimen.one_back_long);
-        InitializeSingleHole(R.id.tv2, R.string.hole_two, 1, 3, R.dimen.two_front_lat,
+        InitializeSingleHole(R.id.tv2, 1, 3, R.dimen.two_front_lat,
                 R.dimen.two_front_long, R.dimen.two_middle_lat, R.dimen.two_middle_long,
                 R.dimen.two_back_lat, R.dimen.two_back_long);
-        InitializeSingleHole(R.id.tv3, R.string.hole_three, 2, 4, R.dimen.three_front_lat,
+        InitializeSingleHole(R.id.tv3, 2, 4, R.dimen.three_front_lat,
                 R.dimen.three_front_long, R.dimen.three_middle_lat, R.dimen.three_middle_long,
                 R.dimen.three_back_lat, R.dimen.three_back_long);
-        InitializeSingleHole(R.id.tv4, R.string.hole_four, 3, 4, R.dimen.four_front_lat,
+        InitializeSingleHole(R.id.tv4, 3, 4, R.dimen.four_front_lat,
                 R.dimen.four_front_long, R.dimen.four_middle_lat, R.dimen.four_middle_long,
                 R.dimen.four_back_lat, R.dimen.four_back_long);
-        InitializeSingleHole(R.id.tv5, R.string.hole_five, 4, 4, R.dimen.five_front_lat,
+        InitializeSingleHole(R.id.tv5, 4, 4, R.dimen.five_front_lat,
                 R.dimen.five_front_long, R.dimen.five_middle_lat, R.dimen.five_middle_long,
                 R.dimen.five_back_lat, R.dimen.five_back_long);
-        InitializeSingleHole(R.id.tv6, R.string.hole_six, 5, 3, R.dimen.six_front_lat,
+        InitializeSingleHole(R.id.tv6, 5, 3, R.dimen.six_front_lat,
                 R.dimen.six_front_long, R.dimen.six_middle_lat, R.dimen.six_middle_long,
                 R.dimen.six_back_lat, R.dimen.six_back_long);
-        InitializeSingleHole(R.id.tv7, R.string.hole_seven, 6, 5, R.dimen.seven_front_lat,
+        InitializeSingleHole(R.id.tv7, 6, 5, R.dimen.seven_front_lat,
                 R.dimen.seven_front_long, R.dimen.seven_middle_lat, R.dimen.seven_middle_long,
                 R.dimen.seven_back_lat, R.dimen.seven_back_long);
-        InitializeSingleHole(R.id.tv8, R.string.hole_eight, 7, 4, R.dimen.eight_front_lat,
+        InitializeSingleHole(R.id.tv8, 7, 4, R.dimen.eight_front_lat,
                 R.dimen.eight_front_long, R.dimen.eight_middle_lat, R.dimen.eight_middle_long,
                 R.dimen.eight_back_lat, R.dimen.eight_back_long);
-        InitializeSingleHole(R.id.tv9, R.string.hole_nine, 8, 4, R.dimen.nine_front_lat,
+        InitializeSingleHole(R.id.tv9, 8, 4, R.dimen.nine_front_lat,
                 R.dimen.nine_front_long, R.dimen.nine_middle_lat, R.dimen.nine_middle_long,
                 R.dimen.nine_back_lat, R.dimen.nine_back_long);
 
         textView = findViewById(R.id.tv10);
-        textView.setText(R.string.hole_out);
-        textView.setTextColor(Color.WHITE);
         textHoles.add(textView);
 
-        InitializeSingleHole(R.id.tv21, R.string.hole_ten, 9, 5, R.dimen.ten_front_lat,
+        InitializeSingleHole(R.id.tv21, 9, 5, R.dimen.ten_front_lat,
                 R.dimen.ten_front_long, R.dimen.ten_middle_lat, R.dimen.ten_middle_long,
                 R.dimen.ten_back_lat, R.dimen.ten_back_long);
-        InitializeSingleHole(R.id.tv22, R.string.hole_eleven, 10, 4, R.dimen.eleven_front_lat,
+        InitializeSingleHole(R.id.tv22, 10, 4, R.dimen.eleven_front_lat,
                 R.dimen.eleven_front_long, R.dimen.eleven_middle_lat, R.dimen.eleven_middle_long,
                 R.dimen.eleven_back_lat, R.dimen.eleven_back_long);
-        InitializeSingleHole(R.id.tv23, R.string.hole_twelve, 11, 4, R.dimen.twelve_front_lat,
+        InitializeSingleHole(R.id.tv23, 11, 4, R.dimen.twelve_front_lat,
                 R.dimen.twelve_front_long, R.dimen.twelve_middle_lat, R.dimen.twelve_middle_long,
                 R.dimen.twelve_back_lat, R.dimen.twelve_back_long);
-        InitializeSingleHole(R.id.tv24, R.string.hole_thirteen, 12, 5, R.dimen.thirteen_front_lat,
+        InitializeSingleHole(R.id.tv24, 12, 5, R.dimen.thirteen_front_lat,
                 R.dimen.thirteen_front_long, R.dimen.thirteen_middle_lat, R.dimen.thirteen_middle_long,
                 R.dimen.thirteen_back_lat, R.dimen.thirteen_back_long);
-        InitializeSingleHole(R.id.tv25, R.string.hole_fourteen, 13, 3, R.dimen.fourteen_front_lat,
+        InitializeSingleHole(R.id.tv25, 13, 3, R.dimen.fourteen_front_lat,
                 R.dimen.fourteen_front_long, R.dimen.fourteen_middle_lat, R.dimen.fourteen_middle_long,
                 R.dimen.fourteen_back_lat, R.dimen.fourteen_back_long);
-        InitializeSingleHole(R.id.tv26, R.string.hole_fifteen, 14, 4, R.dimen.fifteen_front_lat,
+        InitializeSingleHole(R.id.tv26, 14, 4, R.dimen.fifteen_front_lat,
                 R.dimen.fifteen_front_long, R.dimen.fifteen_middle_lat, R.dimen.fifteen_middle_long,
                 R.dimen.fifteen_back_lat, R.dimen.fifteen_back_long);
-        InitializeSingleHole(R.id.tv27, R.string.hole_sixteen, 15, 4, R.dimen.sixteen_front_lat,
+        InitializeSingleHole(R.id.tv27, 15, 4, R.dimen.sixteen_front_lat,
                 R.dimen.sixteen_front_long, R.dimen.sixteen_middle_lat, R.dimen.sixteen_middle_long,
                 R.dimen.sixteen_back_lat, R.dimen.sixteen_back_long);
-        InitializeSingleHole(R.id.tv28, R.string.hole_seventeen, 16, 3, R.dimen.seventeen_front_lat,
+        InitializeSingleHole(R.id.tv28, 16, 3, R.dimen.seventeen_front_lat,
                 R.dimen.seventeen_front_long, R.dimen.seventeen_middle_lat, R.dimen.seventeen_middle_long,
                 R.dimen.seventeen_back_lat, R.dimen.seventeen_back_long);
-        InitializeSingleHole(R.id.tv29, R.string.hole_eighteen, 17, 4, R.dimen.eighteen_front_lat,
+        InitializeSingleHole(R.id.tv29, 17, 4, R.dimen.eighteen_front_lat,
                 R.dimen.eighteen_front_long, R.dimen.eighteen_middle_lat, R.dimen.eighteen_middle_long,
                 R.dimen.eighteen_back_lat, R.dimen.eighteen_back_long);
 
 
         textView = findViewById(R.id.tv30);
-        textView.setText(R.string.hole_in);
-        textView.setTextColor(Color.WHITE);
         textHoles.add(textView);
     }
-    private void InitializeSingleHole(Integer viewID, Integer holeText, Integer scoreToGet, Integer par,
+    private void InitializeSingleHole(Integer viewID, Integer scoreToGet, Integer par,
                                       Integer frontLatID, Integer frontLongID, Integer midLatID, Integer midLongID,
                                       Integer backLatID, Integer backLongID) {
         TypedValue outValue = new TypedValue();
@@ -363,8 +358,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
 
         TextView textView = findViewById(viewID);
-        textView.setText(holeText);
-        textView.setTextColor(Color.WHITE);
+        textHoles.add(textView);
         Score score = scores.get(scoreToGet);
         score.setPar(par);
         score.setNumber(scoreToGet + 1);
@@ -374,7 +368,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         score.locationData.middle.setLongitude(midLong);
         score.locationData.back.setLatitude(backLat);
         score.locationData.back.setLongitude(backLong);
-        textHoles.add(textView);
     }
     public List<Score> InitializeScores() {
         /*
@@ -647,23 +640,27 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
     }
     private void SetBoxes() {
+        /*
+         * Looks at the current hole to see if the fairway and sand
+         * boxes are supposed to be marked, and sets them accordingly
+         */
         if (currentHole.par == 3) {
             fairwayCheck.setVisibility(View.GONE);
         }
         else {
             fairwayCheck.setVisibility(View.VISIBLE);
+            if (currentHole.fairway == 0) {
+                fairwayCheck.setChecked(false);
+            }
+            else {
+                fairwayCheck.setChecked(true);
+            }
         }
         if (currentHole.sand == 0) {
             sandCheck.setChecked(false);
         }
         else {
             sandCheck.setChecked(true);
-        }
-        if (currentHole.fairway == 0) {
-            fairwayCheck.setChecked(false);
-        }
-        else {
-            fairwayCheck.setChecked(true);
         }
     }
 

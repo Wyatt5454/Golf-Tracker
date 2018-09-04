@@ -104,7 +104,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score1.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score1;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -115,7 +115,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score2.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score2;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -126,7 +126,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score3.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score3;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -137,7 +137,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score4.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score4;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -148,7 +148,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score5.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score5;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -159,7 +159,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score6.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score6;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -170,7 +170,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score7.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score7;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -181,7 +181,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score8.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score8;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -192,7 +192,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score9.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score9;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -204,7 +204,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score10.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score10;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -215,7 +215,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score11.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score11;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -226,7 +226,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score12.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score12;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -237,7 +237,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score13.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score13;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -248,7 +248,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score14.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score14;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -259,7 +259,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score15.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score15;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -270,7 +270,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score16.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score16;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -281,7 +281,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score17.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score17;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -292,7 +292,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         score18.hole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarkScore(v);
+                MarkScore();
                 currentHole = score18;
                 currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
                 SetIndividualTextBox();
@@ -441,7 +441,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         mScore.hole.setText(Integer.toString(eighteenth));
     }
 
-    public void MarkScore(View v){
+    public void MarkScore(){
         /*
          * This function is responsible for altering the look of the score
          * in the hole text box. Double circle for eagle or better, single
