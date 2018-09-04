@@ -72,7 +72,7 @@ public class SaveCheck extends Activity {
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V3").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V4").fallbackToDestructiveMigration().build();
 
 
         new AsyncTask<Void, Void, Void>() {
@@ -156,27 +156,24 @@ public class SaveCheck extends Activity {
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
          */
 
-        // First we have to parse the strings into 18 groups.
-        int i = 0, j = 0, k = 0, l = 0, m = 0;
-        int i2, j2, k2, l2, m2;
         int totalPutts = 0;
         int totalSand = 0;
         int totalFairway = 0;
         int totalGir = 0;
 
-        String mStroke;
-        String mPutt;
-        String mSand;
-        String mFairway;
-        String mGir;
+        Integer mStroke;
+        Integer mPutt;
+        Integer mSand;
+        Integer mFairway;
+        Integer mGir;
         TotalHoleStats hole;
 
-        String strokes = myEntry.getStrokes();
-        String putts = myEntry.getPutts();
-        String sand = myEntry.getSand();
-        String fairway = myEntry.getFairway();
-        String gir = myEntry.getGreenInRegulation();
-        String finalScore = myEntry.getFinalScore();
+        ArrayList<Integer> strokes = myEntry.getStrokes();
+        ArrayList<Integer> putts = myEntry.getPutts();
+        ArrayList<Integer> sand = myEntry.getSand();
+        ArrayList<Integer> fairway = myEntry.getFairway();
+        ArrayList<Integer> gir = myEntry.getGreenInRegulation();
+        Integer finalScore = myEntry.getFinalScore();
 
         if (stats.holes.size() == 0) {
             for (int z = 0; z < 18; z++) {
@@ -186,39 +183,23 @@ public class SaveCheck extends Activity {
         }
 
         // This loop parses the data into 18 holes and updates the stats.
-        for (int n = 0; n < 18; n++) {
-            i2 = strokes.indexOf("\n", i);
-            mStroke = strokes.substring(i, i2);
-            i = i2 + 1;
+        for (int i = 0; i < 18; i++) {
+            mStroke = strokes.get(i);
+            mPutt = putts.get(i);
+            mSand = sand.get(i);
+            mFairway = fairway.get(i);
+            mGir = gir.get(i);
 
-            j2 = putts.indexOf("\n", j);
-            mPutt = putts.substring(j, j2);
-            j = j2 + 1;
+            hole = stats.holes.get(i);
+            hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
 
-            k2 = sand.indexOf("\n", k);
-            mSand = sand.substring(k, k2);
-            k = k2 + 1;
-
-            l2 = fairway.indexOf("\n", l);
-            mFairway = fairway.substring(l, l2);
-            l = l2 + 1;
-
-            m2 = gir.indexOf("\n", m);
-            mGir = gir.substring(m, m2);
-            m = m2 + 1;
-
-            hole = stats.holes.get(n);
-            hole.UpdateStats(Integer.parseInt(mStroke), Integer.parseInt(mPutt), Integer.parseInt(mSand),
-                                                    Integer.parseInt(mFairway), Integer.parseInt(mGir));
-
-            totalPutts += Integer.parseInt(mPutt);
-            totalSand += Integer.parseInt(mSand);
-            totalFairway += Integer.parseInt(mFairway);
-            totalGir += Integer.parseInt(mGir);
+            totalPutts += mPutt;
+            totalSand += mSand;
+            totalFairway += mFairway;
+            totalGir += mGir;
         }
 
-        int finalS = Integer.parseInt(finalScore);
-        stats.UpdateTotals(finalS, totalPutts, totalSand, totalFairway, totalGir);
+        stats.UpdateTotals(finalScore, totalPutts, totalSand, totalFairway, totalGir);
     }
     private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
         /*

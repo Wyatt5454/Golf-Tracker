@@ -205,24 +205,24 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             //  Here we create a pop up window asking if they are done with the round and want to save.
             // Have to convert the scores into a savable format
             Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
-            String mStrokes = new String();
-            String mPutts = new String();
-            String mSand = new String();
-            String mFairway = new String();
-            String mGIR = new String();
-            String mFinal;
+            ArrayList<Integer> mStrokes = new ArrayList<>();
+            ArrayList<Integer> mPutts = new ArrayList<>();
+            ArrayList<Integer> mSand = new ArrayList<>();
+            ArrayList<Integer> mFairway = new ArrayList<>();
+            ArrayList<Integer> mGIR = new ArrayList<>();
+            Integer mFinal;
 
             for (int i = 0; i < scores.size(); i++)
             {
-                mStrokes += Integer.toString(scores.get(i).getStrokes()) + "\n";
-                mPutts += Integer.toString(scores.get(i).getPutts()) + "\n";
-                mSand += Integer.toString(scores.get(i).getSand()) + "\n";
-                mFairway += Integer.toString(scores.get(i).getFairway()) + "\n";
-                mGIR += Integer.toString(scores.get(i).getGreenInRegulation()) + "\n";
+                mStrokes.add(scores.get(i).getStrokes());
+                mPutts.add(scores.get(i).getPutts());
+                mSand.add(scores.get(i).getSand());
+                mFairway.add(scores.get(i).getFairway());
+                mGIR.add(scores.get(i).getGreenInRegulation());
             }
             TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
-            mFinal = Integer.toString(Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString()));
+            mFinal = Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString());
 
             String uId = Calendar.getInstance().getTime().toString();
             ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mSand, mFairway, mGIR, mFinal);

@@ -27,7 +27,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int sandTotal;
     int fairwayTotal;
     int girTotal;
-    String finalScore;
+    int finalScore;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -336,109 +336,77 @@ public class ShowSingleRound  extends AppCompatActivity{
          * and makes the text box appropriately.  Also adds
          * up all the totals for the round.
          */
-        // First we have to parse the strings into 18 groups.
-        int i = 0, j = 0, k = 0, l = 0, m = 0;
-        int i2, j2, k2, l2, m2;
 
-        String mStroke;
-        String mPutt;
-        String mSand;
-        String mFairway;
-        String mGir;
-        int ninth = 0;
-        int eighteenth = 0;
+        Integer mStroke;
+        Integer mPutt;
+        Integer mSand;
+        Integer mFairway;
+        Integer mGir;
+        int afterNine = 0;
 
-        String strokes = myEntry.getStrokes();
-        String putts = myEntry.getPutts();
-        String sand = myEntry.getSand();
-        String fairway = myEntry.getFairway();
-        String gir = myEntry.getGreenInRegulation();
+        ArrayList<Integer> strokes = myEntry.getStrokes();
+        ArrayList<Integer> putts = myEntry.getPutts();
+        ArrayList<Integer> sand = myEntry.getSand();
+        ArrayList<Integer> fairway = myEntry.getFairway();
+        ArrayList<Integer> gir = myEntry.getGreenInRegulation();
+        Integer finalScore = myEntry.getFinalScore();
         List<Integer> pars = InitializePars();
         Score mScore;
 
 
-        for (int n = 0; n < 9; n++) {
-            i2 = strokes.indexOf("\n", i);
-            mStroke = strokes.substring(i, i2);
-            i = i2 + 1;
+        for (int i = 0; i < 9; i++) {
+            mStroke = strokes.get(i);
+            mPutt = putts.get(i);
+            mSand = sand.get(i);
+            mFairway = fairway.get(i);
+            mGir = gir.get(i);
 
-            j2 = putts.indexOf("\n", j);
-            mPutt = putts.substring(j, j2);
-            j = j2 + 1;
 
-            k2 = sand.indexOf("\n", k);
-            mSand = sand.substring(k, k2);
-            k = k2 + 1;
-
-            l2 = fairway.indexOf("\n", l);
-            mFairway = fairway.substring(l, l2);
-            l = l2 + 1;
-
-            m2 = gir.indexOf("\n", m);
-            mGir = gir.substring(m, m2);
-            m = m2 + 1;
-
-            mScore = scores.get(n);
-            mScore.setPutts(Integer.parseInt(mPutt));
-            mScore.setSand(Integer.parseInt(mSand));
-            mScore.setStrokes(Integer.parseInt(mStroke));
-            mScore.setFairway(Integer.parseInt(mFairway));
-            mScore.setGreenInRegulation(Integer.parseInt(mGir));
-            mScore.setPar(pars.get(n));
+            mScore = scores.get(i);
+            mScore.setPutts(mPutt);
+            mScore.setSand(mSand);
+            mScore.setStrokes(mStroke);
+            mScore.setFairway(mFairway);
+            mScore.setGreenInRegulation(mGir);
+            mScore.setPar(pars.get(i));
             mScore.hole.setText(mStroke);
             MarkScoreSpecific(mScore);
 
-            puttsTotal += Integer.parseInt(mPutt);
-            sandTotal += Integer.parseInt(mSand);
-            fairwayTotal += Integer.parseInt(mFairway);
-            girTotal += Integer.parseInt(mGir);
-            ninth += Integer.parseInt(mStroke);
+            puttsTotal += mPutt;
+            sandTotal += mSand;
+            fairwayTotal += mFairway;
+            girTotal += mGir;
+            afterNine += mStroke;
         }
 
         mScore = scores.get(9);
-        mScore.hole.setText(Integer.toString(ninth));
+        mScore.hole.setText(Integer.toString(afterNine));
 
-        for (int n = 10; n < 19; n++) {
-            i2 = strokes.indexOf("\n", i);
-            mStroke = strokes.substring(i, i2);
-            i = i2 + 1;
+        for (int i = 9; i < 18; i++) {
+            mStroke = strokes.get(i);
+            mPutt = putts.get(i);
+            mSand = sand.get(i);
+            mFairway = fairway.get(i);
+            mGir = gir.get(i);
 
-            j2 = putts.indexOf("\n", j);
-            mPutt = putts.substring(j, j2);
-            j = j2 + 1;
-
-            k2 = sand.indexOf("\n", k);
-            mSand = sand.substring(k, k2);
-            k = k2 + 1;
-
-            l2 = fairway.indexOf("\n", l);
-            mFairway = fairway.substring(l, l2);
-            l = l2 + 1;
-
-            m2 = gir.indexOf("\n", m);
-            mGir = gir.substring(m, m2);
-            m = m2 + 1;
-
-            mScore = scores.get(n);
-            mScore.setPutts(Integer.parseInt(mPutt));
-            mScore.setSand(Integer.parseInt(mSand));
-            mScore.setStrokes(Integer.parseInt(mStroke));
-            mScore.setFairway(Integer.parseInt(mFairway));
-            mScore.setGreenInRegulation(Integer.parseInt(mGir));
-            mScore.setPar(pars.get(n - 1));
+            mScore = scores.get(i + 1);
+            mScore.setPutts(mPutt);
+            mScore.setSand(mSand);
+            mScore.setStrokes(mStroke);
+            mScore.setFairway(mFairway);
+            mScore.setGreenInRegulation(mGir);
+            mScore.setPar(pars.get(i));
             mScore.hole.setText(mStroke);
             MarkScoreSpecific(mScore);
 
-            puttsTotal += Integer.parseInt(mPutt);
-            sandTotal += Integer.parseInt(mSand);
-            fairwayTotal += Integer.parseInt(mFairway);
-            girTotal += Integer.parseInt(mGir);
-
-            eighteenth += Integer.parseInt(mStroke);
+            puttsTotal += mPutt;
+            sandTotal += mSand;
+            fairwayTotal += mFairway;
+            girTotal += mGir;
         }
 
         mScore = scores.get(19);
-        mScore.hole.setText(Integer.toString(eighteenth));
+        mScore.hole.setText(Integer.toString(finalScore));
     }
 
     public void MarkScore(){
@@ -489,7 +457,7 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         overallInfo += " Final Score: " + finalScore + "\n";
         overallInfo += " Net Score: ";
-        int score = Integer.parseInt(finalScore) - 72;
+        int score = finalScore - 72;
         if (score > 0) {
             overallInfo += "+";
         }

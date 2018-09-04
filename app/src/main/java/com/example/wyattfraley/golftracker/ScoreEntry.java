@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -18,25 +20,25 @@ public class ScoreEntry implements Serializable{
     private String uId;
 
     @ColumnInfo(name = "strokes")
-    private String strokes;
+    private ArrayList<Integer> strokes;
 
     @ColumnInfo(name = "putts")
-    private String putts;
+    private ArrayList<Integer> putts;
 
     @ColumnInfo(name = "sand")
-    private String sand;
+    private ArrayList<Integer> sand;
 
     @ColumnInfo(name = "fairway")
-    private String fairway;
+    private ArrayList<Integer> fairway;
 
     @ColumnInfo(name = "greenInRegulation")
-    private String greenInRegulation;
+    private ArrayList<Integer> greenInRegulation;
 
     @ColumnInfo(name = "finalscore")
-    private String finalScore;
+    private Integer finalScore;
 
     @Ignore
-    ScoreEntry(String uId, String strokes, String putts, String sand, String fairway, String greenInRegulation, String finalScore) {
+    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore) {
         setUId(uId);
         setStrokes(strokes);
         setPutts(putts);
@@ -52,41 +54,41 @@ public class ScoreEntry implements Serializable{
         uId = NUid;
     }
 
-    public String getStrokes() {
+    public ArrayList<Integer> getStrokes() {
         return strokes;
     }
-    public void setStrokes(String NStrokes) {
+    public void setStrokes(ArrayList<Integer> NStrokes) {
         strokes = NStrokes;
     }
 
-    public String getPutts() {
+    public ArrayList<Integer> getPutts() {
         return putts;
     }
-    public void setPutts(String NPutts) {
+    public void setPutts(ArrayList<Integer> NPutts) {
         putts = NPutts;
     }
 
-    public String getSand() {
+    public ArrayList<Integer> getSand() {
         return sand;
     }
-    public void setSand(String NSand) {
+    public void setSand(ArrayList<Integer> NSand) {
         sand = NSand;
     }
 
-    public String getFairway() { return fairway; }
-    public void setFairway(String nFairway) {
+    public ArrayList<Integer> getFairway() { return fairway; }
+    public void setFairway(ArrayList<Integer> nFairway) {
         fairway = nFairway;
     }
 
-    public String getGreenInRegulation() {
+    public ArrayList<Integer> getGreenInRegulation() {
         return greenInRegulation;
     }
-    public void setGreenInRegulation(String nGreenInRegulation) {
+    public void setGreenInRegulation(ArrayList<Integer> nGreenInRegulation) {
         greenInRegulation = nGreenInRegulation;
     }
 
-    public String getFinalScore() {
+    public Integer getFinalScore() {
         return finalScore;
     }
-    public void setFinalScore(String aFinal) { finalScore = aFinal; }
+    public void setFinalScore(Integer aFinal) { finalScore = aFinal; }
 }
