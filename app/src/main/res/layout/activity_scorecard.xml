@@ -171,7 +171,8 @@
 
             <TextView
                 android:id="@+id/tv20"
-                style="@style/scorestyle"/>
+                style="@style/scorestyle"
+                android:text="@string/zero"/>
 
         </TableRow>
 
@@ -284,7 +285,8 @@
 
             <TextView
                 android:id="@+id/tv40"
-                style="@style/scorestyle"/>
+                style="@style/scorestyle"
+                android:text="@string/zero"/>
 
 
         </TableRow>

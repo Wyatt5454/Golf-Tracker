@@ -369,7 +369,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.setFairway(mFairway);
             mScore.setGreenInRegulation(mGir);
             mScore.setPar(pars.get(i));
-            mScore.hole.setText(mStroke);
+            mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
 
             puttsTotal += mPutt;
@@ -396,7 +396,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.setFairway(mFairway);
             mScore.setGreenInRegulation(mGir);
             mScore.setPar(pars.get(i));
-            mScore.hole.setText(mStroke);
+            mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
 
             puttsTotal += mPutt;

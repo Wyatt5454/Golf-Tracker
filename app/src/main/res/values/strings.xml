@@ -30,6 +30,7 @@
     <string name="hole_eighteen">18\n4</string>
     <string name="hole_out">Out\n36</string>
     <string name="hole_in">In\n36</string>
+    <string name="zero">0</string>
     <string name="miss_fairway">You missed the fairway.\n</string>
     <string name="hit_fairway">You hit the fairway.\n</string>
     <string name="hit_green">You were on the green in regulation.</string>
