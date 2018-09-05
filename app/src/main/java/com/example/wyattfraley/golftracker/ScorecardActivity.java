@@ -88,8 +88,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(3 * 1000)        // 3 seconds, in milliseconds
-                .setFastestInterval(3 * 1000); // 3 second, in milliseconds
+                .setInterval(15 * 100)        // 1.5 seconds, in milliseconds
+                .setFastestInterval(15 * 100); // 3 second, in milliseconds
     }
 
     @Override
@@ -109,8 +109,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     public void onConnected(Bundle bundle) {
         Location location = null;
         try {
-            checkPermission("ACCESS_FINE_LOCATION", 1, 1);
-
             if (checkLocationPermission()) {
                 location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
@@ -381,7 +379,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score1;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -393,7 +391,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score2;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.GONE);
             }
         });
@@ -405,7 +403,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score3;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -417,7 +415,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score4;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -429,7 +427,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score5;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -441,7 +439,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score6;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.GONE);
             }
         });
@@ -453,7 +451,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score7;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -465,7 +463,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score8;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -477,7 +475,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score9;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -489,7 +487,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score10;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -501,7 +499,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score11;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -513,7 +511,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score12;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -525,7 +523,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score13;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -537,7 +535,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score14;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.GONE);
             }
         });
@@ -549,7 +547,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score15;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -561,7 +559,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score16;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
@@ -573,7 +571,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score17;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.GONE);
             }
         });
@@ -585,13 +583,25 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 MarkScore();
                 currentHole = score18;
-                currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+                ScoreClick();
                 fairwayCheck.setVisibility(View.VISIBLE);
             }
         });
         scores.add(score18);
 
         return scores;
+    }
+    private void ScoreClick() {
+        /*
+         * Handles a new location whenever a new hole is clicked.
+         */
+
+        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            handleNewLocation(location);
+        }
+        catch (SecurityException e) {}
     }
 
 
@@ -606,6 +616,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             currentHole = scores.get(holeNumber);
             currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             SetBoxes();
+
+            try {
+                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                handleNewLocation(location);
+            }
+            catch (SecurityException e) {}
+
         }
     }
     public void PrevHole(View v) {
@@ -619,6 +636,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             currentHole = scores.get(holeNumber - 2);
             currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
             SetBoxes();
+
+            try {
+                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                handleNewLocation(location);
+            }
+            catch (SecurityException e) {}
         }
     }
     public void MarkScore(){
