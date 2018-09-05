@@ -46,12 +46,12 @@ public class ShowAllRounds extends AppCompatActivity{
 
             @Override
             protected void onPostExecute(Void result) {
-                DisplayScoresV2();
+                DisplayScores();
             }
         }.execute();
     }
 
-    public void DisplayScoresV2() {
+    public void DisplayScores() {
         /*
          * Initializes each round as its own button,
          * and sets up the on click listener to open up a new activity,

@@ -63,12 +63,6 @@ public class SaveCheck extends Activity {
          *saving does not take place on the main thread to prevent UI locking.
          */
 
-        /*
-         * TODO: Change the way rounds are saved, so they're saved as objects instead of
-         * all the string bullshit.
-         */
-
-
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
