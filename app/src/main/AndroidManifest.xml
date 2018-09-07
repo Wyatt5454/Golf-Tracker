@@ -25,7 +25,8 @@
             android:parentActivityName=".HomeScreen" />
         <activity
             android:name=".ScorecardActivity"
-            android:parentActivityName=".HomeScreen" />
+            android:parentActivityName=".HomeScreen"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SaveCheck"
             android:parentActivityName=".ScorecardActivity"
@@ -38,7 +39,8 @@
             android:parentActivityName=".StatsMainActivity" />
         <activity
             android:name=".ShowSingleRound"
-            android:parentActivityName=".ShowAllRounds" />
+            android:parentActivityName=".ShowAllRounds"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ShowAllHoles"
             android:parentActivityName=".StatsMainActivity" />
         <activity android:name=".DeleteRound"

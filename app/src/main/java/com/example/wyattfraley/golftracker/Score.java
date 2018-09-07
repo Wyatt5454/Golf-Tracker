@@ -39,6 +39,10 @@ public class Score {
     }
     public void setPutts(int nPutts) {
         putts = nPutts;
+
+        for (int i = 0; i < nPutts; i++) {
+            actions.push("putt");
+        }
     }
     public int getStrokes() {
         return strokes;
@@ -46,6 +50,10 @@ public class Score {
 
     public void setStrokes(int nStrokes) {
         strokes = nStrokes;
+
+        for (int i = 0; i < nStrokes; i++) {
+            actions.push("stroke");
+        }
     }
 
     public int getSand() {

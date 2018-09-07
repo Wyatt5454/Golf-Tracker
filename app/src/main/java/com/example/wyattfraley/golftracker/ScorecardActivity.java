@@ -93,6 +93,85 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle state) {
+        /*
+         * This function will save the current state of the UI if
+         * the OS decides that the local memory needs to be
+         * freed up for other applications.
+         */
+
+        super.onSaveInstanceState(state);
+
+        ArrayList<Integer> mStrokes = new ArrayList<>();
+        ArrayList<Integer> mPutts = new ArrayList<>();
+        ArrayList<Integer> mSand = new ArrayList<>();
+        ArrayList<Integer> mFairway = new ArrayList<>();
+        ArrayList<Integer> mGIR = new ArrayList<>();
+
+        for (int i = 0; i < scores.size(); i++)
+        {
+            mStrokes.add(scores.get(i).getStrokes());
+            mPutts.add(scores.get(i).getPutts());
+            mSand.add(scores.get(i).getSand());
+            mFairway.add(scores.get(i).getFairway());
+            mGIR.add(scores.get(i).getGreenInRegulation());
+        }
+
+        ScoreEntry myEntry = new ScoreEntry(mStrokes, mPutts, mSand, mFairway, mGIR);
+
+        state.putSerializable("score", myEntry);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        /*
+         * This function restores the state of the UI once the user returns
+         * to the app
+         */
+        super.onRestoreInstanceState(savedInstanceState);
+        ScoreEntry myScore = (ScoreEntry)savedInstanceState.getSerializable("score");
+
+        ArrayList<Integer> mStrokes = myScore.getStrokes();
+        ArrayList<Integer> mPutts = myScore.getPutts();
+        ArrayList<Integer> mSand = myScore.getSand();
+        ArrayList<Integer> mFairway = myScore.getFairway();
+        ArrayList<Integer> mGIR = myScore.getGreenInRegulation();
+
+        Score score;
+        int strokes;
+        int afterNine = 0;
+        int afterEighteen = 0;
+        for (int i = 0; i < 9; i++) {
+            score = scores.get(i);
+            strokes = mStrokes.get(i);
+            score.setStrokes(strokes);
+            score.setPutts(mPutts.get(i));
+            score.setSand(mSand.get(i));
+            score.setFairway(mFairway.get(i));
+            score.setGreenInRegulation(mGIR.get(i));
+
+            afterNine += strokes;
+        }
+        for (int i = 9; i < 18; i++) {
+            score = scores.get(i);
+            strokes = mStrokes.get(i);
+            score.setStrokes(strokes);
+            score.setPutts(mPutts.get(i));
+            score.setSand(mSand.get(i));
+            score.setFairway(mFairway.get(i));
+            score.setGreenInRegulation(mGIR.get(i));
+
+            afterEighteen += strokes;
+        }
+
+        TextView ninth = findViewById(R.id.tv20);
+        TextView eighteenth = findViewById(R.id.tv40);
+
+        ninth.setText(String.format("%d", afterNine));
+        eighteenth.setText(String.format("%d", afterEighteen));
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         new AsyncTask<Void, Void, Void>() {

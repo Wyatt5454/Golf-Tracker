@@ -47,6 +47,14 @@ public class ScoreEntry implements Serializable{
         setGreenInRegulation(greenInRegulation);
         setFinalScore(finalScore);
     }
+    @Ignore
+    ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
+        setStrokes(strokes);
+        setPutts(putts);
+        setSand(sand);
+        setFairway(fairway);
+        setGreenInRegulation(greenInRegulation);
+    }
     ScoreEntry() {}
 
     public String getUId() { return uId; }
