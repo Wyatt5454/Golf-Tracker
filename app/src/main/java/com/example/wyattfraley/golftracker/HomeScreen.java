@@ -1,8 +1,11 @@
 package com.example.wyattfraley.golftracker;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +17,14 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        checkLocationPermission();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                ActivityCompat.requestPermissions(HomeScreen.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return null;
+            }
+        }.execute();
     }
 
     public void selectCourse(View view) {
@@ -35,10 +45,5 @@ public class HomeScreen extends AppCompatActivity {
          */
         Intent myIntent = new Intent(HomeScreen.this, StatsMainActivity.class);
         startActivity(myIntent);
-    }
-    public boolean checkLocationPermission() {
-        String permission = "android.permission.ACCESS_FINE_LOCATION";
-        int res = this.checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
     }
 }

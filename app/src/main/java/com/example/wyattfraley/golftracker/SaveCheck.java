@@ -184,6 +184,8 @@ public class SaveCheck extends Activity {
         Integer mSand;
         Integer mFairway;
         Integer mGir;
+        Integer scoreFront = 0;
+        Integer scoreBack = 0;
         TotalHoleStats hole;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
@@ -191,7 +193,6 @@ public class SaveCheck extends Activity {
         ArrayList<Integer> sand = myEntry.getSand();
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
-        Integer finalScore = myEntry.getFinalScore();
 
         if (stats.holes.size() == 0) {
             for (int z = 0; z < 18; z++) {
@@ -201,7 +202,7 @@ public class SaveCheck extends Activity {
         }
 
         // This loop parses the data into 18 holes and updates the stats.
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 9; i++) {
             mStroke = strokes.get(i);
             mPutt = putts.get(i);
             mSand = sand.get(i);
@@ -211,13 +212,30 @@ public class SaveCheck extends Activity {
             hole = stats.holes.get(i);
             hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
 
+            scoreFront += mStroke;
+            totalPutts += mPutt;
+            totalSand += mSand;
+            totalFairway += mFairway;
+            totalGir += mGir;
+        }
+        for (int i = 9; i < 18; i++) {
+            mStroke = strokes.get(i);
+            mPutt = putts.get(i);
+            mSand = sand.get(i);
+            mFairway = fairway.get(i);
+            mGir = gir.get(i);
+
+            hole = stats.holes.get(i);
+            hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
+
+            scoreBack += mStroke;
             totalPutts += mPutt;
             totalSand += mSand;
             totalFairway += mFairway;
             totalGir += mGir;
         }
 
-        stats.UpdateTotals(finalScore, totalPutts, totalSand, totalFairway, totalGir);
+        stats.UpdateTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
     }
     private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
         /*

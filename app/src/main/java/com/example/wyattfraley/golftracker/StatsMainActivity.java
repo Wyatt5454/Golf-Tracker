@@ -42,7 +42,6 @@ public class StatsMainActivity extends AppCompatActivity {
             }
         });
 
-
         DisplayTotalStats();
     }
 
@@ -112,6 +111,8 @@ public class StatsMainActivity extends AppCompatActivity {
         if (stats.totalRounds > 0) {
             toDisplay += " Average Overall Statistics\n\n";
             toDisplay += " Score: " + dF.format(((float)stats.totalScore / (float)stats.totalRounds)) + "\n";
+            toDisplay += " Front: " + dF.format(((float)stats.totalScoreFront / (float)stats.totalRounds)) + "\n";
+            toDisplay += " Back: " + dF.format(((float)stats.totalScoreBack / (float)stats.totalRounds)) + "\n\n";
             toDisplay += " Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalRounds)) + "\n";
             toDisplay += " Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalRounds)) + "\n\n";
 
