@@ -275,6 +275,7 @@ public class ShowAllHoles extends AppCompatActivity {
     public void toggle_contents(View v){
         /*
          * Uses the FX utility to animate the boxes opening and closing.
+         * Currently the animations are disabled.
          */
         int found = 0;
         for (int i = 0; i < buttons.size(); i++) {
@@ -288,12 +289,12 @@ public class ShowAllHoles extends AppCompatActivity {
 
 
         if(toAnimate.isShown()){
-            fxUtility.slide_up(this, toAnimate);
+            //fxUtility.slide_up(this, toAnimate);
             toAnimate.setVisibility(View.GONE);
         }
         else{
             toAnimate.setVisibility(View.VISIBLE);
-            fxUtility.slide_down(this, toAnimate);
+            //fxUtility.slide_down(this, toAnimate);
         }
     }
 }

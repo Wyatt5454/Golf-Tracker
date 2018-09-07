@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SaveCheck extends Activity {
+    TextView saveText;
     Button yes;
     Button no;
 
@@ -41,6 +43,7 @@ public class SaveCheck extends Activity {
 
         yes = findViewById(R.id.SaveYes);
         no = findViewById(R.id.SaveNo);
+        saveText = findViewById(R.id.saveText);
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +56,13 @@ public class SaveCheck extends Activity {
                 NoPress();
             }
         });
+
+        if (IsComplete()) {
+            saveText.setText(R.string.ask_save);
+        }
+        else {
+            saveText.setText(R.string.ask_save_incomplete);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -77,12 +87,26 @@ public class SaveCheck extends Activity {
             }
         }.execute();
 
-        // Now that the round is saved, we must update the totals.
-        UpdateTotals(toEnter);
-
+        // Now that the round is saved, we must update the totals, but only if
+        // the round was complete.
+        if (IsComplete()) {
+            UpdateTotals(toEnter);
+        }
 
         setResult(RESULT_OK, null);
         finish();
+    }
+    public boolean IsComplete() {
+        Intent myIntent = getIntent();
+        ScoreEntry toCheck = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        ArrayList<Integer> strokes = toCheck.getStrokes();
+
+        for (int i = 0; i < strokes.size(); i++) {
+            if (strokes.get(i) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void NoPress() {

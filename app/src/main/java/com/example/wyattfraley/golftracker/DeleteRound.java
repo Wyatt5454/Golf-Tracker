@@ -62,7 +62,11 @@ public class DeleteRound extends SaveCheck {
             }
         }.execute();
 
-        UpdateTotals(toDelete);
+        // Updates the total stats, but only if it was a complete round.
+        if (IsComplete()) {
+            UpdateTotals(toDelete);
+        }
+
 
         setResult(RESULT_OK, null);
         finish();
