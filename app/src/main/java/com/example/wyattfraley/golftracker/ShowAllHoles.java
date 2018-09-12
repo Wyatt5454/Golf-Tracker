@@ -38,10 +38,16 @@ public class ShowAllHoles extends AppCompatActivity {
 
         stats = LoadTotalStats();
 
-        if (stats.totalRounds > 0) {
+        if (stats.totalCompleteRounds > 0) {
             InitializeButtons();
             InitializeText();
             SetMainTextBox();
+            SetHoleStats();
+        }
+        else if (stats.totalRounds > 0) {
+            InitializeButtons();
+            InitializeText();
+            SetMainTextBoxNoCompleteRounds();
             SetHoleStats();
         }
         else {
@@ -52,7 +58,7 @@ public class ShowAllHoles extends AppCompatActivity {
         }
 
     }
-    public void InitializeButtons() {
+    private void InitializeButtons() {
         /*
          * Simple boring function that initializes all the hole buttons.
          */
@@ -95,7 +101,7 @@ public class ShowAllHoles extends AppCompatActivity {
         toAdd = findViewById(R.id.holeButton18);
         buttons.add(toAdd);
     }
-    public void InitializeText() {
+    private void InitializeText() {
         /*
          * Simple boring function that sets up all the text boxes.
          */
@@ -156,7 +162,7 @@ public class ShowAllHoles extends AppCompatActivity {
         toAdd.setVisibility(View.GONE);
         textViews.add(toAdd);
     }
-    public void SetHoleStats() {
+    private void SetHoleStats() {
         /*
          * Goes through all of the text boxes, and sets the text boxes
          * with the relevant statistics for each particular hole.
@@ -170,22 +176,22 @@ public class ShowAllHoles extends AppCompatActivity {
 
 
             String statsToAdd = new String();
-            statsToAdd += " Average score: " + dF.format(holeStats.strokes / stats.totalRounds) + "\n";
-            statsToAdd += " Average putts: " + dF.format(holeStats.putts / stats.totalRounds) + "\n\n";
+            statsToAdd += " Average score: " + dF.format(holeStats.strokes / holeStats.timesPlayed) + "\n";
+            statsToAdd += " Average putts: " + dF.format(holeStats.putts / holeStats.timesPlayed) + "\n\n";
 
             if (i != 1 && i != 5 && i != 13 && i != 16) {
-                float fairwayPercentage = ((float)holeStats.fairway / (float)stats.totalRounds) * 100;
+                float fairwayPercentage = ((float)holeStats.fairway / (float)holeStats.timesPlayed) * 100;
                 statsToAdd += " Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
             }
 
-            float girPercentage = ((float)holeStats.greenInRegulation / (float)stats.totalRounds) * 100;
+            float girPercentage = ((float)holeStats.greenInRegulation / (float)holeStats.timesPlayed) * 100;
             statsToAdd += " GIR Percentage: " + dF.format(girPercentage) + "%";
 
             textViews.get(i).setText(statsToAdd);
         }
 
     }
-    public void SetMainTextBox() {
+    private void SetMainTextBox() {
         /*
          * Grabs the average stats for each type of hole.
          * TODO: Come up with more interesting stats to include in this box.
@@ -200,7 +206,7 @@ public class ShowAllHoles extends AppCompatActivity {
         par3 += stats.holes.get(5).strokes;
         par3 += stats.holes.get(13).strokes;
         par3 += stats.holes.get(16).strokes;
-        par3 /= stats.totalRounds;
+        par3 /= stats.totalCompleteRounds;
         par3 /= 4;
 
         par4 += stats.holes.get(2).strokes;
@@ -213,14 +219,14 @@ public class ShowAllHoles extends AppCompatActivity {
         par4 += stats.holes.get(14).strokes;
         par4 += stats.holes.get(15).strokes;
         par4 += stats.holes.get(17).strokes;
-        par4 /= stats.totalRounds;
+        par4 /= stats.totalCompleteRounds;
         par4 /= 10;
 
         par5 += stats.holes.get(0).strokes;
         par5 += stats.holes.get(6).strokes;
         par5 += stats.holes.get(9).strokes;
         par5 += stats.holes.get(12).strokes;
-        par5 /= stats.totalRounds;
+        par5 /= stats.totalCompleteRounds;
         par5 /= 4;
 
         String toAdd = new String();
@@ -230,12 +236,14 @@ public class ShowAllHoles extends AppCompatActivity {
 
         mainText.setText(toAdd);
     }
-    public void SetMainTextBoxNoRounds() {
-        String toAdd = "You don't have any rounds saved on this device.  Start a round and save it for detailed stat tracking!";
-        mainText.setText(toAdd);
+    private void SetMainTextBoxNoRounds() {
+        mainText.setText(R.string.stats_no_rounds);
+    }
+    private void SetMainTextBoxNoCompleteRounds() {
+        mainText.setText(R.string.stats_no_complete_rounds);
     }
 
-    public TotalRoundStats LoadTotalStats() {
+    private TotalRoundStats LoadTotalStats() {
         /*
          * Grabs the total stats from a file locally stored
          * on the device.

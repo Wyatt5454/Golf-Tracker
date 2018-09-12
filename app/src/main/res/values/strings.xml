@@ -38,4 +38,6 @@
     <string name="select_hole">Select a hole for more data.</string>
     <string name="ask_save">Are you sure you want to end the round?</string>
     <string name="ask_save_incomplete">The current round is incomplete, are you sure you want to end the round?</string>
+    <string name="stats_no_complete_rounds">You don\'t have any complete rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
+    <string name="stats_no_rounds">You don\'t have any rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
 </resources>

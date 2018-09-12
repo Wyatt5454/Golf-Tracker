@@ -64,7 +64,10 @@ public class DeleteRound extends SaveCheck {
 
         // Updates the total stats, but only if it was a complete round.
         if (IsComplete()) {
-            UpdateTotals(toDelete);
+            UpdateTotals(toDelete, true);
+        }
+        else {
+            UpdateTotals(toDelete, false);
         }
 
 
@@ -72,7 +75,7 @@ public class DeleteRound extends SaveCheck {
         finish();
     }
     @Override
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean complete) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
@@ -139,6 +142,12 @@ public class DeleteRound extends SaveCheck {
             totalGir += mGir;
         }
 
-        stats.DeleteTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        if (complete) {
+            stats.DeleteTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        }
+        else {
+            stats.DeleteTotalsIncomplete();
+        }
+
     }
 }

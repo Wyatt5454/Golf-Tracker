@@ -90,7 +90,10 @@ public class SaveCheck extends Activity {
         // Now that the round is saved, we must update the totals, but only if
         // the round was complete.
         if (IsComplete()) {
-            UpdateTotals(toEnter);
+            UpdateTotals(toEnter, true);
+        }
+        else {
+            UpdateTotals(toEnter, false);
         }
 
         setResult(RESULT_OK, null);
@@ -112,7 +115,7 @@ public class SaveCheck extends Activity {
     public void NoPress() {
         finish();
     }
-    public void UpdateTotals(ScoreEntry myEntry) {
+    public void UpdateTotals(ScoreEntry myEntry, boolean complete) {
         /*
          *  This function will update the total scores on a file saved to
          *  internal storage.  Uses serializing to load in and save the
@@ -141,7 +144,7 @@ public class SaveCheck extends Activity {
         // Check to make sure the file was found.
         // If not, make the file.
         if (inputStreamTotal == null) {
-            LoadScores(stats, myEntry);
+            LoadScores(stats, myEntry, complete);
         }
         else {
             try {
@@ -152,7 +155,7 @@ public class SaveCheck extends Activity {
                 // Method for deserialization of object
                 stats = (TotalRoundStats)inTotal.readObject();
                 stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
-                LoadScores(stats, myEntry);
+                LoadScores(stats, myEntry, complete);
 
                 inTotal.close();
                 inHoles.close();
@@ -168,7 +171,7 @@ public class SaveCheck extends Activity {
         }
         SaveTotals(stats, fileExists);
     }
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean complete) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
@@ -179,13 +182,7 @@ public class SaveCheck extends Activity {
         int totalFairway = 0;
         int totalGir = 0;
 
-        Integer mStroke;
-        Integer mPutt;
-        Integer mSand;
-        Integer mFairway;
-        Integer mGir;
-        Integer scoreFront = 0;
-        Integer scoreBack = 0;
+        Integer mStroke, mPutt, mSand, mFairway, mGir, scoreFront = 0, scoreBack = 0;
         TotalHoleStats hole;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
@@ -235,7 +232,12 @@ public class SaveCheck extends Activity {
             totalGir += mGir;
         }
 
-        stats.UpdateTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        if (complete) {
+            stats.UpdateTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        }
+        else {
+            stats.UpdateTotalsIncomplete();
+        }
     }
     private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
         /*

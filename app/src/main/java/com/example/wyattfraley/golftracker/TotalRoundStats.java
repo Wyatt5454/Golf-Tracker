@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TotalRoundStats implements Serializable{
+    public int totalCompleteRounds;
     public int totalRounds;
     public int totalScore;
     public int totalScoreFront;
@@ -18,6 +19,7 @@ public class TotalRoundStats implements Serializable{
     public TotalRoundStats() {
         totalPutts = 0;
         totalRounds = 0;
+        totalCompleteRounds = 0;
         totalSand = 0;
         totalScore = 0;
         totalScoreFront = 0;
@@ -33,6 +35,9 @@ public class TotalRoundStats implements Serializable{
         totalSand += sand;
         totalFairway += fairway;
         totalGIR += gir;
+        totalCompleteRounds++;
+    }
+    public void UpdateTotalsIncomplete() {
         totalRounds++;
     }
     public void DeleteTotals(int scoreFront, int scoreBack, int putts, int sand, int fairway, int gir) {
@@ -43,6 +48,9 @@ public class TotalRoundStats implements Serializable{
         totalSand -= sand;
         totalFairway -= fairway;
         totalGIR -= gir;
+        totalCompleteRounds--;
+    }
+    public void DeleteTotalsIncomplete() {
         totalRounds--;
     }
 }
