@@ -1,6 +1,8 @@
 package com.example.wyattfraley.golftracker;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +26,7 @@ public class ShowAllHoles extends AppCompatActivity {
     List<Button> buttons;
     List<TextView> textViews;
     TotalRoundStats stats;
-
-
+    private final static int VIBRATE_DURATION = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,5 +297,10 @@ public class ShowAllHoles extends AppCompatActivity {
             toAnimate.setVisibility(View.VISIBLE);
             //fxUtility.slide_down(this, toAnimate);
         }
+        VibrateOnClick();
+    }
+    private void VibrateOnClick() {
+        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(VIBRATE_DURATION);
     }
 }

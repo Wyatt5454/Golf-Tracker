@@ -1,8 +1,10 @@
 package com.example.wyattfraley.golftracker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +30,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int fairwayTotal;
     int girTotal;
     int finalScore;
+    private final static int VIBRATE_DURATION = 20;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -497,5 +500,10 @@ public class ShowSingleRound  extends AppCompatActivity{
         }
 
         holeStats.setText(individualInfo);
+        VibrateOnClick();
+    }
+    private void VibrateOnClick() {
+        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(VIBRATE_DURATION);
     }
 }

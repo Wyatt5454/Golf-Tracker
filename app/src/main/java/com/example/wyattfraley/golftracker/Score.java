@@ -26,14 +26,6 @@ public class Score {
         locationData = new HoleLocationData();
     }
 
-    Score() {
-        strokes = 0;
-        putts = 0;
-        sand = 0;
-        par = 0;
-        actions = new Stack<>();
-    }
-
     public int getPutts() {
         return putts;
     }

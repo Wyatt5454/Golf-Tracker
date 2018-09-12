@@ -37,5 +37,5 @@
     <string name="miss_green">You missed the green in regulation.</string>
     <string name="select_hole">Select a hole for more data.</string>
     <string name="ask_save">Are you sure you want to end the round?</string>
-    <string name="ask_save_incomplete">The current round is incomplete, therefore its stats will not be added to your score averages.  Are you sure you want to end the round?</string>
+    <string name="ask_save_incomplete">The current round is incomplete, are you sure you want to end the round?</string>
 </resources>

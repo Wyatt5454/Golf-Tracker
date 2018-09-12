@@ -1,10 +1,12 @@
 package com.example.wyattfraley.golftracker;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +45,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private final static int VIBRATE_DURATION = 20;
     public static final String TAG = "Golf Scorecard Activity";
     TextView toFront;
     TextView toMiddle;
@@ -72,11 +75,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // Set the current hole.
         currentHole = scores.get(0);
         currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
-
-        if (savedInstanceState != null) {
-            //Log.i(TAG, "Restoring instance state from onCreate");
-            //RestoreFromHomeScreen(savedInstanceState);
-        }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -180,71 +178,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         eighteenth.setText(String.format("%d", afterEighteen));
 
         int current = savedInstanceState.getInt("current");
-        Log.i(TAG, "Grabbed current hole");
         currentHole = scores.get(current - 1);
-        Log.i(TAG, "Set current hole");
-    }
-
-    private void RestoreFromHomeScreen(Bundle savedInstanceState) {
-        /*
-         * This function restores the state of the UI once the user returns
-         * to the app
-         */
-        ScoreEntry myScore = (ScoreEntry)savedInstanceState.getSerializable("score");
-        Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
-        Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
-
-        ArrayList<Integer> mStrokes = myScore.getStrokes();
-        ArrayList<Integer> mPutts = myScore.getPutts();
-        ArrayList<Integer> mSand = myScore.getSand();
-        ArrayList<Integer> mFairway = myScore.getFairway();
-        ArrayList<Integer> mGIR = myScore.getGreenInRegulation();
-
-        Score score;
-        int strokes;
-        int afterNine = 0;
-        int afterEighteen = 0;
-        for (int i = 0; i < 9; i++) {
-            score = scores.get(i);
-            strokes = mStrokes.get(i);
-            score.setStrokes(strokes);
-            score.setPutts(mPutts.get(i));
-            score.setSand(mSand.get(i));
-            score.setFairway(mFairway.get(i));
-            score.setGreenInRegulation(mGIR.get(i));
-
-            MarkScoreSpecific(score);
-            Log.i(TAG, String.format("Score %d marked.", i + 1));
-
-            afterNine += strokes;
-        }
-        Log.i(TAG, "Restored through nine");
-        for (int i = 9; i < 18; i++) {
-            score = scores.get(i);
-            strokes = mStrokes.get(i);
-            score.setStrokes(strokes);
-            score.setPutts(mPutts.get(i));
-            score.setSand(mSand.get(i));
-            score.setFairway(mFairway.get(i));
-            score.setGreenInRegulation(mGIR.get(i));
-
-            MarkScoreSpecific(score);
-            Log.i(TAG, String.format("Score %d marked.", i + 1));
-
-            afterEighteen += strokes;
-        }
-        Log.i(TAG, "Restored through eighteen");
-
-        TextView ninth = findViewById(R.id.tv20);
-        TextView eighteenth = findViewById(R.id.tv40);
-
-        ninth.setText(String.format("%d", afterNine));
-        eighteenth.setText(String.format("%d", afterEighteen));
-
-        int current = savedInstanceState.getInt("current");
-        Log.i(TAG, "Grabbed current hole");
-        currentHole = scores.get(current - 1);
-        Log.i(TAG, "Set current hole");
+        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
     }
 
     @Override
@@ -749,6 +684,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             handleNewLocation(location);
         }
         catch (SecurityException e) {}
+        VibrateOnClick();
     }
 
 
@@ -771,6 +707,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             catch (SecurityException e) {}
 
         }
+        VibrateOnClick();
     }
     public void PrevHole(View v) {
 
@@ -790,6 +727,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             }
             catch (SecurityException e) {}
         }
+        VibrateOnClick();
     }
     public void MarkScore(){
         // This function is responsible for altering the look of the score
@@ -851,6 +789,10 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             sandCheck.setChecked(true);
         }
     }
+    private void VibrateOnClick() {
+        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(VIBRATE_DURATION);
+    }
 
     public void AddScore(View v) {
         int intScore;
@@ -865,7 +807,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         else {
             currentHole.setGreenInRegulation(0);
         }
-
+        VibrateOnClick();
         updateTotals(1);
     }
     public void AddPutt(View v) {
@@ -878,7 +820,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
 
         updateTotals(1);
-
+        VibrateOnClick();
     }
     @SuppressLint("SetTextI18n")
     public void UndoStroke(View v) {
@@ -899,6 +841,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             }
             currentHole.hole.setText(Integer.toString(currentHole.getStrokes()));
             updateTotals(-1);
+            VibrateOnClick();
         }
         catch (EmptyStackException e) { }
 
