@@ -43,7 +43,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    public static final String TAG = MapsActivity.class.getSimpleName();
+    public static final String TAG = "Golf Scorecard Activity";
     TextView toFront;
     TextView toMiddle;
     TextView toBack;
@@ -52,8 +52,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorecard);
-        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar)));
-
+        Log.i(TAG, "Golf scorecard start.");
 
         nextButton = findViewById(R.id.nextButton);
         prevButton = findViewById(R.id.prevButton);
@@ -74,7 +73,10 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         currentHole = scores.get(0);
         currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
 
-
+        if (savedInstanceState != null) {
+            //Log.i(TAG, "Restoring instance state from onCreate");
+            //RestoreFromHomeScreen(savedInstanceState);
+        }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -95,6 +97,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * the OS decides that the local memory needs to be
          * freed up for other applications.
          */
+        Log.i(TAG, "Saving instance state");
 
         super.onSaveInstanceState(state);
 
@@ -116,6 +119,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         ScoreEntry myEntry = new ScoreEntry(mStrokes, mPutts, mSand, mFairway, mGIR);
 
         state.putSerializable("score", myEntry);
+        state.putInt("current", currentHole.number);
     }
 
     @Override
@@ -124,8 +128,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * This function restores the state of the UI once the user returns
          * to the app
          */
-        super.onRestoreInstanceState(savedInstanceState);
         ScoreEntry myScore = (ScoreEntry)savedInstanceState.getSerializable("score");
+        Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
+        Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
 
         ArrayList<Integer> mStrokes = myScore.getStrokes();
         ArrayList<Integer> mPutts = myScore.getPutts();
@@ -146,8 +151,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             score.setFairway(mFairway.get(i));
             score.setGreenInRegulation(mGIR.get(i));
 
+            MarkScoreSpecific(score);
+            Log.i(TAG, String.format("Score %d marked.", i + 1));
+
             afterNine += strokes;
         }
+        Log.i(TAG, "Restored through nine");
         for (int i = 9; i < 18; i++) {
             score = scores.get(i);
             strokes = mStrokes.get(i);
@@ -157,14 +166,85 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             score.setFairway(mFairway.get(i));
             score.setGreenInRegulation(mGIR.get(i));
 
+            MarkScoreSpecific(score);
+            Log.i(TAG, String.format("Score %d marked.", i + 1));
+
             afterEighteen += strokes;
         }
+        Log.i(TAG, "Restored through eighteen");
 
         TextView ninth = findViewById(R.id.tv20);
         TextView eighteenth = findViewById(R.id.tv40);
 
         ninth.setText(String.format("%d", afterNine));
         eighteenth.setText(String.format("%d", afterEighteen));
+
+        int current = savedInstanceState.getInt("current");
+        Log.i(TAG, "Grabbed current hole");
+        currentHole = scores.get(current - 1);
+        Log.i(TAG, "Set current hole");
+    }
+
+    private void RestoreFromHomeScreen(Bundle savedInstanceState) {
+        /*
+         * This function restores the state of the UI once the user returns
+         * to the app
+         */
+        ScoreEntry myScore = (ScoreEntry)savedInstanceState.getSerializable("score");
+        Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
+        Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
+
+        ArrayList<Integer> mStrokes = myScore.getStrokes();
+        ArrayList<Integer> mPutts = myScore.getPutts();
+        ArrayList<Integer> mSand = myScore.getSand();
+        ArrayList<Integer> mFairway = myScore.getFairway();
+        ArrayList<Integer> mGIR = myScore.getGreenInRegulation();
+
+        Score score;
+        int strokes;
+        int afterNine = 0;
+        int afterEighteen = 0;
+        for (int i = 0; i < 9; i++) {
+            score = scores.get(i);
+            strokes = mStrokes.get(i);
+            score.setStrokes(strokes);
+            score.setPutts(mPutts.get(i));
+            score.setSand(mSand.get(i));
+            score.setFairway(mFairway.get(i));
+            score.setGreenInRegulation(mGIR.get(i));
+
+            MarkScoreSpecific(score);
+            Log.i(TAG, String.format("Score %d marked.", i + 1));
+
+            afterNine += strokes;
+        }
+        Log.i(TAG, "Restored through nine");
+        for (int i = 9; i < 18; i++) {
+            score = scores.get(i);
+            strokes = mStrokes.get(i);
+            score.setStrokes(strokes);
+            score.setPutts(mPutts.get(i));
+            score.setSand(mSand.get(i));
+            score.setFairway(mFairway.get(i));
+            score.setGreenInRegulation(mGIR.get(i));
+
+            MarkScoreSpecific(score);
+            Log.i(TAG, String.format("Score %d marked.", i + 1));
+
+            afterEighteen += strokes;
+        }
+        Log.i(TAG, "Restored through eighteen");
+
+        TextView ninth = findViewById(R.id.tv20);
+        TextView eighteenth = findViewById(R.id.tv40);
+
+        ninth.setText(String.format("%d", afterNine));
+        eighteenth.setText(String.format("%d", afterEighteen));
+
+        int current = savedInstanceState.getInt("current");
+        Log.i(TAG, "Grabbed current hole");
+        currentHole = scores.get(current - 1);
+        Log.i(TAG, "Set current hole");
     }
 
     @Override
@@ -728,6 +808,24 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         else if (currentHole.strokes >= currentHole.par + 2)
             currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
 
+    }
+    public void MarkScoreSpecific(Score score) {
+
+        int strokes = score.getStrokes();
+        if (strokes != 0) {
+            score.hole.setText(Integer.toString(strokes));
+        }
+
+        if (score.strokes == 0 || score.strokes == score.par)
+            score.hole.setBackground(getDrawable(R.drawable.holeback));
+        else if (score.strokes <= score.par - 2)
+            score.hole.setBackground(getDrawable(R.drawable.eagle));
+        else if (score.strokes == score.par - 1)
+            score.hole.setBackground(getDrawable(R.drawable.birdie));
+        else if (score.strokes == score.par + 1)
+            score.hole.setBackground(getDrawable(R.drawable.bogey));
+        else if (score.strokes >= score.par + 2)
+            score.hole.setBackground(getDrawable(R.drawable.doublebogey));
     }
     private void SetBoxes() {
         /*
