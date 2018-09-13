@@ -57,7 +57,7 @@ public class SaveCheck extends Activity {
             }
         });
 
-        if (IsComplete()) {
+        if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);
         }
         else {
@@ -89,22 +89,29 @@ public class SaveCheck extends Activity {
 
         // Now that the round is saved, we must update the totals, but only if
         // the round was complete.
-        if (IsComplete()) {
-            UpdateTotals(toEnter, true);
-        }
-        else {
-            UpdateTotals(toEnter, false);
-        }
+        UpdateTotals(toEnter, IsFrontComplete(), IsBackComplete());
 
         setResult(RESULT_OK, null);
         finish();
     }
-    public boolean IsComplete() {
+    public boolean IsFrontComplete() {
         Intent myIntent = getIntent();
         ScoreEntry toCheck = (ScoreEntry)myIntent.getSerializableExtra("Score");
         ArrayList<Integer> strokes = toCheck.getStrokes();
 
-        for (int i = 0; i < strokes.size(); i++) {
+        for (int i = 0; i < 9; i++) {
+            if (strokes.get(i) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean IsBackComplete() {
+        Intent myIntent = getIntent();
+        ScoreEntry toCheck = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        ArrayList<Integer> strokes = toCheck.getStrokes();
+
+        for (int i = 9; i < 18; i++) {
             if (strokes.get(i) == 0) {
                 return false;
             }
@@ -115,7 +122,7 @@ public class SaveCheck extends Activity {
     public void NoPress() {
         finish();
     }
-    public void UpdateTotals(ScoreEntry myEntry, boolean complete) {
+    public void UpdateTotals(ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
         /*
          *  This function will update the total scores on a file saved to
          *  internal storage.  Uses serializing to load in and save the
@@ -144,7 +151,7 @@ public class SaveCheck extends Activity {
         // Check to make sure the file was found.
         // If not, make the file.
         if (inputStreamTotal == null) {
-            LoadScores(stats, myEntry, complete);
+            LoadScores(stats, myEntry, frontComplete, backComplete);
         }
         else {
             try {
@@ -155,7 +162,7 @@ public class SaveCheck extends Activity {
                 // Method for deserialization of object
                 stats = (TotalRoundStats)inTotal.readObject();
                 stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
-                LoadScores(stats, myEntry, complete);
+                LoadScores(stats, myEntry, frontComplete, backComplete);
 
                 inTotal.close();
                 inHoles.close();
@@ -171,16 +178,16 @@ public class SaveCheck extends Activity {
         }
         SaveTotals(stats, fileExists);
     }
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean complete) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
          */
 
-        int totalPutts = 0;
-        int totalSand = 0;
-        int totalFairway = 0;
-        int totalGir = 0;
+        int puttsFront = 0, puttsBack = 0;
+        int sandFront = 0, sandBack = 0;
+        int fairwayFront = 0, fairwayBack = 0;
+        int girFront = 0, girBack = 0;
 
         Integer mStroke, mPutt, mSand, mFairway, mGir, scoreFront = 0, scoreBack = 0;
         TotalHoleStats hole;
@@ -210,10 +217,10 @@ public class SaveCheck extends Activity {
             hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
 
             scoreFront += mStroke;
-            totalPutts += mPutt;
-            totalSand += mSand;
-            totalFairway += mFairway;
-            totalGir += mGir;
+            puttsFront += mPutt;
+            sandFront += mSand;
+            fairwayFront += mFairway;
+            girFront += mGir;
         }
         for (int i = 9; i < 18; i++) {
             mStroke = strokes.get(i);
@@ -226,16 +233,19 @@ public class SaveCheck extends Activity {
             hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
 
             scoreBack += mStroke;
-            totalPutts += mPutt;
-            totalSand += mSand;
-            totalFairway += mFairway;
-            totalGir += mGir;
+            puttsBack += mPutt;
+            sandBack += mSand;
+            fairwayBack += mFairway;
+            girBack += mGir;
         }
 
-        if (complete) {
-            stats.UpdateTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        if (frontComplete) {
+            stats.UpdateFrontTotals(scoreFront, puttsFront, sandFront, fairwayFront, girFront);
         }
-        else {
+        if (backComplete) {
+            stats.UpdateBackTotals(scoreBack, puttsBack, sandBack, fairwayBack, girBack);
+        }
+        if (!frontComplete && !backComplete) {
             stats.UpdateTotalsIncomplete();
         }
     }

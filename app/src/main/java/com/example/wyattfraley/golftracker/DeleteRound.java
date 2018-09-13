@@ -63,28 +63,23 @@ public class DeleteRound extends SaveCheck {
         }.execute();
 
         // Updates the total stats, but only if it was a complete round.
-        if (IsComplete()) {
-            UpdateTotals(toDelete, true);
-        }
-        else {
-            UpdateTotals(toDelete, false);
-        }
+        UpdateTotals(toDelete, IsFrontComplete(), IsBackComplete());
 
 
         setResult(RESULT_OK, null);
         finish();
     }
     @Override
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean complete) {
+    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.
          */
 
-        int totalPutts = 0;
-        int totalSand = 0;
-        int totalFairway = 0;
-        int totalGir = 0;
+        int puttsFront = 0, puttsBack = 0;
+        int sandFront = 0, sandBack = 0;
+        int fairwayFront = 0, fairwayBack = 0;
+        int girFront = 0, girBack = 0;
 
         Integer mStroke;
         Integer mPutt;
@@ -120,10 +115,10 @@ public class DeleteRound extends SaveCheck {
             hole.DeleteStats(mStroke, mPutt, mSand, mFairway, mGir);
 
             scoreFront += mStroke;
-            totalPutts += mPutt;
-            totalSand += mSand;
-            totalFairway += mFairway;
-            totalGir += mGir;
+            puttsFront += mPutt;
+            sandFront += mSand;
+            fairwayFront += mFairway;
+            girFront += mGir;
         }
         for (int i = 9; i < 18; i++) {
             mStroke = strokes.get(i);
@@ -136,16 +131,19 @@ public class DeleteRound extends SaveCheck {
             hole.DeleteStats(mStroke, mPutt, mSand, mFairway, mGir);
 
             scoreBack += mStroke;
-            totalPutts += mPutt;
-            totalSand += mSand;
-            totalFairway += mFairway;
-            totalGir += mGir;
+            puttsBack += mPutt;
+            sandBack += mSand;
+            fairwayBack += mFairway;
+            girBack += mGir;
         }
 
-        if (complete) {
-            stats.DeleteTotals(scoreFront, scoreBack, totalPutts, totalSand, totalFairway, totalGir);
+        if (frontComplete) {
+            stats.DeleteFrontTotals(scoreFront, puttsFront, sandFront, fairwayFront, girFront);
         }
-        else {
+        if (backComplete) {
+            stats.DeleteBackTotals(scoreBack, puttsBack, sandBack, fairwayBack, girBack);
+        }
+        if (!frontComplete && !backComplete) {
             stats.DeleteTotalsIncomplete();
         }
 

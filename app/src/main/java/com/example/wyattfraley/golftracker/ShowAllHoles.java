@@ -174,18 +174,22 @@ public class ShowAllHoles extends AppCompatActivity {
         for (int i = 0; i < textViews.size(); i++) {
             TotalHoleStats holeStats = stats.holes.get(i);
 
-
             String statsToAdd = new String();
-            statsToAdd += " Average score: " + dF.format(holeStats.strokes / holeStats.timesPlayed) + "\n";
-            statsToAdd += " Average putts: " + dF.format(holeStats.putts / holeStats.timesPlayed) + "\n\n";
+            if (holeStats.timesPlayed > 0) {
+                statsToAdd += " Average score: " + dF.format(holeStats.strokes / holeStats.timesPlayed) + "\n";
+                statsToAdd += " Average putts: " + dF.format(holeStats.putts / holeStats.timesPlayed) + "\n\n";
 
-            if (i != 1 && i != 5 && i != 13 && i != 16) {
-                float fairwayPercentage = ((float)holeStats.fairway / (float)holeStats.timesPlayed) * 100;
-                statsToAdd += " Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
+                if (i != 1 && i != 5 && i != 13 && i != 16) {
+                    float fairwayPercentage = ((float)holeStats.fairway / (float)holeStats.timesPlayed) * 100;
+                    statsToAdd += " Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
+                }
+
+                float girPercentage = ((float)holeStats.greenInRegulation / (float)holeStats.timesPlayed) * 100;
+                statsToAdd += " GIR Percentage: " + dF.format(girPercentage) + "%";
             }
-
-            float girPercentage = ((float)holeStats.greenInRegulation / (float)holeStats.timesPlayed) * 100;
-            statsToAdd += " GIR Percentage: " + dF.format(girPercentage) + "%";
+            else {
+                statsToAdd += " No data available yet for this hole.";
+            }
 
             textViews.get(i).setText(statsToAdd);
         }
@@ -196,38 +200,64 @@ public class ShowAllHoles extends AppCompatActivity {
          * Grabs the average stats for each type of hole.
          * TODO: Come up with more interesting stats to include in this box.
          */
-        float par3 = 0;
-        float par4 = 0;
-        float par5 = 0;
+        float par3 = 0, played3 = 0;
+        float par4 = 0, played4 = 0;
+        float par5 = 0, played5 = 0;
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
         par3 += stats.holes.get(1).strokes;
+        played3 += stats.holes.get(1).timesPlayed;
         par3 += stats.holes.get(5).strokes;
+        played3 += stats.holes.get(5).timesPlayed;
         par3 += stats.holes.get(13).strokes;
+        played3 += stats.holes.get(13).timesPlayed;
         par3 += stats.holes.get(16).strokes;
-        par3 /= stats.totalCompleteRounds;
-        par3 /= 4;
+        played3 += stats.holes.get(16).timesPlayed;
+        if (played3 > 0) {
+            par3 /= played3;
+            par3 /= 4;
+        }
+
 
         par4 += stats.holes.get(2).strokes;
+        played4 += stats.holes.get(2).timesPlayed;
         par4 += stats.holes.get(3).strokes;
+        played4 += stats.holes.get(3).timesPlayed;
         par4 += stats.holes.get(4).strokes;
+        played4 += stats.holes.get(4).timesPlayed;
         par4 += stats.holes.get(7).strokes;
+        played4 += stats.holes.get(7).timesPlayed;
         par4 += stats.holes.get(8).strokes;
+        played4 += stats.holes.get(8).timesPlayed;
         par4 += stats.holes.get(10).strokes;
+        played4 += stats.holes.get(10).timesPlayed;
         par4 += stats.holes.get(11).strokes;
+        played4 += stats.holes.get(11).timesPlayed;
         par4 += stats.holes.get(14).strokes;
+        played4 += stats.holes.get(14).timesPlayed;
         par4 += stats.holes.get(15).strokes;
+        played4 += stats.holes.get(15).timesPlayed;
         par4 += stats.holes.get(17).strokes;
-        par4 /= stats.totalCompleteRounds;
-        par4 /= 10;
+        played4 += stats.holes.get(17).timesPlayed;
+        if (played4 > 0) {
+            par4 /= played4;
+            par4 /= 10;
+        }
+
 
         par5 += stats.holes.get(0).strokes;
+        played5 += stats.holes.get(0).timesPlayed;
         par5 += stats.holes.get(6).strokes;
+        played5 += stats.holes.get(6).timesPlayed;
         par5 += stats.holes.get(9).strokes;
+        played5 += stats.holes.get(9).timesPlayed;
         par5 += stats.holes.get(12).strokes;
-        par5 /= stats.totalCompleteRounds;
-        par5 /= 4;
+        played5 += stats.holes.get(12).timesPlayed;
+        if (played5 > 0) {
+            par5 /= played5;
+            par5 /= 4;
+        }
 
         String toAdd = new String();
         toAdd += " Average par 3 Score: " + dF.format(par3) + "\n";

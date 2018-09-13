@@ -111,8 +111,8 @@ public class StatsMainActivity extends AppCompatActivity {
         if (stats.totalCompleteRounds > 0) {
             toDisplay += " Average Overall Statistics\n\n";
             toDisplay += " Score: " + dF.format(((float)stats.totalScore / (float)stats.totalCompleteRounds)) + "\n";
-            toDisplay += " Front: " + dF.format(((float)stats.totalScoreFront / (float)stats.totalCompleteRounds)) + "\n";
-            toDisplay += " Back: " + dF.format(((float)stats.totalScoreBack / (float)stats.totalCompleteRounds)) + "\n\n";
+            toDisplay += " Front: " + dF.format(((float)stats.totalFrontScore / (float)stats.totalCompleteRounds)) + "\n";
+            toDisplay += " Back: " + dF.format(((float)stats.totalBackScore / (float)stats.totalCompleteRounds)) + "\n\n";
             toDisplay += " Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalCompleteRounds)) + "\n";
             toDisplay += " Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalCompleteRounds)) + "\n\n";
 
