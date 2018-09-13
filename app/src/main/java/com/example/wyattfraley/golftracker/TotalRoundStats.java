@@ -48,29 +48,15 @@ public class TotalRoundStats implements Serializable{
         totalRoundsFront++;
     }
     public void UpdateBackTotals(int scoreBack, int puttsBack, int sandBack, int fairwayBack, int girBack) {
-        totalFrontScore += scoreBack;
-        totalFrontPutts += puttsBack;
-        totalFrontSand += sandBack;
-        totalFrontFairway += fairwayBack;
-        totalFrontGIR += girBack;
+        totalBackScore += scoreBack;
+        totalBackPutts += puttsBack;
+        totalBackSand += sandBack;
+        totalBackFairway += fairwayBack;
+        totalBackGIR += girBack;
         totalRoundsBack++;
     }
     public void UpdateTotalsIncomplete() {
         totalRounds++;
-    }
-    public void DeleteTotals(int scoreFront, int scoreBack, int puttsFront, int puttsBack, int sandFront, int sandBack, int fairwayFront, int fairwayBack, int girFront, int girBack) {
-        totalFrontScore -= scoreFront;
-        totalBackScore -= scoreBack;
-        totalFrontPutts -= puttsFront;
-        totalBackPutts -= puttsBack;
-        totalFrontSand -= sandFront;
-        totalBackSand -= sandBack;
-        totalFrontFairway -= fairwayFront;
-        totalBackFairway -= fairwayBack;
-        totalFrontGIR -= girFront;
-        totalBackGIR -= girBack;
-        totalRoundsFront--;
-        totalRoundsBack--;
     }
     public void DeleteFrontTotals(int scoreFront, int puttsFront, int sandFront, int fairwayFront, int girFront) {
         totalFrontScore -= scoreFront;
@@ -81,11 +67,11 @@ public class TotalRoundStats implements Serializable{
         totalRoundsFront--;
     }
     public void DeleteBackTotals(int scoreBack, int puttsBack, int sandBack, int fairwayBack, int girBack) {
-        totalFrontScore -= scoreBack;
-        totalFrontPutts -= puttsBack;
-        totalFrontSand -= sandBack;
-        totalFrontFairway -= fairwayBack;
-        totalFrontGIR -= girBack;
+        totalBackScore -= scoreBack;
+        totalBackPutts -= puttsBack;
+        totalBackSand -= sandBack;
+        totalBackFairway -= fairwayBack;
+        totalBackGIR -= girBack;
         totalRoundsBack--;
     }
     public void DeleteTotalsIncomplete() {

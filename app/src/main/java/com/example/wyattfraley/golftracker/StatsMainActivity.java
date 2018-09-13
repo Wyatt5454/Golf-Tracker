@@ -101,53 +101,15 @@ public class StatsMainActivity extends AppCompatActivity {
          */
 
         TotalRoundStats stats = LoadTotalStats();
-        DecimalFormat dF = new DecimalFormat("##.##");
-        dF.setRoundingMode(RoundingMode.DOWN);
-        float fairwayPercentage = 0;
-        float girPercentage = 0;
-
-
-        String toDisplay = new String();
-        toDisplay += " Average Overall Statistics\n\n";
 
         if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
-            float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
-            float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
-            float totalAverage = frontAverage + backAverage;
-
-            float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
-            float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;
-            float totalPutts = frontPutts + backPutts;
-
-            float frontSand = (float)stats.totalFrontSand / (float)stats.totalRoundsFront;
-            float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
-            float totalSand = frontSand + backSand;
-
-            float totalFairway = (((float)stats.totalFrontFairway + (float)stats.totalBackFairway)
-                                    / (((float)stats.totalRoundsFront + (float)stats.totalRoundsBack) * 14)) * 100;
-
-            float frontGIR = (float)stats.totalFrontGIR / (float)stats.totalRoundsFront;
-            float backGIR = (float)stats.totalBackGIR / (float)stats.totalRoundsBack;
-            float totalGIR = frontGIR + backGIR;
-
-            toDisplay += " Score: " + dF.format(totalAverage) + "\n";
-            toDisplay += " Front: " + dF.format(frontAverage) + "\n";
-            toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
+            BackAndFront(stats);
         }
-        if (stats.totalCompleteRounds > 0) {
-
-            toDisplay += " Score: " + dF.format(((float)stats.totalScore / (float)stats.totalCompleteRounds)) + "\n";
-            toDisplay += " Front: " + dF.format(((float)stats.totalFrontScore / (float)stats.totalCompleteRounds)) + "\n";
-            toDisplay += " Back: " + dF.format(((float)stats.totalBackScore / (float)stats.totalCompleteRounds)) + "\n\n";
-            toDisplay += " Putts: " + dF.format(((float)stats.totalPutts / (float)stats.totalCompleteRounds)) + "\n";
-            toDisplay += " Sand Traps Hit: " + dF.format(((float)stats.totalSand / (float)stats.totalCompleteRounds)) + "\n\n";
-
-            fairwayPercentage = ((float)stats.totalFairway / ((float)stats.totalCompleteRounds * 14)) * 100;
-            girPercentage = ((float)stats.totalGIR / ((float)stats.totalCompleteRounds * 18)) * 100;
-            toDisplay += " Fairway in Regulation: " + dF.format(fairwayPercentage) + "%\n";
-            toDisplay += " Green in Regulation: " + dF.format(girPercentage) + "%";
-
-            showTotalStats.setText(toDisplay);
+        else if (stats.totalRoundsFront > 0) {
+            OnlyFront(stats);
+        }
+        else if (stats.totalRoundsBack > 0) {
+            OnlyBack(stats);
         }
         else if (stats.totalRounds > 0) {
             showTotalStats.setText(R.string.stats_no_complete_rounds);
@@ -157,5 +119,82 @@ public class StatsMainActivity extends AppCompatActivity {
             showAllHoles.setVisibility(View.GONE);
             showAllRounds.setVisibility(View.GONE);
         }
+    }
+    private void BackAndFront(TotalRoundStats stats) {
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
+
+        String toDisplay = new String();
+        toDisplay += " Average Overall Statistics\n\n";
+
+        float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
+        float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
+        float totalAverage = frontAverage + backAverage;
+
+        float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
+        float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;
+        float totalPutts = frontPutts + backPutts;
+
+        float frontSand = (float)stats.totalFrontSand / (float)stats.totalRoundsFront;
+        float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
+        float totalSand = frontSand + backSand;
+
+        float totalFairway = (((float)stats.totalFrontFairway + (float)stats.totalBackFairway)
+                / (((float)stats.totalRoundsFront + (float)stats.totalRoundsBack) * 7)) * 100;
+
+        float totalGIR = (((float)stats.totalFrontGIR + (float)stats.totalBackGIR)
+                / (((float)stats.totalRoundsFront + (float)stats.totalRoundsBack) * 9)) * 100;
+
+        toDisplay += " Score: " + dF.format(totalAverage) + "\n";
+        toDisplay += " Front: " + dF.format(frontAverage) + "\n";
+        toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
+        toDisplay += " Putts: " + dF.format(totalPutts) + "\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(totalSand) + "\n\n";
+        toDisplay += " Fairway in Regulation: " + dF.format(totalFairway) + "%\n";
+        toDisplay += " Green in Regulation: " + dF.format(totalGIR) + "%";
+
+        showTotalStats.setText(toDisplay);
+    }
+    private void OnlyFront(TotalRoundStats stats) {
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
+
+        String toDisplay = new String();
+        toDisplay += " Average Overall Statistics\n\n";
+
+        float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
+        float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
+        float frontSand = (float)stats.totalFrontSand / (float)stats.totalRoundsFront;
+        float frontFairway = ((float)stats.totalFrontFairway / (stats.totalRoundsFront * 7)) * 100;
+        float frontGIR = ((float)stats.totalFrontGIR / (stats.totalRoundsFront * 9)) * 100;
+
+        toDisplay += " Front: " + dF.format(frontAverage) + "\n\n";
+        toDisplay += " Putts: " + dF.format(frontPutts) + "\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(frontSand) + "\n\n";
+        toDisplay += " Fairway in Regulation: " + dF.format(frontFairway) + "%\n";
+        toDisplay += " Green in Regulation: " + dF.format(frontGIR) + "%";
+
+        showTotalStats.setText(toDisplay);
+    }
+    private void OnlyBack(TotalRoundStats stats) {
+        DecimalFormat dF = new DecimalFormat("##.##");
+        dF.setRoundingMode(RoundingMode.DOWN);
+
+        String toDisplay = new String();
+        toDisplay += " Average Overall Statistics\n\n";
+
+        float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
+        float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;
+        float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
+        float backFairway = ((float)stats.totalBackFairway / (stats.totalRoundsBack * 7)) * 100;
+        float backGIR = ((float)stats.totalBackGIR / (stats.totalRoundsBack * 9)) * 100;
+
+        toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
+        toDisplay += " Putts: " + dF.format(backPutts) + "\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(backSand) + "\n\n";
+        toDisplay += " Fairway in Regulation: " + dF.format(backFairway) + "%\n";
+        toDisplay += " Green in Regulation: " + dF.format(backGIR) + "%";
+
+        showTotalStats.setText(toDisplay);
     }
 }
