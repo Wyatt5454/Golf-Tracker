@@ -108,8 +108,34 @@ public class StatsMainActivity extends AppCompatActivity {
 
 
         String toDisplay = new String();
+        toDisplay += " Average Overall Statistics\n\n";
+
+        if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
+            float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
+            float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
+            float totalAverage = frontAverage + backAverage;
+
+            float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
+            float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;
+            float totalPutts = frontPutts + backPutts;
+
+            float frontSand = (float)stats.totalFrontSand / (float)stats.totalRoundsFront;
+            float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
+            float totalSand = frontSand + backSand;
+
+            float totalFairway = (((float)stats.totalFrontFairway + (float)stats.totalBackFairway)
+                                    / (((float)stats.totalRoundsFront + (float)stats.totalRoundsBack) * 14)) * 100;
+
+            float frontGIR = (float)stats.totalFrontGIR / (float)stats.totalRoundsFront;
+            float backGIR = (float)stats.totalBackGIR / (float)stats.totalRoundsBack;
+            float totalGIR = frontGIR + backGIR;
+
+            toDisplay += " Score: " + dF.format(totalAverage) + "\n";
+            toDisplay += " Front: " + dF.format(frontAverage) + "\n";
+            toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
+        }
         if (stats.totalCompleteRounds > 0) {
-            toDisplay += " Average Overall Statistics\n\n";
+
             toDisplay += " Score: " + dF.format(((float)stats.totalScore / (float)stats.totalCompleteRounds)) + "\n";
             toDisplay += " Front: " + dF.format(((float)stats.totalFrontScore / (float)stats.totalCompleteRounds)) + "\n";
             toDisplay += " Back: " + dF.format(((float)stats.totalBackScore / (float)stats.totalCompleteRounds)) + "\n\n";

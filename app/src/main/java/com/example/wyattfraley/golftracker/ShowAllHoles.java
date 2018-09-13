@@ -38,16 +38,10 @@ public class ShowAllHoles extends AppCompatActivity {
 
         stats = LoadTotalStats();
 
-        if (stats.totalCompleteRounds > 0) {
+        if (stats.totalRoundsFront > 0 || stats.totalRoundsBack > 0) {
             InitializeButtons();
             InitializeText();
             SetMainTextBox();
-            SetHoleStats();
-        }
-        else if (stats.totalRounds > 0) {
-            InitializeButtons();
-            InitializeText();
-            SetMainTextBoxNoCompleteRounds();
             SetHoleStats();
         }
         else {
@@ -203,60 +197,115 @@ public class ShowAllHoles extends AppCompatActivity {
         float par3 = 0, played3 = 0;
         float par4 = 0, played4 = 0;
         float par5 = 0, played5 = 0;
+        int threesPlayed = 0, foursPlayed = 0, fivesPlayed = 0;
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        par3 += stats.holes.get(1).strokes;
-        played3 += stats.holes.get(1).timesPlayed;
-        par3 += stats.holes.get(5).strokes;
-        played3 += stats.holes.get(5).timesPlayed;
-        par3 += stats.holes.get(13).strokes;
-        played3 += stats.holes.get(13).timesPlayed;
-        par3 += stats.holes.get(16).strokes;
-        played3 += stats.holes.get(16).timesPlayed;
+        if (stats.holes.get(1).timesPlayed > 0) {
+            par3 += stats.holes.get(1).strokes;
+            played3 += stats.holes.get(1).timesPlayed;
+            threesPlayed++;
+        }
+        if (stats.holes.get(5).timesPlayed > 0) {
+            par3 += stats.holes.get(5).strokes;
+            played3 += stats.holes.get(5).timesPlayed;
+            threesPlayed++;
+        }
+        if (stats.holes.get(13).timesPlayed > 0) {
+            par3 += stats.holes.get(13).strokes;
+            played3 += stats.holes.get(13).timesPlayed;
+            threesPlayed++;
+        }
+        if (stats.holes.get(16).timesPlayed > 0) {
+            par3 += stats.holes.get(16).strokes;
+            played3 += stats.holes.get(16).timesPlayed;
+            threesPlayed++;
+        }
         if (played3 > 0) {
             par3 /= played3;
-            par3 /= 4;
+            par3 /= threesPlayed;
         }
 
 
-        par4 += stats.holes.get(2).strokes;
-        played4 += stats.holes.get(2).timesPlayed;
-        par4 += stats.holes.get(3).strokes;
-        played4 += stats.holes.get(3).timesPlayed;
-        par4 += stats.holes.get(4).strokes;
-        played4 += stats.holes.get(4).timesPlayed;
-        par4 += stats.holes.get(7).strokes;
-        played4 += stats.holes.get(7).timesPlayed;
-        par4 += stats.holes.get(8).strokes;
-        played4 += stats.holes.get(8).timesPlayed;
-        par4 += stats.holes.get(10).strokes;
-        played4 += stats.holes.get(10).timesPlayed;
-        par4 += stats.holes.get(11).strokes;
-        played4 += stats.holes.get(11).timesPlayed;
-        par4 += stats.holes.get(14).strokes;
-        played4 += stats.holes.get(14).timesPlayed;
-        par4 += stats.holes.get(15).strokes;
-        played4 += stats.holes.get(15).timesPlayed;
-        par4 += stats.holes.get(17).strokes;
-        played4 += stats.holes.get(17).timesPlayed;
+        if (stats.holes.get(2).timesPlayed > 0) {
+            par4 += stats.holes.get(2).strokes;
+            played4 += stats.holes.get(2).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(3).timesPlayed > 0) {
+            par4 += stats.holes.get(3).strokes;
+            played4 += stats.holes.get(3).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(4).timesPlayed > 0) {
+            par4 += stats.holes.get(4).strokes;
+            played4 += stats.holes.get(4).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(7).timesPlayed > 0) {
+            par4 += stats.holes.get(7).strokes;
+            played4 += stats.holes.get(7).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(8).timesPlayed > 0) {
+            par4 += stats.holes.get(8).strokes;
+            played4 += stats.holes.get(8).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(10).timesPlayed > 0) {
+            par4 += stats.holes.get(10).strokes;
+            played4 += stats.holes.get(10).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(11).timesPlayed > 0) {
+            par4 += stats.holes.get(11).strokes;
+            played4 += stats.holes.get(11).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(14).timesPlayed > 0) {
+            par4 += stats.holes.get(14).strokes;
+            played4 += stats.holes.get(14).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(15).timesPlayed > 0) {
+            par4 += stats.holes.get(15).strokes;
+            played4 += stats.holes.get(15).timesPlayed;
+            foursPlayed++;
+        }
+        if (stats.holes.get(17).timesPlayed > 0) {
+            par4 += stats.holes.get(17).strokes;
+            played4 += stats.holes.get(17).timesPlayed;
+            foursPlayed++;
+        }
         if (played4 > 0) {
             par4 /= played4;
-            par4 /= 10;
+            par4 /= foursPlayed;
         }
 
 
-        par5 += stats.holes.get(0).strokes;
-        played5 += stats.holes.get(0).timesPlayed;
-        par5 += stats.holes.get(6).strokes;
-        played5 += stats.holes.get(6).timesPlayed;
-        par5 += stats.holes.get(9).strokes;
-        played5 += stats.holes.get(9).timesPlayed;
-        par5 += stats.holes.get(12).strokes;
-        played5 += stats.holes.get(12).timesPlayed;
+        if (stats.holes.get(0).timesPlayed > 0) {
+            par5 += stats.holes.get(0).strokes;
+            played5 += stats.holes.get(0).timesPlayed;
+            fivesPlayed++;
+        }
+        if (stats.holes.get(6).timesPlayed > 0) {
+            par5 += stats.holes.get(6).strokes;
+            played5 += stats.holes.get(6).timesPlayed;
+            fivesPlayed++;
+        }
+        if (stats.holes.get(9).timesPlayed > 0) {
+            par5 += stats.holes.get(9).strokes;
+            played5 += stats.holes.get(9).timesPlayed;
+            fivesPlayed++;
+        }
+        if (stats.holes.get(12).timesPlayed > 0) {
+            par5 += stats.holes.get(12).strokes;
+            played5 += stats.holes.get(12).timesPlayed;
+            fivesPlayed++;
+        }
         if (played5 > 0) {
             par5 /= played5;
-            par5 /= 4;
+            par5 /= fivesPlayed;
         }
 
         String toAdd = new String();
