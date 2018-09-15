@@ -8,6 +8,13 @@
     tools:context=".ScorecardActivity">
 
 
+    <Button
+        android:id="@+id/penaltyButton"
+        style="@style/stroke_button_style"
+        android:onClick="AddPenalty"
+        android:text="@string/penalty_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/puttButton" />
 
     <Button
         android:id="@+id/undoButton"
@@ -15,7 +22,7 @@
         android:onClick="UndoStroke"
         android:text="@string/undo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/puttButton" />
+        app:layout_constraintEnd_toStartOf="@+id/penaltyButton" />
 
     <Button
         android:id="@+id/strokeButton"
@@ -343,8 +350,10 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="344dp"
+        android:buttonTint="@android:color/white"
         android:onClick="SandChecked"
         android:text="@string/sand"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/strokeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextButton"
@@ -356,8 +365,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="20dp"
+        android:buttonTint="@android:color/white"
         android:onClick="FairwayChecked"
         android:text="@string/fairway"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/puttButton"
         app:layout_constraintEnd_toStartOf="@+id/checkSand" />
 

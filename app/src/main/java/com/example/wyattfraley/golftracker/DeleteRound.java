@@ -50,7 +50,7 @@ public class DeleteRound extends SaveCheck {
          */
         Intent myIntent = getIntent();
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V4").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
 
         final ScoreEntry toDelete = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
@@ -77,12 +77,14 @@ public class DeleteRound extends SaveCheck {
          */
 
         int puttsFront = 0, puttsBack = 0;
+        int penaltiesFront = 0, penaltiesBack = 0;
         int sandFront = 0, sandBack = 0;
         int fairwayFront = 0, fairwayBack = 0;
         int girFront = 0, girBack = 0;
 
         Integer mStroke;
         Integer mPutt;
+        Integer mPenalty;
         Integer mSand;
         Integer mFairway;
         Integer mGir;
@@ -92,6 +94,7 @@ public class DeleteRound extends SaveCheck {
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
         ArrayList<Integer> putts = myEntry.getPutts();
+        ArrayList<Integer> penalties = myEntry.getPenalties();
         ArrayList<Integer> sand = myEntry.getSand();
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
@@ -107,15 +110,17 @@ public class DeleteRound extends SaveCheck {
         for (int i = 0; i < 9; i++) {
             mStroke = strokes.get(i);
             mPutt = putts.get(i);
+            mPenalty = penalties.get(i);
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
 
             hole = stats.holes.get(i);
-            hole.DeleteStats(mStroke, mPutt, mSand, mFairway, mGir);
+            hole.DeleteStats(mStroke, mPutt, mPenalty, mSand, mFairway, mGir);
 
             scoreFront += mStroke;
             puttsFront += mPutt;
+            penaltiesFront += mPenalty;
             sandFront += mSand;
             fairwayFront += mFairway;
             girFront += mGir;
@@ -123,25 +128,27 @@ public class DeleteRound extends SaveCheck {
         for (int i = 9; i < 18; i++) {
             mStroke = strokes.get(i);
             mPutt = putts.get(i);
+            mPenalty = penalties.get(i);
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
 
             hole = stats.holes.get(i);
-            hole.DeleteStats(mStroke, mPutt, mSand, mFairway, mGir);
+            hole.DeleteStats(mStroke, mPutt, mPenalty, mSand, mFairway, mGir);
 
             scoreBack += mStroke;
             puttsBack += mPutt;
+            penaltiesBack += mPenalty;
             sandBack += mSand;
             fairwayBack += mFairway;
             girBack += mGir;
         }
 
         if (frontComplete) {
-            stats.DeleteFrontTotals(scoreFront, puttsFront, sandFront, fairwayFront, girFront);
+            stats.DeleteFrontTotals(scoreFront, puttsFront, penaltiesFront, sandFront, fairwayFront, girFront);
         }
         if (backComplete) {
-            stats.DeleteBackTotals(scoreBack, puttsBack, sandBack, fairwayBack, girBack);
+            stats.DeleteBackTotals(scoreBack, puttsBack, penaltiesBack, sandBack, fairwayBack, girBack);
         }
         if (!frontComplete && !backComplete) {
             stats.DeleteTotalsIncomplete();

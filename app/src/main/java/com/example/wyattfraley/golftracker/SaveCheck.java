@@ -76,7 +76,7 @@ public class SaveCheck extends Activity {
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V4").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
 
 
         new AsyncTask<Void, Void, Void>() {
@@ -185,15 +185,17 @@ public class SaveCheck extends Activity {
          */
 
         int puttsFront = 0, puttsBack = 0;
+        int penaltiesFront = 0, penaltiesBack = 0;
         int sandFront = 0, sandBack = 0;
         int fairwayFront = 0, fairwayBack = 0;
         int girFront = 0, girBack = 0;
 
-        Integer mStroke, mPutt, mSand, mFairway, mGir, scoreFront = 0, scoreBack = 0;
+        Integer mStroke, mPutt, mSand, mFairway, mGir, mPenalty, scoreFront = 0, scoreBack = 0;
         TotalHoleStats hole;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
         ArrayList<Integer> putts = myEntry.getPutts();
+        ArrayList<Integer> penalties = myEntry.getPenalties();
         ArrayList<Integer> sand = myEntry.getSand();
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
@@ -209,15 +211,17 @@ public class SaveCheck extends Activity {
         for (int i = 0; i < 9; i++) {
             mStroke = strokes.get(i);
             mPutt = putts.get(i);
+            mPenalty = penalties.get(i);
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
 
             hole = stats.holes.get(i);
-            hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
+            hole.UpdateStats(mStroke, mPutt, mPenalty, mSand, mFairway, mGir);
 
             scoreFront += mStroke;
             puttsFront += mPutt;
+            penaltiesFront += mPenalty;
             sandFront += mSand;
             fairwayFront += mFairway;
             girFront += mGir;
@@ -225,25 +229,27 @@ public class SaveCheck extends Activity {
         for (int i = 9; i < 18; i++) {
             mStroke = strokes.get(i);
             mPutt = putts.get(i);
+            mPenalty = penalties.get(i);
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
 
             hole = stats.holes.get(i);
-            hole.UpdateStats(mStroke, mPutt, mSand, mFairway, mGir);
+            hole.UpdateStats(mStroke, mPutt, mPenalty, mSand, mFairway, mGir);
 
             scoreBack += mStroke;
             puttsBack += mPutt;
+            penaltiesBack += mPenalty;
             sandBack += mSand;
             fairwayBack += mFairway;
             girBack += mGir;
         }
 
         if (frontComplete) {
-            stats.UpdateFrontTotals(scoreFront, puttsFront, sandFront, fairwayFront, girFront);
+            stats.UpdateFrontTotals(scoreFront, puttsFront, penaltiesFront, sandFront, fairwayFront, girFront);
         }
         if (backComplete) {
-            stats.UpdateBackTotals(scoreBack, puttsBack, sandBack, fairwayBack, girBack);
+            stats.UpdateBackTotals(scoreBack, puttsBack, penaltiesBack, sandBack, fairwayBack, girBack);
         }
         if (!frontComplete && !backComplete) {
             stats.UpdateTotalsIncomplete();

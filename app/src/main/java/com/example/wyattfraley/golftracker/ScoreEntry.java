@@ -25,6 +25,9 @@ public class ScoreEntry implements Serializable{
     @ColumnInfo(name = "putts")
     private ArrayList<Integer> putts;
 
+    @ColumnInfo(name = "penalties")
+    private ArrayList<Integer> penalties;
+
     @ColumnInfo(name = "sand")
     private ArrayList<Integer> sand;
 
@@ -38,19 +41,21 @@ public class ScoreEntry implements Serializable{
     private Integer finalScore;
 
     @Ignore
-    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore) {
+    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore) {
         setUId(uId);
         setStrokes(strokes);
         setPutts(putts);
+        setPenalties(penalties);
         setSand(sand);
         setFairway(fairway);
         setGreenInRegulation(greenInRegulation);
         setFinalScore(finalScore);
     }
     @Ignore
-    ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
+    ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
         setStrokes(strokes);
         setPutts(putts);
+        setPenalties(penalties);
         setSand(sand);
         setFairway(fairway);
         setGreenInRegulation(greenInRegulation);
@@ -74,6 +79,13 @@ public class ScoreEntry implements Serializable{
     }
     public void setPutts(ArrayList<Integer> NPutts) {
         putts = NPutts;
+    }
+
+    public ArrayList<Integer> getPenalties() {
+        return penalties;
+    }
+    public void setPenalties(ArrayList<Integer> NPenalties) {
+        penalties = NPenalties;
     }
 
     public ArrayList<Integer> getSand() {

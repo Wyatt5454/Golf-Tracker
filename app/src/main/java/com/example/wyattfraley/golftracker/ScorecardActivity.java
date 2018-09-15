@@ -101,20 +101,24 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         ArrayList<Integer> mStrokes = new ArrayList<>();
         ArrayList<Integer> mPutts = new ArrayList<>();
+        ArrayList<Integer> mPenalties = new ArrayList<>();
         ArrayList<Integer> mSand = new ArrayList<>();
         ArrayList<Integer> mFairway = new ArrayList<>();
         ArrayList<Integer> mGIR = new ArrayList<>();
 
         for (int i = 0; i < scores.size(); i++)
         {
-            mStrokes.add(scores.get(i).getStrokes());
-            mPutts.add(scores.get(i).getPutts());
-            mSand.add(scores.get(i).getSand());
-            mFairway.add(scores.get(i).getFairway());
-            mGIR.add(scores.get(i).getGreenInRegulation());
+            Score score = scores.get(i);
+
+            mStrokes.add(score.getStrokes());
+            mPutts.add(score.getPutts());
+            mPenalties.add(score.getPenalties());
+            mSand.add(score.getSand());
+            mFairway.add(score.getFairway());
+            mGIR.add(score.getGreenInRegulation());
         }
 
-        ScoreEntry myEntry = new ScoreEntry(mStrokes, mPutts, mSand, mFairway, mGIR);
+        ScoreEntry myEntry = new ScoreEntry(mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR);
 
         state.putSerializable("score", myEntry);
         state.putInt("current", currentHole.number);
@@ -287,6 +291,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
             ArrayList<Integer> mStrokes = new ArrayList<>();
             ArrayList<Integer> mPutts = new ArrayList<>();
+            ArrayList<Integer> mPenalties = new ArrayList<>();
             ArrayList<Integer> mSand = new ArrayList<>();
             ArrayList<Integer> mFairway = new ArrayList<>();
             ArrayList<Integer> mGIR = new ArrayList<>();
@@ -294,18 +299,20 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
             for (int i = 0; i < scores.size(); i++)
             {
-                mStrokes.add(scores.get(i).getStrokes());
-                mPutts.add(scores.get(i).getPutts());
-                mSand.add(scores.get(i).getSand());
-                mFairway.add(scores.get(i).getFairway());
-                mGIR.add(scores.get(i).getGreenInRegulation());
+                Score score = scores.get(i);
+
+                mStrokes.add(score.getStrokes());
+                mPutts.add(score.getPutts());
+                mPenalties.add(score.getPenalties());
+                mSand.add(score.getSand());
+                mFairway.add(score.getFairway());
+                mGIR.add(score.getGreenInRegulation());
             }
             TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
             mFinal = Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString());
-
             String uId = Calendar.getInstance().getTime().toString();
-            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mSand, mFairway, mGIR, mFinal);
+            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal);
             myIntent.putExtra("Score", myEntry);
             startActivityForResult(myIntent, 99);
         }
@@ -822,6 +829,17 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         updateTotals(1);
         VibrateOnClick();
     }
+    public void AddPenalty(View v) {
+        currentHole.strokes++;
+        currentHole.penalties++;
+        int intScore = currentHole.getStrokes();
+        currentHole.hole.setText(Integer.toString(intScore));
+        currentHole.actions.push(getString(R.string.penalty));
+
+
+        updateTotals(1);
+        VibrateOnClick();
+    }
     @SuppressLint("SetTextI18n")
     public void UndoStroke(View v) {
         try {
@@ -832,14 +850,29 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             } else if (lastAction.equals(getString(R.string.stroke))) {
                 currentHole.strokes--;
             }
+            else if (lastAction.equals(getString(R.string.penalty))) {
+                currentHole.strokes--;
+                currentHole.penalties--;
+            }
 
             if ((currentHole.strokes - currentHole.putts) < currentHole.par - 1) {
-                currentHole.setGreenInRegulation(1);
+                if (currentHole.strokes > 0) {
+                    currentHole.setGreenInRegulation(1);
+                }
+                else {
+                    currentHole.setGreenInRegulation(0);
+                }
             }
             else {
                 currentHole.setGreenInRegulation(0);
             }
-            currentHole.hole.setText(Integer.toString(currentHole.getStrokes()));
+            if (currentHole.strokes > 0) {
+                currentHole.hole.setText(Integer.toString(currentHole.getStrokes()));
+            }
+            else {
+                currentHole.hole.setText("");
+            }
+
             updateTotals(-1);
             VibrateOnClick();
         }

@@ -10,6 +10,7 @@ public class Score {
     public int number;
     public int strokes;
     public int putts;
+    public int penalties;
     public int sand;
     public int fairway;
     public int greenInRegulation;
@@ -36,10 +37,10 @@ public class Score {
             actions.push("putt");
         }
     }
+
     public int getStrokes() {
         return strokes;
     }
-
     public void setStrokes(int nStrokes) {
         strokes = nStrokes;
 
@@ -48,10 +49,20 @@ public class Score {
         }
     }
 
+    public int getPenalties() {
+        return penalties;
+    }
+    public void setPenalties(int nPenalties) {
+        putts = nPenalties;
+
+        for (int i = 0; i < nPenalties; i++) {
+            actions.push("penalty");
+        }
+    }
+
     public int getSand() {
         return sand;
     }
-
     public void setSand(int nSand) {
         sand = nSand;
     }

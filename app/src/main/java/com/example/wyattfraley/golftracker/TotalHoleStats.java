@@ -12,6 +12,7 @@ public class TotalHoleStats implements Serializable {
     public int timesPlayed;
     public int strokes;
     public int putts;
+    public int penalties;
     public int sand;
     public int fairway;
     public int greenInRegulation;
@@ -20,25 +21,28 @@ public class TotalHoleStats implements Serializable {
         timesPlayed = 0;
         putts = 0;
         strokes = 0;
+        penalties = 0;
         sand = 0;
         fairway = 0;
         greenInRegulation = 0;
     }
-    public void UpdateStats(int nStrokes, int nPutts, int nSand, int nFairway, int nGreenInRegulation) {
+    public void UpdateStats(int nStrokes, int nPutts, int nPenalties, int nSand, int nFairway, int nGreenInRegulation) {
         if (nStrokes > 0) {
             timesPlayed++;
             putts += nPutts;
             strokes += nStrokes;
+            penalties += nPenalties;
             sand += nSand;
             fairway += nFairway;
             greenInRegulation += nGreenInRegulation;
         }
     }
-    public void DeleteStats(int nStrokes, int nPutts, int nSand, int nFairway, int nGreenInRegulation) {
+    public void DeleteStats(int nStrokes, int nPutts, int nPenalties, int nSand, int nFairway, int nGreenInRegulation) {
         if (nStrokes > 0) {
             timesPlayed--;
             putts -= nPutts;
             strokes -= nStrokes;
+            penalties -= nPenalties;
             sand -= nSand;
             fairway -= nFairway;
             greenInRegulation -= nGreenInRegulation;

@@ -12,6 +12,8 @@ public class TotalRoundStats implements Serializable{
     public int totalBackScore;
     public int totalFrontPutts;
     public int totalBackPutts;
+    public int totalFrontPenalties;
+    public int totalBackPenalties;
     public int totalFrontSand;
     public int totalBackSand;
     public int totalFrontFairway;
@@ -23,6 +25,8 @@ public class TotalRoundStats implements Serializable{
     public TotalRoundStats() {
         totalFrontPutts = 0;
         totalBackPutts = 0;
+        totalFrontPenalties = 0;
+        totalBackPenalties = 0;
         totalRounds = 0;
         totalRoundsFront = 0;
         totalRoundsBack = 0;
@@ -39,17 +43,19 @@ public class TotalRoundStats implements Serializable{
         holes = new ArrayList<>();
     }
 
-    public void UpdateFrontTotals(int scoreFront, int puttsFront, int sandFront, int fairwayFront, int girFront) {
+    public void UpdateFrontTotals(int scoreFront, int puttsFront, int penaltiesFront, int sandFront, int fairwayFront, int girFront) {
         totalFrontScore += scoreFront;
         totalFrontPutts += puttsFront;
+        totalFrontPenalties += penaltiesFront;
         totalFrontSand += sandFront;
         totalFrontFairway += fairwayFront;
         totalFrontGIR += girFront;
         totalRoundsFront++;
     }
-    public void UpdateBackTotals(int scoreBack, int puttsBack, int sandBack, int fairwayBack, int girBack) {
+    public void UpdateBackTotals(int scoreBack, int puttsBack, int penaltiesBack, int sandBack, int fairwayBack, int girBack) {
         totalBackScore += scoreBack;
         totalBackPutts += puttsBack;
+        totalBackPenalties += penaltiesBack;
         totalBackSand += sandBack;
         totalBackFairway += fairwayBack;
         totalBackGIR += girBack;
@@ -58,17 +64,19 @@ public class TotalRoundStats implements Serializable{
     public void UpdateTotalsIncomplete() {
         totalRounds++;
     }
-    public void DeleteFrontTotals(int scoreFront, int puttsFront, int sandFront, int fairwayFront, int girFront) {
+    public void DeleteFrontTotals(int scoreFront, int puttsFront, int penaltiesFront, int sandFront, int fairwayFront, int girFront) {
         totalFrontScore -= scoreFront;
         totalFrontPutts -= puttsFront;
+        totalFrontPenalties -= penaltiesFront;
         totalFrontSand -= sandFront;
         totalFrontFairway -= fairwayFront;
         totalFrontGIR -= girFront;
         totalRoundsFront--;
     }
-    public void DeleteBackTotals(int scoreBack, int puttsBack, int sandBack, int fairwayBack, int girBack) {
+    public void DeleteBackTotals(int scoreBack, int puttsBack, int penaltiesBack, int sandBack, int fairwayBack, int girBack) {
         totalBackScore -= scoreBack;
         totalBackPutts -= puttsBack;
+        totalBackPenalties -= penaltiesBack;
         totalBackSand -= sandBack;
         totalBackFairway -= fairwayBack;
         totalBackGIR -= girBack;

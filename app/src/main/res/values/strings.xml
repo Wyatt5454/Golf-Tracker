@@ -2,9 +2,11 @@
     <string name="app_name">GolfTracker</string>
     <string name="putt">putt</string>
     <string name="stroke">stroke</string>
+    <string name="penalty">penalty</string>
     <string name="next">Next Hole</string>
     <string name="previous">Prev Hole</string>
     <string name="undo">Undo</string>
+    <string name="penalty_up">Penalty+</string>
     <string name="putt_up">Putt+</string>
     <string name="stroke_up">Stroke+</string>
     <string name="fairway">Fairway</string>
