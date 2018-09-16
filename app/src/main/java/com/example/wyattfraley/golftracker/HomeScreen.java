@@ -23,7 +23,19 @@ public class HomeScreen extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         Log.i(TAG, "Golf application start.");
 
+        // This checks to see if the app was reopened from the launcher,
+        // and goes to the old version if another exists.
+        if (!isTaskRoot()
+                && getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
+                && getIntent().getAction() != null
+                && getIntent().getAction().equals(Intent.ACTION_MAIN)) {
 
+            finish();
+            return;
+        }
+
+
+        // Asks for permission to access location if the app doesn't already have it.
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -37,7 +49,6 @@ public class HomeScreen extends AppCompatActivity {
         /*
          * Opens the scorecard activity.
          */
-
         VibrateOnClick();
         Intent myIntent = new Intent(HomeScreen.this, ScorecardActivity.class);
         startActivity(myIntent);

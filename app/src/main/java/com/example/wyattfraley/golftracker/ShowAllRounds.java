@@ -34,7 +34,7 @@ public class ShowAllRounds extends AppCompatActivity{
     }
     @SuppressLint("StaticFieldLeak")
     public void LoadRounds() {
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V4").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
 
         new AsyncTask<Void, Void, Void>() {
             @Override

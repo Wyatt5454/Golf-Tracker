@@ -31,7 +31,8 @@
             android:theme="@style/AppTheme.PopStyle" />
         <activity
             android:name=".StatsMainActivity"
-            android:parentActivityName=".HomeScreen" />
+            android:parentActivityName=".HomeScreen"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ShowAllRounds"
             android:parentActivityName=".StatsMainActivity" />

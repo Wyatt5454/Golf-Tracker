@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "0495cb513f610e5d5ee676065f4f89ad",
+    "entities": [
+      {
+        "tableName": "ScoreEntry",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uId` TEXT NOT NULL, `strokes` TEXT, `putts` TEXT, `penalties` TEXT, `sand` TEXT, `fairway` TEXT, `greenInRegulation` TEXT, `finalscore` INTEGER, PRIMARY KEY(`uId`))",
+        "fields": [
+          {
+            "fieldPath": "uId",
+            "columnName": "uId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strokes",
+            "columnName": "strokes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "putts",
+            "columnName": "putts",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "penalties",
+            "columnName": "penalties",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sand",
+            "columnName": "sand",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fairway",
+            "columnName": "fairway",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "greenInRegulation",
+            "columnName": "greenInRegulation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "finalScore",
+            "columnName": "finalscore",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0495cb513f610e5d5ee676065f4f89ad\")"
+    ]
+  }
+}

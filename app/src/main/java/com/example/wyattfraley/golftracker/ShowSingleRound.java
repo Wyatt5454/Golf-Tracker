@@ -30,6 +30,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int fairwayTotal;
     int girTotal;
     int finalScore;
+    int parSoFar = 0, holesPlayed = 0, fairwaysPlayed = 0;
     private final static int VIBRATE_DURATION = 20;
 
     @Override
@@ -345,14 +346,13 @@ public class ShowSingleRound  extends AppCompatActivity{
         Integer mSand;
         Integer mFairway;
         Integer mGir;
-        int afterNine = 0;
+        int afterNine = 0, par;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
         ArrayList<Integer> putts = myEntry.getPutts();
         ArrayList<Integer> sand = myEntry.getSand();
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
-        Integer finalScore = myEntry.getFinalScore();
         List<Integer> pars = InitializePars();
         Score mScore;
 
@@ -375,6 +375,15 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
 
+            if (mStroke > 0) {
+                par = pars.get(i);
+                parSoFar += par;
+                holesPlayed++;
+                if (par > 3) {
+                    fairwaysPlayed++;
+                }
+            }
+
             puttsTotal += mPutt;
             sandTotal += mSand;
             fairwayTotal += mFairway;
@@ -384,6 +393,7 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         mScore = scores.get(9);
         mScore.hole.setText(Integer.toString(afterNine));
+        afterNine = 0;
 
         for (int i = 9; i < 18; i++) {
             mStroke = strokes.get(i);
@@ -402,14 +412,24 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
 
+            if (mStroke > 0) {
+                par = pars.get(i);
+                parSoFar += par;
+                holesPlayed++;
+                if (par > 3) {
+                    fairwaysPlayed++;
+                }
+            }
+
             puttsTotal += mPutt;
             sandTotal += mSand;
             fairwayTotal += mFairway;
             girTotal += mGir;
+            afterNine += mStroke;
         }
 
         mScore = scores.get(19);
-        mScore.hole.setText(Integer.toString(finalScore));
+        mScore.hole.setText(Integer.toString(afterNine));
     }
 
     public void MarkScore(){
@@ -460,16 +480,16 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         overallInfo += " Final Score: " + finalScore + "\n";
         overallInfo += " Net Score: ";
-        int score = finalScore - 72;
+        int score = finalScore - parSoFar;
         if (score > 0) {
             overallInfo += "+";
         }
         overallInfo += Integer.toString(score) + "\n\n";
         overallInfo += " Total putts: " + puttsTotal + "\n";
-        overallInfo += " Putts Per Hole: " + dF.format((float)puttsTotal / 18) + "\n\n";
+        overallInfo += " Putts Per Hole: " + dF.format((float)puttsTotal / holesPlayed) + "\n\n";
 
-        float fairwayPercentage = ((float)fairwayTotal / 14) * 100;
-        float girPercentage = ((float)girTotal / 18) * 100;
+        float fairwayPercentage = ((float)fairwayTotal / fairwaysPlayed) * 100;
+        float girPercentage = ((float)girTotal / holesPlayed) * 100;
 
         overallInfo += " Fairways hit: " + dF.format(fairwayPercentage) + "%\n";
         overallInfo += " Greens hit: " + dF.format(girPercentage) + "%";
