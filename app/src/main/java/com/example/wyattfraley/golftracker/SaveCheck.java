@@ -21,6 +21,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 public class SaveCheck extends Activity {
     TextView saveText;
@@ -63,6 +65,8 @@ public class SaveCheck extends Activity {
         else {
             saveText.setText(R.string.ask_save_incomplete);
         }
+
+        DatabaseTest();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -200,9 +204,11 @@ public class SaveCheck extends Activity {
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
 
+        List<Integer> pars = InitializePars();
+
         if (stats.holes.size() == 0) {
             for (int z = 0; z < 18; z++) {
-                TotalHoleStats nHole = new TotalHoleStats();
+                TotalHoleStats nHole = new TotalHoleStats(z + 1, pars.get(z));
                 stats.holes.add(nHole);
             }
         }
@@ -308,6 +314,93 @@ public class SaveCheck extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public List<Integer> InitializePars() {
+        /*
+         * Assigns a par to each hole.
+         */
+        List<Integer> pars = new ArrayList<>();
+        pars.add(5);
+        pars.add(3);
+        pars.add(4);
+        pars.add(4);
+        pars.add(4);
+        pars.add(3);
+        pars.add(5);
+        pars.add(4);
+        pars.add(4);
+        pars.add(5);
+        pars.add(4);
+        pars.add(4);
+        pars.add(5);
+        pars.add(3);
+        pars.add(4);
+        pars.add(4);
+        pars.add(3);
+        pars.add(4);
+
+        return pars;
+    }
+
+    private void DatabaseTest() {
+        /*
+         * This function exists only to insert a few rounds into the database to use for testing.
+         * Will not be included in the release version.
+         */
+
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
+
+        List<ScoreEntry> entries = new ArrayList<>();
+        String uid = "testScore ";
+        ArrayList<Integer> strokes = new ArrayList<>();
+        ArrayList<Integer> putts = new ArrayList<>();
+        ArrayList<Integer> penalties = new ArrayList<>();
+        ArrayList<Integer> sand = new ArrayList<>();
+        ArrayList<Integer> fairway = new ArrayList<>();
+        ArrayList<Integer> gir = new ArrayList<>();
+        Integer finalScore = 0;
+
+        Random rand = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 18; j++) {
+                Integer high = rand.nextInt(4) + 2;
+                Integer low = rand.nextInt(3) + 1;
+                Integer zeroOrOne = rand.nextInt(2);
+
+                strokes.add(high);
+                putts.add(low);
+                penalties.add(zeroOrOne);
+                sand.add(zeroOrOne);
+                fairway.add(zeroOrOne);
+                gir.add(zeroOrOne);
+                finalScore += high;
+            }
+            ScoreEntry entry = new ScoreEntry(uid + Integer.toString(i), strokes, putts, penalties, sand, fairway, gir, finalScore);
+            entries.add(entry);
+
+            strokes = new ArrayList<>();
+            putts = new ArrayList<>();
+            penalties = new ArrayList<>();
+            sand = new ArrayList<>();
+            fairway = new ArrayList<>();
+            gir = new ArrayList<>();
+            finalScore = 0;
+        }
+
+        for (int i = 0; i < entries.size(); i++) {
+            final ScoreEntry toEnter = entries.get(i);
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    Db.myScoreEntryDao().insertAll(toEnter);
+                    return null;
+                }
+            }.execute();
+            UpdateTotals(toEnter, true, true);
         }
     }
 }

@@ -22,6 +22,7 @@ import java.io.ObjectInputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.wyattfraley.golftracker.R.color.gray;
@@ -198,7 +199,7 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
                     statsToAdd += "\n";
                 }
 
-                if (i != 1 && i != 5 && i != 13 && i != 16) {
+                if (holeStats.par != 3) {
                     float fairwayPercentage = ((float)holeStats.fairway / (float)holeStats.timesPlayed) * 100;
                     statsToAdd += " Fairway Percentage: " + dF.format(fairwayPercentage) + "%\n";
                 }
@@ -346,13 +347,88 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void SortByPlayingOrder() {
+        List<TotalHoleStats> holeStats = stats.holes;
 
+        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
+            @Override
+            public int compare(TotalHoleStats first, TotalHoleStats second) {
+                if (first.number < second.number) {
+                    return -1;
+                }
+                else if (first.number > second.number) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+
+        holeStats.sort(comparator);
+        SortButtonsAndBoxes(holeStats);
     }
     private void SortByBestToWorstScore() {
+        List<TotalHoleStats> holeStats = stats.holes;
 
+        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
+            @Override
+            public int compare(TotalHoleStats first, TotalHoleStats second) {
+                float firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
+                float secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+
+                if (firstAverage < secondAverage) {
+                    return -1;
+                }
+                else if (firstAverage > secondAverage) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+
+        holeStats.sort(comparator);
+        SortButtonsAndBoxes(holeStats);
     }
     private void SortByWorstToBestScore() {
+        List<TotalHoleStats> holeStats = stats.holes;
 
+        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
+            @Override
+            public int compare(TotalHoleStats first, TotalHoleStats second) {
+                float firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
+                float secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+
+                if (firstAverage > secondAverage) {
+                    return -1;
+                }
+                else if (firstAverage < secondAverage) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+
+        holeStats.sort(comparator);
+        SortButtonsAndBoxes(holeStats);
+    }
+    private void SortButtonsAndBoxes(List<TotalHoleStats> totalHoleStats) {
+        LinearLayout linearLayout = findViewById(R.id.allHolesLL);
+        linearLayout.removeAllViews();
+        linearLayout.addView(mainText);
+        linearLayout.addView(sortSpinner);
+
+        TotalHoleStats holeStats;
+        View button;
+        View textBox;
+
+        for (int i = 0; i < totalHoleStats.size(); i++) {
+            holeStats = totalHoleStats.get(i);
+
+            button = buttons.get(holeStats.number - 1);
+            linearLayout.addView(button);
+
+            textBox = textViews.get(holeStats.number - 1);
+            textBox.setVisibility(View.GONE);
+            linearLayout.addView(textBox);
+        }
     }
 
     public void toggle_contents(View v){

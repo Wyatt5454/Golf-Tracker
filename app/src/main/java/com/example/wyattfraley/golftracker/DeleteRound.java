@@ -99,12 +99,6 @@ public class DeleteRound extends SaveCheck {
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
 
-        if (stats.holes.size() == 0) {
-            for (int z = 0; z < 18; z++) {
-                TotalHoleStats nHole = new TotalHoleStats();
-                stats.holes.add(nHole);
-            }
-        }
 
         // This loop parses the data into 18 holes and updates the stats.
         for (int i = 0; i < 9; i++) {

@@ -3,8 +3,6 @@ package com.example.wyattfraley.golftracker;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
