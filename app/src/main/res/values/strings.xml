@@ -42,4 +42,9 @@
     <string name="ask_save_incomplete">The current round is incomplete, are you sure you want to end the round?</string>
     <string name="stats_no_complete_rounds">You don\'t have any complete rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
     <string name="stats_no_rounds">You don\'t have any rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
+    <string-array name="sort_holes">
+        <item>Playing Order</item>
+        <item>Best to Worst: Score</item>
+        <item>Worst to Best: Score</item>
+    </string-array>
 </resources>

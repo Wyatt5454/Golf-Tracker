@@ -1,12 +1,16 @@
 package com.example.wyattfraley.golftracker;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -20,12 +24,15 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowAllHoles extends AppCompatActivity {
+import static com.example.wyattfraley.golftracker.R.color.gray;
+
+public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FXUtility fxUtility;
     TextView mainText;
     List<Button> buttons;
     List<TextView> textViews;
     TotalRoundStats stats;
+    Spinner sortSpinner;
     private final static int VIBRATE_DURATION = 20;
 
     @Override
@@ -41,6 +48,7 @@ public class ShowAllHoles extends AppCompatActivity {
         if (stats.totalRoundsFront > 0 || stats.totalRoundsBack > 0) {
             InitializeButtons();
             InitializeText();
+            InitializeSpinner();
             SetMainTextBox();
             SetHoleStats();
         }
@@ -156,6 +164,16 @@ public class ShowAllHoles extends AppCompatActivity {
         toAdd.setVisibility(View.GONE);
         textViews.add(toAdd);
     }
+    private void InitializeSpinner() {
+        sortSpinner = findViewById(R.id.sortSpinner);
+        sortSpinner.setOnItemSelectedListener(this);
+        //sortSpinner.getBackground().setColorFilter(getResources().getColor(gray), PorterDuff.Mode.SRC_ATOP);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort_holes, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+    }
     private void SetHoleStats() {
         /*
          * Goes through all of the text boxes, and sets the text boxes
@@ -266,9 +284,6 @@ public class ShowAllHoles extends AppCompatActivity {
     private void SetMainTextBoxNoRounds() {
         mainText.setText(R.string.stats_no_rounds);
     }
-    private void SetMainTextBoxNoCompleteRounds() {
-        mainText.setText(R.string.stats_no_complete_rounds);
-    }
 
     private TotalRoundStats LoadTotalStats() {
         /*
@@ -306,6 +321,38 @@ public class ShowAllHoles extends AppCompatActivity {
             e.printStackTrace();
         }
         return stats;
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        Object itemAtPosition = parent.getItemAtPosition(pos);
+
+        switch (itemAtPosition.toString()) {
+            case "Playing Order":
+                SortByPlayingOrder();
+                break;
+            case "Best to Worst: Score":
+                SortByBestToWorstScore();
+                break;
+            case "Worst to Best: Score":
+                SortByWorstToBestScore();
+                break;
+        }
+
+    }
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
+    private void SortByPlayingOrder() {
+
+    }
+    private void SortByBestToWorstScore() {
+
+    }
+    private void SortByWorstToBestScore() {
+
     }
 
     public void toggle_contents(View v){

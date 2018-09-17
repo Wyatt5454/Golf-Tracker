@@ -33,10 +33,13 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="D:\Documents\MyAndroidApps\GolfTracker\app\src\main\res\drawable\wgccicon.png" />
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="backgroundLayerName" value="icon_white_background" />
+                                      <entry key="foregroundImage" value="D:\Documents\MyAndroidApps\GolfTracker\app\src\main\res\drawable\logo_icon.jpg" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
                                       <entry key="outputName" value="wgcc_icon" />
+                                      <entry key="previewDensity" value="HIGH" />
                                     </map>
                                   </option>
                                 </PersistentState>
