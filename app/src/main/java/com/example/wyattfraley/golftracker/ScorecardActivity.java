@@ -84,8 +84,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(15 * 100)        // 1.5 seconds, in milliseconds
-                .setFastestInterval(15 * 100); // 3 second, in milliseconds
+                .setInterval(5 * 100)        // .5 seconds, in milliseconds
+                .setFastestInterval(5 * 100); // .5 second, in milliseconds
     }
 
     @Override
@@ -189,6 +189,16 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     protected void onStart() {
         super.onStart();
+
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            handleNewLocation(location);
+        }
+        catch (SecurityException e) {}
     }
 
     @Override
@@ -210,7 +220,17 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     protected void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
+
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            handleNewLocation(location);
+        }
+        catch (SecurityException e) {}
+
     }
 
     @Override

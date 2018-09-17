@@ -371,8 +371,19 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
             @Override
             public int compare(TotalHoleStats first, TotalHoleStats second) {
-                float firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
-                float secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+                float firstAverage, secondAverage;
+                if (first.timesPlayed > 0) {
+                    firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
+                }
+                else {
+                    firstAverage = 999;
+                }
+                if (second.timesPlayed > 0) {
+                    secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+                }
+                else {
+                    secondAverage = 999;
+                }
 
                 if (firstAverage < secondAverage) {
                     return -1;
@@ -393,8 +404,19 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
             @Override
             public int compare(TotalHoleStats first, TotalHoleStats second) {
-                float firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
-                float secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+                float firstAverage, secondAverage;
+                if (first.timesPlayed > 0) {
+                    firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
+                }
+                else {
+                    firstAverage = -999;
+                }
+                if (second.timesPlayed > 0) {
+                    secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+                }
+                else {
+                    secondAverage = -999;
+                }
 
                 if (firstAverage > secondAverage) {
                     return -1;

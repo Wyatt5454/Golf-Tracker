@@ -352,8 +352,6 @@ public class SaveCheck extends Activity {
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
 
-        List<ScoreEntry> entries = new ArrayList<>();
-        String uid = "testScore ";
         ArrayList<Integer> strokes = new ArrayList<>();
         ArrayList<Integer> putts = new ArrayList<>();
         ArrayList<Integer> penalties = new ArrayList<>();
@@ -364,43 +362,29 @@ public class SaveCheck extends Activity {
 
         Random rand = new Random();
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 18; j++) {
-                Integer high = rand.nextInt(4) + 2;
-                Integer low = rand.nextInt(3) + 1;
-                Integer zeroOrOne = rand.nextInt(2);
+        for (int j = 0; j < 18; j++) {
+            Integer high = rand.nextInt(4) + 2;
+            Integer low = rand.nextInt(3) + 1;
+            Integer zeroOrOne = rand.nextInt(2);
 
-                strokes.add(high);
-                putts.add(low);
-                penalties.add(zeroOrOne);
-                sand.add(zeroOrOne);
-                fairway.add(zeroOrOne);
-                gir.add(zeroOrOne);
-                finalScore += high;
+            strokes.add(high);
+            putts.add(low);
+            penalties.add(zeroOrOne);
+            sand.add(zeroOrOne);
+            fairway.add(zeroOrOne);
+            gir.add(zeroOrOne);
+            finalScore += high;
+        }
+        final ScoreEntry toEnter = new ScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore);
+
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Db.myScoreEntryDao().insertAll(toEnter);
+                return null;
             }
-            ScoreEntry entry = new ScoreEntry(uid + Integer.toString(i), strokes, putts, penalties, sand, fairway, gir, finalScore);
-            entries.add(entry);
-
-            strokes = new ArrayList<>();
-            putts = new ArrayList<>();
-            penalties = new ArrayList<>();
-            sand = new ArrayList<>();
-            fairway = new ArrayList<>();
-            gir = new ArrayList<>();
-            finalScore = 0;
-        }
-
-        for (int i = 0; i < entries.size(); i++) {
-            final ScoreEntry toEnter = entries.get(i);
-
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    Db.myScoreEntryDao().insertAll(toEnter);
-                    return null;
-                }
-            }.execute();
-            UpdateTotals(toEnter, true, true);
-        }
+        }.execute();
+        UpdateTotals(toEnter, true, true);
     }
 }
