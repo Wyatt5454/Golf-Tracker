@@ -29,6 +29,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int sandTotal;
     int fairwayTotal;
     int girTotal;
+    int penaltiesTotal;
     int finalScore;
     int parSoFar = 0, holesPlayed = 0, fairwaysPlayed = 0;
     private final static int VIBRATE_DURATION = 20;
@@ -346,6 +347,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         Integer mSand;
         Integer mFairway;
         Integer mGir;
+        Integer mPenalty;
         int afterNine = 0, par;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
@@ -353,6 +355,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         ArrayList<Integer> sand = myEntry.getSand();
         ArrayList<Integer> fairway = myEntry.getFairway();
         ArrayList<Integer> gir = myEntry.getGreenInRegulation();
+        ArrayList<Integer> penalties = myEntry.getPenalties();
         List<Integer> pars = InitializePars();
         Score mScore;
 
@@ -363,6 +366,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
+            mPenalty = penalties.get(i);
 
 
             mScore = scores.get(i);
@@ -371,6 +375,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.setStrokes(mStroke);
             mScore.setFairway(mFairway);
             mScore.setGreenInRegulation(mGir);
+            mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
             mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
@@ -388,6 +393,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             sandTotal += mSand;
             fairwayTotal += mFairway;
             girTotal += mGir;
+            penaltiesTotal += mPenalty;
             afterNine += mStroke;
         }
 
@@ -401,6 +407,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mSand = sand.get(i);
             mFairway = fairway.get(i);
             mGir = gir.get(i);
+            mPenalty = penalties.get(i);
 
             mScore = scores.get(i + 1);
             mScore.setPutts(mPutt);
@@ -408,6 +415,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             mScore.setStrokes(mStroke);
             mScore.setFairway(mFairway);
             mScore.setGreenInRegulation(mGir);
+            mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
             mScore.hole.setText(Integer.toString(mStroke));
             MarkScoreSpecific(mScore);
@@ -425,6 +433,7 @@ public class ShowSingleRound  extends AppCompatActivity{
             sandTotal += mSand;
             fairwayTotal += mFairway;
             girTotal += mGir;
+            penaltiesTotal += mPenalty;
             afterNine += mStroke;
         }
 
@@ -492,7 +501,9 @@ public class ShowSingleRound  extends AppCompatActivity{
         float girPercentage = ((float)girTotal / holesPlayed) * 100;
 
         overallInfo += " Fairways hit: " + dF.format(fairwayPercentage) + "%\n";
-        overallInfo += " Greens hit: " + dF.format(girPercentage) + "%";
+        overallInfo += " Greens hit: " + dF.format(girPercentage) + "%\n";
+
+        overallInfo += " Penalty Strokes: " + dF.format(penaltiesTotal);
 
         overallStats.setText(overallInfo);
     }
@@ -504,7 +515,14 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         individualInfo += " Par: " + currentHole.par + "\n";
         individualInfo += " Score: " + currentHole.strokes + "\n";
-        individualInfo += " Putts: " + currentHole.putts + "\n\n";
+        individualInfo += " Putts: " + currentHole.putts + "\n";
+
+        if (currentHole.penalties > 0) {
+            individualInfo += " Penalties: " + currentHole.penalties + "\n\n";
+        }
+        else {
+            individualInfo += "\n";
+        }
 
         if (currentHole.getFairway() == 1) {
             individualInfo += " " + getString(R.string.hit_fairway);

@@ -139,6 +139,10 @@ public class StatsMainActivity extends AppCompatActivity {
         float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
         float totalSand = frontSand + backSand;
 
+        float frontPenalties = (float)stats.totalFrontPenalties / (float)stats.totalRoundsFront;
+        float backPenalties = (float)stats.totalBackPenalties / (float)stats.totalRoundsBack;
+        float totalPenalties = frontPenalties + backPenalties;
+
         float totalFairway = (((float)stats.totalFrontFairway + (float)stats.totalBackFairway)
                 / (((float)stats.totalRoundsFront + (float)stats.totalRoundsBack) * 7)) * 100;
 
@@ -149,7 +153,8 @@ public class StatsMainActivity extends AppCompatActivity {
         toDisplay += " Front: " + dF.format(frontAverage) + "\n";
         toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
         toDisplay += " Putts: " + dF.format(totalPutts) + "\n";
-        toDisplay += " Sand Traps Hit: " + dF.format(totalSand) + "\n\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(totalSand) + "\n";
+        toDisplay += " Penalty Strokes: " + dF.format(totalPenalties) + "\n\n";
         toDisplay += " Fairway in Regulation: " + dF.format(totalFairway) + "%\n";
         toDisplay += " Green in Regulation: " + dF.format(totalGIR) + "%";
 
@@ -165,12 +170,14 @@ public class StatsMainActivity extends AppCompatActivity {
         float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
         float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
         float frontSand = (float)stats.totalFrontSand / (float)stats.totalRoundsFront;
+        float frontPenalties = (float)stats.totalFrontPenalties / (float)stats.totalRoundsFront;
         float frontFairway = ((float)stats.totalFrontFairway / (stats.totalRoundsFront * 7)) * 100;
         float frontGIR = ((float)stats.totalFrontGIR / (stats.totalRoundsFront * 9)) * 100;
 
         toDisplay += " Front: " + dF.format(frontAverage) + "\n\n";
         toDisplay += " Putts: " + dF.format(frontPutts) + "\n";
-        toDisplay += " Sand Traps Hit: " + dF.format(frontSand) + "\n\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(frontSand) + "\n";
+        toDisplay += " Penalties: " + dF.format(frontPenalties) + "\n\n";
         toDisplay += " Fairway in Regulation: " + dF.format(frontFairway) + "%\n";
         toDisplay += " Green in Regulation: " + dF.format(frontGIR) + "%";
 
@@ -186,12 +193,14 @@ public class StatsMainActivity extends AppCompatActivity {
         float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
         float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;
         float backSand = (float)stats.totalBackSand / (float)stats.totalRoundsBack;
+        float backPenalties = (float)stats.totalBackPenalties / (float)stats.totalRoundsFront;
         float backFairway = ((float)stats.totalBackFairway / (stats.totalRoundsBack * 7)) * 100;
         float backGIR = ((float)stats.totalBackGIR / (stats.totalRoundsBack * 9)) * 100;
 
         toDisplay += " Back: " + dF.format(backAverage) + "\n\n";
         toDisplay += " Putts: " + dF.format(backPutts) + "\n";
-        toDisplay += " Sand Traps Hit: " + dF.format(backSand) + "\n\n";
+        toDisplay += " Sand Traps Hit: " + dF.format(backSand) + "\n";
+        toDisplay += " Penalties: " + dF.format(backPenalties) + "\n\n";
         toDisplay += " Fairway in Regulation: " + dF.format(backFairway) + "%\n";
         toDisplay += " Green in Regulation: " + dF.format(backGIR) + "%";
 

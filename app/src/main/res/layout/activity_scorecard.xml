@@ -9,20 +9,22 @@
 
 
     <Button
-        android:id="@+id/penaltyButton"
-        style="@style/stroke_button_style"
-        android:onClick="AddPenalty"
-        android:text="@string/penalty_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/puttButton" />
-
-    <Button
         android:id="@+id/undoButton"
         style="@style/stroke_button_style"
+        android:layout_marginStart="8dp"
         android:onClick="UndoStroke"
         android:text="@string/undo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/penaltyButton" />
+        app:layout_constraintStart_toEndOf="@+id/penaltyButton" />
+
+    <Button
+        android:id="@+id/penaltyButton"
+        style="@style/stroke_button_style"
+        android:layout_marginStart="8dp"
+        android:onClick="AddPenalty"
+        android:text="@string/penalty_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/strokeButton"

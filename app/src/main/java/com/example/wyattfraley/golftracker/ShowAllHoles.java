@@ -170,8 +170,15 @@ public class ShowAllHoles extends AppCompatActivity {
 
             String statsToAdd = new String();
             if (holeStats.timesPlayed > 0) {
-                statsToAdd += " Average score: " + dF.format(holeStats.strokes / holeStats.timesPlayed) + "\n";
-                statsToAdd += " Average putts: " + dF.format(holeStats.putts / holeStats.timesPlayed) + "\n\n";
+                statsToAdd += " Average score: " + dF.format((float)holeStats.strokes / (float)holeStats.timesPlayed) + "\n";
+                statsToAdd += " Average putts: " + dF.format((float)holeStats.putts / (float)holeStats.timesPlayed) + "\n";
+
+                if (holeStats.penalties > 0) {
+                    statsToAdd += " Average Penalties: " + dF.format((float)holeStats.penalties / (float)holeStats.timesPlayed) + "\n\n";
+                }
+                else {
+                    statsToAdd += "\n";
+                }
 
                 if (i != 1 && i != 5 && i != 13 && i != 16) {
                     float fairwayPercentage = ((float)holeStats.fairway / (float)holeStats.timesPlayed) * 100;
