@@ -80,7 +80,7 @@ public class SaveCheck extends Activity {
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
 
         new AsyncTask<Void, Void, Void>() {
@@ -350,7 +350,7 @@ public class SaveCheck extends Activity {
          * Will not be included in the release version.
          */
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         ArrayList<Integer> strokes = new ArrayList<>();
         ArrayList<Integer> putts = new ArrayList<>();
@@ -375,7 +375,7 @@ public class SaveCheck extends Activity {
             gir.add(zeroOrOne);
             finalScore += high;
         }
-        final ScoreEntry toEnter = new ScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore);
+        final ScoreEntry toEnter = new ScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore, 72);
 
 
         new AsyncTask<Void, Void, Void>() {

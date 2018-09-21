@@ -30,8 +30,8 @@ public class ShowSingleRound  extends AppCompatActivity{
     int fairwayTotal;
     int girTotal;
     int penaltiesTotal;
-    int finalScore;
-    int parSoFar = 0, holesPlayed = 0, fairwaysPlayed = 0;
+    int finalScore, netScore;
+    int holesPlayed = 0, fairwaysPlayed = 0;
     private final static int VIBRATE_DURATION = 20;
 
     @Override
@@ -54,6 +54,7 @@ public class ShowSingleRound  extends AppCompatActivity{
         LoadScores(myEntry);
         currentHole = scores.get(0);
         finalScore = myEntry.getFinalScore();
+        netScore = finalScore - myEntry.getParPlayed();
 
         SetOverallTextBox();
     }
@@ -382,7 +383,6 @@ public class ShowSingleRound  extends AppCompatActivity{
 
             if (mStroke > 0) {
                 par = pars.get(i);
-                parSoFar += par;
                 holesPlayed++;
                 if (par > 3) {
                     fairwaysPlayed++;
@@ -422,7 +422,6 @@ public class ShowSingleRound  extends AppCompatActivity{
 
             if (mStroke > 0) {
                 par = pars.get(i);
-                parSoFar += par;
                 holesPlayed++;
                 if (par > 3) {
                     fairwaysPlayed++;
@@ -489,11 +488,11 @@ public class ShowSingleRound  extends AppCompatActivity{
 
         overallInfo += " Final Score: " + finalScore + "\n";
         overallInfo += " Net Score: ";
-        int score = finalScore - parSoFar;
-        if (score > 0) {
+
+        if (netScore > 0) {
             overallInfo += "+";
         }
-        overallInfo += Integer.toString(score) + "\n\n";
+        overallInfo += Integer.toString(netScore) + "\n\n";
         overallInfo += " Total putts: " + puttsTotal + "\n";
         overallInfo += " Putts Per Hole: " + dF.format((float)puttsTotal / holesPlayed) + "\n\n";
 

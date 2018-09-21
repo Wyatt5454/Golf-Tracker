@@ -40,8 +40,11 @@ public class ScoreEntry implements Serializable{
     @ColumnInfo(name = "finalscore")
     private Integer finalScore;
 
+    @ColumnInfo(name = "parPlayed")
+    private Integer parPlayed;
+
     @Ignore
-    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore) {
+    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
         setUId(uId);
         setStrokes(strokes);
         setPutts(putts);
@@ -50,6 +53,7 @@ public class ScoreEntry implements Serializable{
         setFairway(fairway);
         setGreenInRegulation(greenInRegulation);
         setFinalScore(finalScore);
+        setParPlayed(parPlayed);
     }
     @Ignore
     ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
@@ -111,4 +115,9 @@ public class ScoreEntry implements Serializable{
         return finalScore;
     }
     public void setFinalScore(Integer aFinal) { finalScore = aFinal; }
+
+    public Integer getParPlayed() {
+        return parPlayed;
+    }
+    public void setParPlayed(Integer nParPlayed) { parPlayed = nParPlayed; }
 }

@@ -50,7 +50,7 @@ public class DeleteRound extends SaveCheck {
          */
         Intent myIntent = getIntent();
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         final ScoreEntry toDelete = (ScoreEntry)myIntent.getSerializableExtra("Score");
 

@@ -101,8 +101,8 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
             @Override
             public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = first.getFinalScore();
-                Integer secondScore = second.getFinalScore();
+                Integer firstScore = first.getFinalScore() - first.getParPlayed();
+                Integer secondScore = second.getFinalScore() - second.getParPlayed();
 
                 if (firstScore < secondScore) {
                     return -1;
@@ -121,8 +121,8 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
             @Override
             public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = first.getFinalScore();
-                Integer secondScore = second.getFinalScore();
+                Integer firstScore = first.getFinalScore() - first.getParPlayed();
+                Integer secondScore = second.getFinalScore() - second.getParPlayed();
 
                 if (firstScore > secondScore) {
                     return -1;
@@ -143,7 +143,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
 
     @SuppressLint("StaticFieldLeak")
     public void LoadRounds() {
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V5").fallbackToDestructiveMigration().build();
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         new AsyncTask<Void, Void, Void>() {
             @Override

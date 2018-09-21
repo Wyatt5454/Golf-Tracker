@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
-@Database(entities = {ScoreEntry.class}, version = 5)
+@Database(entities = {ScoreEntry.class}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class GolfDatabase extends RoomDatabase {
     public abstract  ScoreEntryDao myScoreEntryDao();

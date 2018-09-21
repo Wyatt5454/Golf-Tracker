@@ -316,7 +316,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             ArrayList<Integer> mSand = new ArrayList<>();
             ArrayList<Integer> mFairway = new ArrayList<>();
             ArrayList<Integer> mGIR = new ArrayList<>();
-            Integer mFinal;
+            Integer mFinal, mParPlayed = 0;
 
             for (int i = 0; i < scores.size(); i++)
             {
@@ -328,12 +328,16 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
                 mSand.add(score.getSand());
                 mFairway.add(score.getFairway());
                 mGIR.add(score.getGreenInRegulation());
+
+                if (score.getStrokes() > 0) {
+                    mParPlayed += score.par;
+                }
             }
             TextView ninth = findViewById(R.id.tv20);
             TextView eighteenth = findViewById(R.id.tv40);
             mFinal = Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString());
             String uId = Calendar.getInstance().getTime().toString();
-            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal);
+            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal, mParPlayed);
             myIntent.putExtra("Score", myEntry);
             startActivityForResult(myIntent, 99);
         }
