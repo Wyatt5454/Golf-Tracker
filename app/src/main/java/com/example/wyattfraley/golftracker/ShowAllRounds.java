@@ -101,8 +101,8 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
             @Override
             public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = first.getFinalScore() - first.getParPlayed();
-                Integer secondScore = second.getFinalScore() - second.getParPlayed();
+                Integer firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
+                Integer secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
 
                 if (firstScore < secondScore) {
                     return -1;
@@ -121,8 +121,8 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
             @Override
             public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = first.getFinalScore() - first.getParPlayed();
-                Integer secondScore = second.getFinalScore() - second.getParPlayed();
+                Integer firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
+                Integer secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
 
                 if (firstScore > secondScore) {
                     return -1;
