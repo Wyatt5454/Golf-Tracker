@@ -66,7 +66,7 @@ public class SaveCheck extends Activity {
             saveText.setText(R.string.ask_save_incomplete);
         }
 
-        DatabaseTest();
+        //DatabaseTest();
     }
 
     @SuppressLint("StaticFieldLeak")

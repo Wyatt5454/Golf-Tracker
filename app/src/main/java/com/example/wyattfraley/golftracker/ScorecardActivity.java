@@ -123,7 +123,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         state.putSerializable("score", myEntry);
         state.putInt("current", currentHole.number);
     }
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         /*
@@ -200,7 +199,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
         catch (SecurityException e) {}
     }
-
     @Override
     public void onConnected(Bundle bundle) {
         Location location = null;
@@ -232,7 +230,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         catch (SecurityException e) {}
 
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -242,6 +239,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             mGoogleApiClient.disconnect();
         }
     }
+
     @Override
     public void onConnectionSuspended(int i) {
     }
@@ -273,25 +271,29 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
     }
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-        DecimalFormat dF = new DecimalFormat("##.##");
-        dF.setRoundingMode(RoundingMode.UNNECESSARY);
+        if (location != null) {
+            Log.d(TAG, location.toString());
+            DecimalFormat dF = new DecimalFormat("##.##");
+            dF.setRoundingMode(RoundingMode.UNNECESSARY);
 
-        float distance = location.distanceTo(currentHole.locationData.middle);
-        String toDisplay = String.format("%d yds to middle", (int)(distance * 1.09361));
-        toMiddle.setText(toDisplay);
-        distance = location.distanceTo(currentHole.locationData.back);
-        toDisplay = String.format("%d yds to back", (int)(distance * 1.09361));
-        toBack.setText(toDisplay);
-        distance = location.distanceTo(currentHole.locationData.front);
-        toDisplay = String.format("%d yds to front", (int)(distance * 1.09361));
-        toFront.setText(toDisplay);
+            float distance = location.distanceTo(currentHole.locationData.middle);
+            String toDisplay = String.format("%d yds to middle", (int)(distance * 1.09361));
+            toMiddle.setText(toDisplay);
+            distance = location.distanceTo(currentHole.locationData.back);
+            toDisplay = String.format("%d yds to back", (int)(distance * 1.09361));
+            toBack.setText(toDisplay);
+            distance = location.distanceTo(currentHole.locationData.front);
+            toDisplay = String.format("%d yds to front", (int)(distance * 1.09361));
+            toFront.setText(toDisplay);
+        }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -300,7 +302,6 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -349,6 +350,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -756,7 +758,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
         VibrateOnClick();
     }
-    public void MarkScore(){
+    private void MarkScore(){
         // This function is responsible for altering the look of the score
         // in the hole textbox. Double circle for eagle or better, single
         // circle for birdie, nothing for par, single square for bogey,
@@ -774,7 +776,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
 
     }
-    public void MarkScoreSpecific(Score score) {
+    private void MarkScoreSpecific(Score score) {
 
         int strokes = score.getStrokes();
         if (strokes != 0) {
