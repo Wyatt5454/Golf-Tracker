@@ -33,6 +33,7 @@
     <string name="hole_out">Out\n36</string>
     <string name="hole_in">In\n36</string>
     <string name="zero">0</string>
+    <string name="exit">Exit</string>
     <string name="miss_fairway">You missed the fairway.\n</string>
     <string name="hit_fairway">You hit the fairway.\n</string>
     <string name="hit_green">You were on the green in regulation.</string>
@@ -40,6 +41,7 @@
     <string name="select_hole">Select a hole for more data.</string>
     <string name="ask_save">Are you sure you want to end the round?</string>
     <string name="ask_save_incomplete">The current round is incomplete, are you sure you want to end the round?</string>
+    <string name="ask_save_none_played">You haven\'t entered any scores yet. You cannot save this round.</string>
     <string name="stats_no_complete_rounds">You don\'t have any complete rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
     <string name="stats_no_rounds">You don\'t have any rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
     <string-array name="sort_holes">

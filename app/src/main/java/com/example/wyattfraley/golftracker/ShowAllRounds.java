@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    List<ScoreEntry> allRounds;
+    List<ScoreEntryDisplayRound> allRounds;
     List<Button> buttons;
     Spinner sortSpinner;
     ScrollView scrollView;
@@ -78,11 +78,11 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         }
     }
     private void SortByPlayedOrder() {
-        Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
+        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
             @Override
-            public int compare(ScoreEntry first, ScoreEntry second) {
-                Date firstDate = new Date(first.getUId());
-                Date secondDate = new Date(second.getUId());
+            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
+                Date firstDate = new Date(first.uid);
+                Date secondDate = new Date(second.uid);
 
                 if (firstDate.compareTo(secondDate) > 0) {
                     return -1;
@@ -98,11 +98,11 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         DisplayScores();
     }
     private void SortByBestToWorstScore() {
-        Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
+        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
             @Override
-            public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
-                Integer secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
+            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
+                Integer firstScore = (first.finalScore - first.parPlayed) * (72 / first.parPlayed);
+                Integer secondScore = (second.finalScore - second.parPlayed) * (72 / first.parPlayed);
 
                 if (firstScore < secondScore) {
                     return -1;
@@ -118,11 +118,11 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         DisplayScores();
     }
     private void SortByWorstToBestScore() {
-        Comparator<ScoreEntry> comparator = new Comparator<ScoreEntry>() {
+        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
             @Override
-            public int compare(ScoreEntry first, ScoreEntry second) {
-                Integer firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
-                Integer secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
+            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
+                Integer firstScore = (first.finalScore - first.parPlayed) * (72 / first.parPlayed);
+                Integer secondScore = (second.finalScore - second.parPlayed) * (72 / first.parPlayed);
 
                 if (firstScore > secondScore) {
                     return -1;
@@ -148,7 +148,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                allRounds = Db.myScoreEntryDao().getAll();
+                allRounds = Db.myScoreEntryDao().getRoundsForDisplay();
                 Collections.reverse(allRounds);
                 return null;
             }
@@ -170,11 +170,11 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         ll.addView(sortSpinner);
 
         for (int i = 0; i < allRounds.size(); i++) {
-            final ScoreEntry myEntry = allRounds.get(i);
+            final ScoreEntryDisplayRound myEntry = allRounds.get(i);
 
             Button myButton = new Button(this);
-            final String uid = myEntry.getUId();
-            Integer finalScore = myEntry.getFinalScore();
+            final String uid = myEntry.uid;
+            Integer finalScore = myEntry.finalScore;
             String toDisplay = uid.substring(0, 10);
             myButton.setText(String.format("%s:  Score: %d", toDisplay, finalScore));
             myButton.setBackgroundResource(R.drawable.round_button);
@@ -184,7 +184,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
-                    myIntent.putExtra("Score", myEntry);
+                    myIntent.putExtra("uid", myEntry.uid);
 
                     startActivityForResult(myIntent, 100);
                 }

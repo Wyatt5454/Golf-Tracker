@@ -59,11 +59,19 @@ public class SaveCheck extends Activity {
             }
         });
 
+        Intent myIntent = getIntent();
+        ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
+
         if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);
         }
-        else {
+        else if (toEnter.getFinalScore() > 0){
             saveText.setText(R.string.ask_save_incomplete);
+        }
+        else {
+            saveText.setText(R.string.ask_save_none_played);
+            yes.setVisibility(View.GONE);
+            no.setVisibility(View.GONE);
         }
 
         //DatabaseTest();

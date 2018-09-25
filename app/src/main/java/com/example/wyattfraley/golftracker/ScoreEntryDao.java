@@ -12,8 +12,14 @@ public interface ScoreEntryDao {
     @Query("SELECT * FROM ScoreEntry")
     List<ScoreEntry> getAll();
 
+    @Query("Select uId, finalscore, parPlayed FROM ScoreEntry")
+    List<ScoreEntryDisplayRound> getRoundsForDisplay();
+
     @Query("SELECT * FROM ScoreEntry WHERE uId IN (:userIds)")
     List<ScoreEntry> loadAllByIds(int[] userIds);
+
+    @Query("SELECT * FROM ScoreEntry WHERE uid IS (:userID)")
+    ScoreEntry loadSingleRound(String userID);
 
     @Insert
     void insertAll(ScoreEntry... ScoreEntries);

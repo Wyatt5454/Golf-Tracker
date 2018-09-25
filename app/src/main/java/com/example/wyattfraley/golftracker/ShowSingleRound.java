@@ -1,8 +1,10 @@
 package com.example.wyattfraley.golftracker;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import org.w3c.dom.Text;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShowSingleRound  extends AppCompatActivity{
@@ -25,6 +28,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     List<Score> scores;
     Score currentHole;
     ScoreEntry myEntry;
+    String uid;
     int puttsTotal;
     int sandTotal;
     int fairwayTotal;
@@ -39,24 +43,21 @@ public class ShowSingleRound  extends AppCompatActivity{
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_show_single_round);
         Intent myIntent = getIntent();
-        myEntry = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        uid = myIntent.getStringExtra("uid");
 
-        puttsTotal = 0;
-        sandTotal = 0;
-        fairwayTotal = 0;
-        girTotal = 0;
+        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                myEntry = Db.myScoreEntryDao().loadSingleRound(uid);
+                return null;
+            }
 
-        overallStats = findViewById(R.id.overallStats);
-
-        holeStats = findViewById(R.id.holeStats);
-
-        scores = InitializeScores();
-        LoadScores(myEntry);
-        currentHole = scores.get(0);
-        finalScore = myEntry.getFinalScore();
-        netScore = finalScore - myEntry.getParPlayed();
-
-        SetOverallTextBox();
+            @Override
+            protected void onPostExecute(Void result) {
+                InitializeUI();
+            }
+        }.execute();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,6 +100,23 @@ public class ShowSingleRound  extends AppCompatActivity{
         }
     }
 
+    private void InitializeUI() {
+        puttsTotal = 0;
+        sandTotal = 0;
+        fairwayTotal = 0;
+        girTotal = 0;
+
+        overallStats = findViewById(R.id.overallStats);
+        holeStats = findViewById(R.id.holeStats);
+
+        scores = InitializeScores();
+        LoadScores(myEntry);
+        currentHole = scores.get(0);
+        finalScore = myEntry.getFinalScore();
+        netScore = finalScore - myEntry.getParPlayed();
+
+        SetOverallTextBox();
+    }
     public List<Score> InitializeScores() {
         /*
          * Sets on click listeners for all the text boxes, so the
