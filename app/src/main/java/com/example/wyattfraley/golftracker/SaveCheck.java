@@ -28,6 +28,7 @@ public class SaveCheck extends Activity {
     TextView saveText;
     Button yes;
     Button no;
+    ScoreEntry toEnter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class SaveCheck extends Activity {
         });
 
         Intent myIntent = getIntent();
-        ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
         if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);
@@ -107,9 +108,7 @@ public class SaveCheck extends Activity {
         finish();
     }
     public boolean IsFrontComplete() {
-        Intent myIntent = getIntent();
-        ScoreEntry toCheck = (ScoreEntry)myIntent.getSerializableExtra("Score");
-        ArrayList<Integer> strokes = toCheck.getStrokes();
+        ArrayList<Integer> strokes = toEnter.getStrokes();
 
         for (int i = 0; i < 9; i++) {
             if (strokes.get(i) == 0) {
@@ -119,9 +118,7 @@ public class SaveCheck extends Activity {
         return true;
     }
     public boolean IsBackComplete() {
-        Intent myIntent = getIntent();
-        ScoreEntry toCheck = (ScoreEntry)myIntent.getSerializableExtra("Score");
-        ArrayList<Integer> strokes = toCheck.getStrokes();
+        ArrayList<Integer> strokes = toEnter.getStrokes();
 
         for (int i = 9; i < 18; i++) {
             if (strokes.get(i) == 0) {

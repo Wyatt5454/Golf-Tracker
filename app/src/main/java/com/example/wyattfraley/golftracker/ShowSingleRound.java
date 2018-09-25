@@ -1,5 +1,6 @@
 package com.example.wyattfraley.golftracker;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     int holesPlayed = 0, fairwaysPlayed = 0;
     private final static int VIBRATE_DURATION = 20;
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
