@@ -1,12 +1,14 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.scorecard;
 
 import android.widget.TextView;
+
+import com.example.wyattfraley.golftracker.HoleLocationData;
 
 import java.util.Stack;
 
 public class Score {
     Stack<String> actions;
-    TextView hole;
+    public TextView hole;
     public int number;
     public int strokes;
     public int putts;
@@ -14,10 +16,10 @@ public class Score {
     public int sand;
     public int fairway;
     public int greenInRegulation;
-    int par;
+    public int par;
     HoleLocationData locationData;
 
-    Score(TextView newHole) {
+    public Score(TextView newHole) {
         hole = newHole;
         strokes = 0;
         putts = 0;

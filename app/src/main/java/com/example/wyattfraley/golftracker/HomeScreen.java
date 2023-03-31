@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Vibrator;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.example.wyattfraley.golftracker.scorecard.ScorecardActivity;
 
 public class HomeScreen extends AppCompatActivity {
     public static final String TAG = "Golf Home Screen";

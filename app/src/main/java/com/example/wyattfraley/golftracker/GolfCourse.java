@@ -1,5 +1,7 @@
 package com.example.wyattfraley.golftracker;
 
+import com.example.wyattfraley.golftracker.scorecard.Hole;
+
 import java.util.ArrayList;
 import java.util.List;
 

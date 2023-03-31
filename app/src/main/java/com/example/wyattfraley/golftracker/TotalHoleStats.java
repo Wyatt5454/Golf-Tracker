@@ -19,7 +19,7 @@ public class TotalHoleStats implements Serializable {
     public int fairway;
     public int greenInRegulation;
 
-    TotalHoleStats(int nNumber, int nPar) {
+    public TotalHoleStats(int nNumber, int nPar) {
         number = nNumber;
         par = nPar;
         timesPlayed = 0;

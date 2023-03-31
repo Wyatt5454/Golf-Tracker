@@ -1,17 +1,13 @@
 package com.example.wyattfraley.golftracker;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class ScoreEntry implements Serializable{
@@ -44,7 +40,7 @@ public class ScoreEntry implements Serializable{
     private Integer parPlayed;
 
     @Ignore
-    ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
+    public ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
         setUId(uId);
         setStrokes(strokes);
         setPutts(putts);
@@ -56,7 +52,7 @@ public class ScoreEntry implements Serializable{
         setParPlayed(parPlayed);
     }
     @Ignore
-    ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
+    public ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
@@ -64,7 +60,7 @@ public class ScoreEntry implements Serializable{
         setFairway(fairway);
         setGreenInRegulation(greenInRegulation);
     }
-    ScoreEntry() {}
+    public ScoreEntry() {}
 
     public String getUId() { return uId; }
     public void setUId(String NUid) {

@@ -1,13 +1,14 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database.activity;
+
+import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.arch.persistence.room.Room;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,14 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.ScoreEntryDisplayRound;
+import com.example.wyattfraley.golftracker.database.GolfDatabase;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     List<ScoreEntryDisplayRound> allRounds;
@@ -199,10 +201,12 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         /*
          * This function reloads the rounds if a round was deleted in
          * the ShowSingleRound activity.
          */
+
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 new AsyncTask<Void, Void, Void>() {

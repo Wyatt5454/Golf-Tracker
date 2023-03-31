@@ -1,8 +1,8 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +11,11 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.ScoreEntry;
+import com.example.wyattfraley.golftracker.TotalHoleStats;
+import com.example.wyattfraley.golftracker.TotalRoundStats;
 
 import java.io.File;
 import java.io.FileInputStream;

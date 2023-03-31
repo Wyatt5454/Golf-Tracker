@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.scorecard;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,6 +18,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.SaveCheck;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;

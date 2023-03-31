@@ -1,29 +1,32 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database.activity;
 
 import android.annotation.SuppressLint;
-import android.arch.persistence.room.Room;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.*;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.scorecard.Score;
+import com.example.wyattfraley.golftracker.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.DeleteRound;
+import com.example.wyattfraley.golftracker.database.GolfDatabase;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ShowSingleRound  extends AppCompatActivity{
+public class ShowSingleRound  extends AppCompatActivity {
     TextView overallStats;
     TextView holeStats;
     List<Score> scores;
@@ -91,6 +94,7 @@ public class ShowSingleRound  extends AppCompatActivity{
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         /*
          * Checks to see if the round was deleted, and quits out if it was.
          */

@@ -1,10 +1,8 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database.activity;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.wyattfraley.golftracker.FXUtility;
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.TotalHoleStats;
+import com.example.wyattfraley.golftracker.TotalRoundStats;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +28,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.example.wyattfraley.golftracker.R.color.gray;
 
 public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FXUtility fxUtility;

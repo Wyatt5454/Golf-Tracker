@@ -7,15 +7,15 @@ public class HoleLocationData {
     public Location middle;
     public Location back;
 
-    HoleLocationData() {
+    public HoleLocationData() {
         front = new Location("dummyprovider");
         middle = new Location("dummyprovider");
         back = new Location("dummyprovider");
     }
-    HoleLocationData(Location nMiddle) {
+    public HoleLocationData(Location nMiddle) {
         middle = nMiddle;
     }
-    HoleLocationData(Location nFront, Location nMiddle, Location nBack) {
+    public HoleLocationData(Location nFront, Location nMiddle, Location nBack) {
         front = nFront;
         middle = nMiddle;
         back = nBack;
