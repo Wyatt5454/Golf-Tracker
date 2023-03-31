@@ -37,13 +37,14 @@ public class HomeScreen extends AppCompatActivity {
 
 
         // Asks for permission to access location if the app doesn't already have it.
-        new AsyncTask<Void, Void, Void>() {
+        AsyncTask<Void, Void, Void> locationPermissionAsk = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                ActivityCompat.requestPermissions(HomeScreen.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(HomeScreen.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                 return null;
             }
-        }.execute();
+        };
+        locationPermissionAsk.execute();
     }
 
     public void Scorecard(View view)  {

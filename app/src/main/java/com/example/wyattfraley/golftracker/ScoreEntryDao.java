@@ -9,8 +9,6 @@ import java.util.List;
 
 @Dao
 public interface ScoreEntryDao {
-    @Query("SELECT * FROM ScoreEntry")
-    List<ScoreEntry> getAll();
 
     @Query("Select uId, finalscore, parPlayed FROM ScoreEntry")
     List<ScoreEntryDisplayRound> getRoundsForDisplay();

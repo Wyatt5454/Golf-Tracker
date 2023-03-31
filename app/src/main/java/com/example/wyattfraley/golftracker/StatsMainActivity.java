@@ -13,16 +13,20 @@ import com.example.wyattfraley.golftracker.database.activity.ShowAllRounds;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+/**
+ * The main home page for the user to look at statistics.  Provides
+ * buttons for showing every round played, and every hole average
+ * statistics.
+ */
 public class StatsMainActivity extends AppCompatActivity {
-    Button showAllRounds;
-    Button showAllHoles;
-    TextView showTotalStats;
+    private Button showAllRounds;
+    private Button showAllHoles;
+    private TextView showTotalStats;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -33,43 +37,33 @@ public class StatsMainActivity extends AppCompatActivity {
         showTotalStats = findViewById(R.id.StatsHolder);
         showAllHoles = findViewById(R.id.viewAllHoles);
 
-        showAllRounds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadAllRounds();
-            }
-        });
-        showAllHoles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadHoleStats();
-            }
-        });
+        showAllRounds.setOnClickListener(v -> LoadAllRounds());
+        showAllHoles.setOnClickListener(v -> LoadHoleStats());
 
         DisplayTotalStats();
     }
 
+    /**
+     * Goes to the All Rounds stats activity
+     */
     public void LoadAllRounds() {
-        /*
-         * Goes to the All Rounds stats activity
-         */
-
         Intent myIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
         startActivity(myIntent);
     }
-    public void LoadHoleStats() {
-        /*
-         * Goes to the individual hole stats activity
-         */
 
+    /**
+     * Goes to the individual hole stats activity
+     */
+    public void LoadHoleStats() {
         Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
         startActivity(myIntent);
     }
+
+    /**
+     * Grabs the total stats from a file locally stored
+     * on the device.
+     */
     public TotalRoundStats LoadTotalStats() {
-        /*
-         * Grabs the total stats from a file locally stored
-         * on the device.
-         */
 
         TotalRoundStats stats = new TotalRoundStats();
         File filesDir = getFilesDir();
@@ -85,24 +79,21 @@ public class StatsMainActivity extends AppCompatActivity {
 
             in.close();
             stream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return stats;
     }
+
+    /**
+     * This function shows the average stats for all rounds
+     * and puts it in the main text box at the top of the activity.
+     * Will be adding more detailed stats later.
+     *
+     * Gets rid of the stats buttons if there are no rounds
+     * to show.
+     */
     public void DisplayTotalStats() {
-        /*
-         * This function shows the average stats for all rounds
-         * and puts it in the main text box at the top of the activity.
-         * Will be adding more detailed stats later.
-         *
-         * Gets rid of the stats buttons if there are no rounds
-         * to show.
-         */
 
         TotalRoundStats stats = LoadTotalStats();
 
@@ -124,12 +115,19 @@ public class StatsMainActivity extends AppCompatActivity {
             showAllRounds.setVisibility(View.GONE);
         }
     }
+
+    /**
+     * Displays the general stats for a round.  That's the total score,
+     * the front 9 score, the back 9 score, putts, bunkers, penalties,
+     * fairways and greens in regulation
+     *
+     * @param stats the stats to display
+     */
     private void BackAndFront(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        String toDisplay = new String();
-        toDisplay += " Average Overall Statistics\n\n";
+        String toDisplay = " Average Overall Statistics\n\n";
 
         float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
         float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
@@ -164,12 +162,18 @@ public class StatsMainActivity extends AppCompatActivity {
 
         showTotalStats.setText(toDisplay);
     }
+
+    /**
+     * Display the stats only for the front 9.  That's score, putts,
+     * bunkers, penalties, fairways and greens in regulation.
+     *
+     * @param stats the stats to display
+     */
     private void OnlyFront(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        String toDisplay = new String();
-        toDisplay += " Average Overall Statistics\n\n";
+        String toDisplay = " Average Overall Statistics\n\n";
 
         float frontAverage = (float)stats.totalFrontScore / (float)stats.totalRoundsFront;
         float frontPutts = (float)stats.totalFrontPutts / (float)stats.totalRoundsFront;
@@ -187,12 +191,18 @@ public class StatsMainActivity extends AppCompatActivity {
 
         showTotalStats.setText(toDisplay);
     }
+
+    /**
+     * Display the stats only for the back 9.  That's score, putts,
+     * bunkers, penalties, fairways and greens in regulation.
+     *
+     * @param stats the stats to display
+     */
     private void OnlyBack(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
-        String toDisplay = new String();
-        toDisplay += " Average Overall Statistics\n\n";
+        String toDisplay = " Average Overall Statistics\n\n";
 
         float backAverage = (float)stats.totalBackScore / (float)stats.totalRoundsBack;
         float backPutts = (float)stats.totalBackPutts / (float)stats.totalRoundsBack;

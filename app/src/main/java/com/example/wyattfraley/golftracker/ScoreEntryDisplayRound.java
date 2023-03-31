@@ -10,19 +10,14 @@ public class ScoreEntryDisplayRound {
     @ColumnInfo( name = "uId" )
     public String uid;
     @ColumnInfo( name = "finalscore" )
-    public Integer finalScore;
+    private Integer finalScore;
     @ColumnInfo( name = "parPlayed" )
-    public Integer parPlayed;
+    private Integer parPlayed;
 
     ScoreEntryDisplayRound() {
-        uid = new String();
+        uid = "";
         finalScore = 0;
         parPlayed = 0;
-    }
-    ScoreEntryDisplayRound(String nUid, Integer nFinalScore, Integer nParPlayed) {
-        uid = nUid;
-        finalScore = nFinalScore;
-        parPlayed = nParPlayed;
     }
 
     public Integer getParPlayed() {

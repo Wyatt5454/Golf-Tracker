@@ -15,9 +15,8 @@ public class Converters {
         return new Gson().fromJson(value, listType);
     }
     @TypeConverter
-    public static String fromArrayLisr(ArrayList<Integer> list) {
+    public static String fromArrayList(ArrayList<Integer> list) {
         Gson gson = new Gson();
-        String json = gson.toJson(list);
-        return json;
+        return gson.toJson(list);
     }
 }

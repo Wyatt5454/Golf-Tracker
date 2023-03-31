@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ScoreEntry implements Serializable{
     @PrimaryKey
     @NonNull
-    private String uId;
+    private String uId = "";
 
     @ColumnInfo(name = "strokes")
     private ArrayList<Integer> strokes;
@@ -33,7 +33,7 @@ public class ScoreEntry implements Serializable{
     @ColumnInfo(name = "greenInRegulation")
     private ArrayList<Integer> greenInRegulation;
 
-    @ColumnInfo(name = "finalscore")
+    @ColumnInfo(name = "finalScore")
     private Integer finalScore;
 
     @ColumnInfo(name = "parPlayed")

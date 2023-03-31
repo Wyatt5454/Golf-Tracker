@@ -1,11 +1,6 @@
 package com.example.wyattfraley.golftracker.database.activity;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +11,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.ScoreEntryDisplayRound;
@@ -80,60 +78,51 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         }
     }
     private void SortByPlayedOrder() {
-        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
-            @Override
-            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
-                Date firstDate = new Date(first.uid);
-                Date secondDate = new Date(second.uid);
+        Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
+            Date firstDate = new Date(first.uid);
+            Date secondDate = new Date(second.uid);
 
-                if (firstDate.compareTo(secondDate) > 0) {
-                    return -1;
-                }
-                else if (firstDate.compareTo(secondDate) < 0) {
-                    return 1;
-                }
-                return 0;
+            if (firstDate.compareTo(secondDate) > 0) {
+                return -1;
             }
+            else if (firstDate.compareTo(secondDate) < 0) {
+                return 1;
+            }
+            return 0;
         };
 
         allRounds.sort(comparator);
         DisplayScores();
     }
     private void SortByBestToWorstScore() {
-        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
-            @Override
-            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
-                Integer firstScore = (first.finalScore - first.parPlayed) * (72 / first.parPlayed);
-                Integer secondScore = (second.finalScore - second.parPlayed) * (72 / first.parPlayed);
+        Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
+            int firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
+            int secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
 
-                if (firstScore < secondScore) {
-                    return -1;
-                }
-                else if (firstScore > secondScore) {
-                    return 1;
-                }
-                return 0;
+            if (firstScore < secondScore) {
+                return -1;
             }
+            else if (firstScore > secondScore) {
+                return 1;
+            }
+            return 0;
         };
 
         allRounds.sort(comparator);
         DisplayScores();
     }
     private void SortByWorstToBestScore() {
-        Comparator<ScoreEntryDisplayRound> comparator = new Comparator<ScoreEntryDisplayRound>() {
-            @Override
-            public int compare(ScoreEntryDisplayRound first, ScoreEntryDisplayRound second) {
-                Integer firstScore = (first.finalScore - first.parPlayed) * (72 / first.parPlayed);
-                Integer secondScore = (second.finalScore - second.parPlayed) * (72 / first.parPlayed);
+        Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
+            int firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
+            int secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
 
-                if (firstScore > secondScore) {
-                    return -1;
-                }
-                else if (firstScore < secondScore) {
-                    return 1;
-                }
-                return 0;
+            if (firstScore > secondScore) {
+                return -1;
             }
+            else if (firstScore < secondScore) {
+                return 1;
+            }
+            return 0;
         };
 
         allRounds.sort(comparator);
@@ -162,12 +151,13 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         }.execute();
     }
 
+    /**
+     * Initializes each round as its own button,
+     * and sets up the on click listener to open up a new activity,
+     * which allows the user to look at more detailed stats for an individual round.
+     */
     public void DisplayScores() {
-        /*
-         * Initializes each round as its own button,
-         * and sets up the on click listener to open up a new activity,
-         * which allows the user to look at more detailed stats for an individual round.
-         */
+
         ll.removeAllViews();
         ll.addView(sortSpinner);
 
@@ -176,20 +166,17 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
 
             Button myButton = new Button(this);
             final String uid = myEntry.uid;
-            Integer finalScore = myEntry.finalScore;
+            Integer finalScore = myEntry.getFinalScore();
             String toDisplay = uid.substring(0, 10);
             myButton.setText(String.format("%s:  Score: %d", toDisplay, finalScore));
             myButton.setBackgroundResource(R.drawable.round_button);
 
 
-            myButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
-                    myIntent.putExtra("uid", myEntry.uid);
+            myButton.setOnClickListener(v -> {
+                Intent myIntent = new Intent(ShowAllRounds.this, ShowSingleRound.class);
+                myIntent.putExtra("uid", myEntry.uid);
 
-                    startActivityForResult(myIntent, 100);
-                }
+                startActivityForResult(myIntent, 100);
             });
 
             ll.addView(myButton);
@@ -198,14 +185,15 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         scrollView.removeAllViews();
         scrollView.addView(ll);
     }
-    @SuppressLint("StaticFieldLeak")
+
+    /**
+     * This function reloads the rounds if a round was deleted in
+     * the ShowSingleRound activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*
-         * This function reloads the rounds if a round was deleted in
-         * the ShowSingleRound activity.
-         */
+
 
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {

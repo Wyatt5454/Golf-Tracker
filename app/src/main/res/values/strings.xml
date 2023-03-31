@@ -44,6 +44,8 @@
     <string name="ask_save_none_played">You haven\'t entered any scores yet. You cannot save this round.</string>
     <string name="stats_no_complete_rounds">You don\'t have any complete rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
     <string name="stats_no_rounds">You don\'t have any rounds saved on this device.  Start a round and save it for detailed stat tracking!</string>
+    <string name="view_all_holes">View Hole by Hole</string>
+    <string name="view_all_rounds">View All Rounds</string>
     <string-array name="sort_holes">
         <item>Select Sorting Order</item>
         <item>Playing Order</item>

@@ -13,14 +13,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.wyattfraley.golftracker.FXUtility;
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.TotalHoleStats;
 import com.example.wyattfraley.golftracker.TotalRoundStats;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.math.RoundingMode;
@@ -30,7 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    FXUtility fxUtility;
+
     TextView mainText;
     List<Button> buttons;
     List<TextView> textViews;
@@ -43,7 +41,6 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_holes);
 
-        fxUtility = new FXUtility();
         mainText = findViewById(R.id.overallHoleStats);
 
         stats = LoadTotalStats();
@@ -189,7 +186,7 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         for (int i = 0; i < textViews.size(); i++) {
             TotalHoleStats holeStats = stats.holes.get(i);
 
-            String statsToAdd = new String();
+            String statsToAdd = "";
             if (holeStats.timesPlayed > 0) {
                 statsToAdd += " Average score: " + dF.format((float)holeStats.strokes / (float)holeStats.timesPlayed) + "\n";
                 statsToAdd += " Average putts: " + dF.format((float)holeStats.putts / (float)holeStats.timesPlayed) + "\n";
@@ -277,7 +274,7 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
             par5 /= played5;
         }
 
-        String toAdd = new String();
+        String toAdd = "";
         toAdd += " Average par 3 Score: " + dF.format(par3) + "\n";
         toAdd += " Average par 4 Score: " + dF.format(par4) + "\n";
         toAdd += " Average par 5 Score: " + dF.format(par5);
@@ -316,11 +313,7 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
             inHoles.close();
             inputStreamTotal.close();
             inputStreamHoles.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return stats;
@@ -351,17 +344,14 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
     private void SortByPlayingOrder() {
         List<TotalHoleStats> holeStats = stats.holes;
 
-        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
-            @Override
-            public int compare(TotalHoleStats first, TotalHoleStats second) {
-                if (first.number < second.number) {
-                    return -1;
-                }
-                else if (first.number > second.number) {
-                    return 1;
-                }
-                return 0;
+        Comparator<TotalHoleStats> comparator = (first, second) -> {
+            if (first.number < second.number) {
+                return -1;
             }
+            else if (first.number > second.number) {
+                return 1;
+            }
+            return 0;
         };
 
         holeStats.sort(comparator);
@@ -370,31 +360,28 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
     private void SortByBestToWorstScore() {
         List<TotalHoleStats> holeStats = stats.holes;
 
-        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
-            @Override
-            public int compare(TotalHoleStats first, TotalHoleStats second) {
-                float firstAverage, secondAverage;
-                if (first.timesPlayed > 0) {
-                    firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
-                }
-                else {
-                    firstAverage = 999;
-                }
-                if (second.timesPlayed > 0) {
-                    secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
-                }
-                else {
-                    secondAverage = 999;
-                }
-
-                if (firstAverage < secondAverage) {
-                    return -1;
-                }
-                else if (firstAverage > secondAverage) {
-                    return 1;
-                }
-                return 0;
+        Comparator<TotalHoleStats> comparator = (first, second) -> {
+            float firstAverage, secondAverage;
+            if (first.timesPlayed > 0) {
+                firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
             }
+            else {
+                firstAverage = 999;
+            }
+            if (second.timesPlayed > 0) {
+                secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+            }
+            else {
+                secondAverage = 999;
+            }
+
+            if (firstAverage < secondAverage) {
+                return -1;
+            }
+            else if (firstAverage > secondAverage) {
+                return 1;
+            }
+            return 0;
         };
 
         holeStats.sort(comparator);
@@ -403,31 +390,28 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
     private void SortByWorstToBestScore() {
         List<TotalHoleStats> holeStats = stats.holes;
 
-        Comparator<TotalHoleStats> comparator = new Comparator<TotalHoleStats>() {
-            @Override
-            public int compare(TotalHoleStats first, TotalHoleStats second) {
-                float firstAverage, secondAverage;
-                if (first.timesPlayed > 0) {
-                    firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
-                }
-                else {
-                    firstAverage = -999;
-                }
-                if (second.timesPlayed > 0) {
-                    secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
-                }
-                else {
-                    secondAverage = -999;
-                }
-
-                if (firstAverage > secondAverage) {
-                    return -1;
-                }
-                else if (firstAverage < secondAverage) {
-                    return 1;
-                }
-                return 0;
+        Comparator<TotalHoleStats> comparator = (first, second) -> {
+            float firstAverage, secondAverage;
+            if (first.timesPlayed > 0) {
+                firstAverage = ((float)first.strokes / (float)first.timesPlayed) - first.par;
             }
+            else {
+                firstAverage = -999;
+            }
+            if (second.timesPlayed > 0) {
+                secondAverage = ((float)second.strokes / (float)second.timesPlayed) - second.par;
+            }
+            else {
+                secondAverage = -999;
+            }
+
+            if (firstAverage > secondAverage) {
+                return -1;
+            }
+            else if (firstAverage < secondAverage) {
+                return 1;
+            }
+            return 0;
         };
 
         holeStats.sort(comparator);

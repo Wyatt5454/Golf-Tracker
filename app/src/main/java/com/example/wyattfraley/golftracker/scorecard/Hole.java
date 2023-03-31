@@ -5,9 +5,9 @@ public class Hole {
     int handicap;
     int par;
 
-    public Hole(int num, int han, int npar) {
+    public Hole(int num, int han, int nPar) {
         number = num;
         handicap = han;
-        par = npar;
+        par = nPar;
     }
 }
