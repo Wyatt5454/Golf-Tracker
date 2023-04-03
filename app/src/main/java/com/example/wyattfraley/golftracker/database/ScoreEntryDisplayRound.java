@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
@@ -14,7 +14,7 @@ public class ScoreEntryDisplayRound {
     @ColumnInfo( name = "parPlayed" )
     private Integer parPlayed;
 
-    ScoreEntryDisplayRound() {
+    public ScoreEntryDisplayRound() {
         uid = "";
         finalScore = 0;
         parPlayed = 0;

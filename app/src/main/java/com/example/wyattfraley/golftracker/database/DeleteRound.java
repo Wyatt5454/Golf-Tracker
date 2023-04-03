@@ -5,19 +5,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.ScoreEntry;
-import com.example.wyattfraley.golftracker.TotalHoleStats;
-import com.example.wyattfraley.golftracker.TotalRoundStats;
+import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
+import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
 import java.util.ArrayList;
 
 public class DeleteRound extends SaveCheck {
-    Button yes;
-    Button no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +31,16 @@ public class DeleteRound extends SaveCheck {
 
         yes = findViewById(R.id.DeleteYes);
         no = findViewById(R.id.DeleteNo);
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Delete();
-            }
-        });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NoPress();
-            }
-        });
+        yes.setOnClickListener(v -> Delete());
+        no.setOnClickListener(v -> NoPress());
     }
+
+    /**
+     * Deletes the round from the database, and then updates the total
+     * stats using an inherited function from SaveCheck.
+     */
     public void Delete() {
-        /*
-         * Deletes the round from the database, and then updates the total
-         * stats using an inherited function from SaveCheck.
-         */
+
         Intent myIntent = getIntent();
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
@@ -93,8 +81,8 @@ public class DeleteRound extends SaveCheck {
         Integer mSand;
         Integer mFairway;
         Integer mGir;
-        Integer scoreFront = 0;
-        Integer scoreBack = 0;
+        int scoreFront = 0;
+        int scoreBack = 0;
         TotalHoleStats hole;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
@@ -152,6 +140,5 @@ public class DeleteRound extends SaveCheck {
         if (!frontComplete && !backComplete) {
             stats.DeleteTotalsIncomplete();
         }
-
     }
 }

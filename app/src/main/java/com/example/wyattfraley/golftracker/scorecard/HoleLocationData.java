@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.scorecard;
 
 import android.location.Location;
 

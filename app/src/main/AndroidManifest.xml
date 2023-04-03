@@ -24,26 +24,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".scorecard.ScorecardActivity"
+            android:name=".scorecard.activity.ScorecardActivity"
             android:parentActivityName=".HomeScreen"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".database.SaveCheck"
-            android:parentActivityName=".scorecard.ScorecardActivity"
+            android:parentActivityName=".scorecard.activity.ScorecardActivity"
             android:theme="@style/AppTheme.PopStyle" />
         <activity
-            android:name=".StatsMainActivity"
+            android:name=".statistics.activity.StatsMainActivity"
             android:parentActivityName=".HomeScreen"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".database.activity.ShowAllRounds"
-            android:parentActivityName=".StatsMainActivity" />
+            android:parentActivityName=".statistics.activity.StatsMainActivity" />
         <activity
             android:name=".database.activity.ShowSingleRound"
             android:parentActivityName=".database.activity.ShowAllRounds"
             android:screenOrientation="portrait"/>
         <activity android:name=".database.activity.ShowAllHoles"
-            android:parentActivityName=".StatsMainActivity" />
+            android:parentActivityName=".statistics.activity.StatsMainActivity" />
         <activity android:name=".database.DeleteRound"
             android:parentActivityName=".database.activity.ShowSingleRound"
             android:theme="@style/AppTheme.PopStyle"/>

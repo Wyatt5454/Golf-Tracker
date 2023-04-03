@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.ScoreEntryDisplayRound;
+import com.example.wyattfraley.golftracker.database.ScoreEntryDisplayRound;
 import com.example.wyattfraley.golftracker.database.GolfDatabase;
 
 import java.util.ArrayList;

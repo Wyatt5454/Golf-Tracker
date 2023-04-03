@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

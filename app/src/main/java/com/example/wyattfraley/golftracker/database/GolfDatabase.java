@@ -4,9 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.example.wyattfraley.golftracker.Converters;
-import com.example.wyattfraley.golftracker.ScoreEntry;
-import com.example.wyattfraley.golftracker.ScoreEntryDao;
+import com.example.wyattfraley.golftracker.utilities.Converters;
 
 @Database(entities = {ScoreEntry.class}, version = 6)
 @TypeConverters({Converters.class})

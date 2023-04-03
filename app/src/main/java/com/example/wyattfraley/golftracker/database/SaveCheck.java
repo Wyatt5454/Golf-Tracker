@@ -13,9 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.ScoreEntry;
-import com.example.wyattfraley.golftracker.TotalHoleStats;
-import com.example.wyattfraley.golftracker.TotalRoundStats;
+import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
+import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +28,15 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This activity pops up when the user clicks a button on the
+ * ScorecardActivity indicating they would like to save the
+ * round.  Gets the serializable score and assesses it.
+ * Saves the round differently based on the state of
+ * the round.
+ */
 public class SaveCheck extends Activity {
+    /** Text on popup for saving a round.  Several options. */
     TextView saveText;
     Button yes;
     Button no;
@@ -52,18 +59,8 @@ public class SaveCheck extends Activity {
         yes = findViewById(R.id.SaveYes);
         no = findViewById(R.id.SaveNo);
         saveText = findViewById(R.id.saveText);
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SaveRound();
-            }
-        });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NoPress();
-            }
-        });
+        yes.setOnClickListener(v -> SaveRound());
+        no.setOnClickListener(v -> NoPress());
 
         Intent myIntent = getIntent();
         toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
@@ -83,19 +80,18 @@ public class SaveCheck extends Activity {
         //DatabaseTest();
     }
 
+    /**
+     *  Here we grab all the data from the ScorecardActivity, open the database,
+     *  and make a new entry.  Creates an AsyncTask so that the database
+     *  saving does not take place on the main thread to prevent UI locking.
+     */
     @SuppressLint("StaticFieldLeak")
     public void SaveRound() {
-        /*
-         *Here we grab all the data from the ScorecardActivity, open the database,
-         *and make a new entry.  Creates an AsyncTask so that the database
-         *saving does not take place on the main thread to prevent UI locking.
-         */
 
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
-
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -112,6 +108,12 @@ public class SaveCheck extends Activity {
         setResult(RESULT_OK, null);
         finish();
     }
+
+    /**
+     * Checks to see if the front 9 is complete.  Meaning
+     * every hole has a score that is non-zero
+     * @return true if it's complete, false if not
+     */
     public boolean IsFrontComplete() {
         ArrayList<Integer> strokes = toEnter.getStrokes();
 
@@ -122,6 +124,12 @@ public class SaveCheck extends Activity {
         }
         return true;
     }
+
+    /**
+     * Checks to see if the back 9 is complete.  Meaning
+     * every hole has a score that is non-zero
+     * @return true if it's complete, false if not
+     */
     public boolean IsBackComplete() {
         ArrayList<Integer> strokes = toEnter.getStrokes();
 
@@ -133,15 +141,20 @@ public class SaveCheck extends Activity {
         return true;
     }
 
+    /**
+     * Used for the user to click "no" when given the option
+     * to save the round.  Calls "finish" which ends the activity.
+     */
     public void NoPress() {
         finish();
     }
+
+    /**
+     *  This function will update the total scores on a file saved to
+     *  internal storage.  Uses serializing to load in and save the
+     *  stats object. Test
+     */
     public void UpdateTotals(ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
-        /*
-         *  This function will update the total scores on a file saved to
-         *  internal storage.  Uses serializing to load in and save the
-         *  stats object. Test
-         */
 
         TotalRoundStats stats = new TotalRoundStats();
         FileInputStream inputStreamTotal = null;
@@ -182,21 +195,18 @@ public class SaveCheck extends Activity {
                 inHoles.close();
                 inputStreamTotal.close();
                 inputStreamHoles.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
         }
         SaveTotals(stats, fileExists);
     }
+
+    /**
+     * This function parses the data strings that were sent here from the ScorecardActivity.
+     * Then it loads the new stats into the TotalRoundStats object before it is saved.
+     */
     public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
-        /*
-         * This function parses the data strings that were sent here from the ScorecardActivity.
-         * Then it loads the new stats into the TotalRoundStats object before it is saved.
-         */
 
         int puttsFront = 0, puttsBack = 0;
         int penaltiesFront = 0, penaltiesBack = 0;
@@ -204,7 +214,7 @@ public class SaveCheck extends Activity {
         int fairwayFront = 0, fairwayBack = 0;
         int girFront = 0, girBack = 0;
 
-        Integer mStroke, mPutt, mSand, mFairway, mGir, mPenalty, scoreFront = 0, scoreBack = 0;
+        int mStroke, mPutt, mSand, mFairway, mGir, mPenalty, scoreFront = 0, scoreBack = 0;
         TotalHoleStats hole;
 
         ArrayList<Integer> strokes = myEntry.getStrokes();
@@ -271,13 +281,14 @@ public class SaveCheck extends Activity {
             stats.UpdateTotalsIncomplete();
         }
     }
+
+    /**
+     * This function saves the newly updated stats object.
+     * Saving is a little different depending on if the file already
+     * exists or not. Uses serialization to save the object in a file
+     * on internal storage.
+     */
     private void SaveTotals(TotalRoundStats stats, boolean fileExists) {
-        /*
-         * This function saves the newly updated stats object.
-         * Saving is a little different depending on if the file already
-         * exists or not. Uses serialization to save the object in a file
-         * on internal storage.
-         */
 
         FileOutputStream outputStreamTotal;
         FileOutputStream outputStreamHoles;
@@ -296,8 +307,6 @@ public class SaveCheck extends Activity {
                 outHoles.close();
                 outputStreamTotal.close();
                 outputStreamHoles.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -319,14 +328,16 @@ public class SaveCheck extends Activity {
                 outHoles.close();
                 outputStreamTotal.close();
                 outputStreamHoles.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    /**
+     * Hard-coded pars for WG&CC
+     * @return A list of length 18 containing the pars.
+     */
     public List<Integer> InitializePars() {
         /*
          * Assigns a par to each hole.
@@ -354,11 +365,12 @@ public class SaveCheck extends Activity {
         return pars;
     }
 
+    /**
+     * This function exists only to insert a few rounds into the database to use for testing.
+     * Will not be included in the release version.
+     */
     private void DatabaseTest() {
-        /*
-         * This function exists only to insert a few rounds into the database to use for testing.
-         * Will not be included in the release version.
-         */
+
 
         final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
@@ -368,14 +380,14 @@ public class SaveCheck extends Activity {
         ArrayList<Integer> sand = new ArrayList<>();
         ArrayList<Integer> fairway = new ArrayList<>();
         ArrayList<Integer> gir = new ArrayList<>();
-        Integer finalScore = 0;
+        int finalScore = 0;
 
         Random rand = new Random();
 
         for (int j = 0; j < 18; j++) {
-            Integer high = rand.nextInt(4) + 2;
-            Integer low = rand.nextInt(3) + 1;
-            Integer zeroOrOne = rand.nextInt(2);
+            int high = rand.nextInt(4) + 2;
+            int low = rand.nextInt(3) + 1;
+            int zeroOrOne = rand.nextInt(2);
 
             strokes.add(high);
             putts.add(low);

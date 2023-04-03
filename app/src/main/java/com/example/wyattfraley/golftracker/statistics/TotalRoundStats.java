@@ -1,4 +1,6 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.statistics;
+
+import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 
 import java.io.Serializable;
 import java.util.ArrayList;

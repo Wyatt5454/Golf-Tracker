@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.statistics.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllHoles;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllRounds;
 

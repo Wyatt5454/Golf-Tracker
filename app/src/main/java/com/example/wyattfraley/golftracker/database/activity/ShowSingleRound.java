@@ -1,9 +1,7 @@
 package com.example.wyattfraley.golftracker.database.activity;
 
 import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.*;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,21 +10,23 @@ import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.room.Room;
+
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.scorecard.Score;
-import com.example.wyattfraley.golftracker.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.ScoreEntry;
 import com.example.wyattfraley.golftracker.database.DeleteRound;
 import com.example.wyattfraley.golftracker.database.GolfDatabase;
+import com.example.wyattfraley.golftracker.scorecard.Score;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowSingleRound  extends AppCompatActivity {
+public class ShowSingleRound  extends Activity {
     TextView overallStats;
     TextView holeStats;
     List<Score> scores;
@@ -125,18 +125,20 @@ public class ShowSingleRound  extends AppCompatActivity {
 
         SetOverallTextBox();
     }
+
+    /**
+     * Sets on click listeners for all the text boxes, so the
+     * stats boxes will display the proper info for the
+     * selected hole.
+     */
     public List<Score> InitializeScores() {
-        /*
-         * Sets on click listeners for all the text boxes, so the
-         * stats boxes will display the proper info for the
-         * selected hole.
-         */
+
         scores = new ArrayList<>();
         final Score score1 = new Score((TextView)findViewById(R.id.tv11));
         score1.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score1;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score1);
@@ -144,7 +146,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score2.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score2;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score2);
@@ -152,7 +154,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score3.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score3;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score3);
@@ -160,7 +162,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score4.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score4;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score4);
@@ -168,7 +170,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score5.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score5;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score5);
@@ -176,7 +178,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score6.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score6;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score6);
@@ -184,7 +186,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score7.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score7;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score7);
@@ -192,7 +194,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score8.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score8;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score8);
@@ -200,7 +202,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score9.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score9;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score9);
@@ -209,7 +211,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score10.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score10;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score10);
@@ -217,7 +219,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score11.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score11;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score11);
@@ -225,7 +227,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score12.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score12;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score12);
@@ -233,7 +235,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score13.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score13;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score13);
@@ -241,7 +243,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score14.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score14;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score14);
@@ -249,7 +251,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score15.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score15;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score15);
@@ -257,7 +259,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score16.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score16;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score16);
@@ -265,7 +267,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score17.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score17;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score17);
@@ -273,7 +275,7 @@ public class ShowSingleRound  extends AppCompatActivity {
         score18.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score18;
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetIndividualTextBox();
         });
         scores.add(score18);
@@ -412,48 +414,49 @@ public class ShowSingleRound  extends AppCompatActivity {
         mScore.hole.setText(Integer.toString(afterNine));
     }
 
+    /**
+     * This function is responsible for altering the look of the score
+     * in the hole text box. Double circle for eagle or better, single
+     * circle for birdie, nothing for par, single square for bogey,
+     * and double square for double bogey or worse.
+     */
     public void MarkScore(){
-        /*
-         * This function is responsible for altering the look of the score
-         * in the hole text box. Double circle for eagle or better, single
-         * circle for birdie, nothing for par, single square for bogey,
-         * and double square for double bogey or worse.
-         */
 
         if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeback));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
         else if (currentHole.strokes <= currentHole.par - 2)
-            currentHole.hole.setBackground(getDrawable(R.drawable.eagle));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
         else if (currentHole.strokes == currentHole.par - 1)
-            currentHole.hole.setBackground(getDrawable(R.drawable.birdie));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
         else if (currentHole.strokes == currentHole.par + 1)
-            currentHole.hole.setBackground(getDrawable(R.drawable.bogey));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
         else if (currentHole.strokes >= currentHole.par + 2)
-            currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
-
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
     }
+
+    /**
+     * Same as MarkScore, but for a specific hole.
+     */
     public void MarkScoreSpecific(Score specificHole) {
-        /*
-         * Same as MarkScore, but for a specific hole.
-         */
 
         if (specificHole.strokes == 0 || specificHole.strokes == specificHole.par)
-            specificHole.hole.setBackground(getDrawable(R.drawable.holeback));
+            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
         else if (specificHole.strokes <= specificHole.par - 2)
-            specificHole.hole.setBackground(getDrawable(R.drawable.eagle));
+            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
         else if (specificHole.strokes == specificHole.par - 1)
-            specificHole.hole.setBackground(getDrawable(R.drawable.birdie));
+            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
         else if (specificHole.strokes == specificHole.par + 1)
-            specificHole.hole.setBackground(getDrawable(R.drawable.bogey));
+            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
         else if (specificHole.strokes >= specificHole.par + 2)
-            specificHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
+            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
     }
 
+    /**
+     * Sets the main text box with the main
+     * statistics related to this particular round.
+     */
     public void SetOverallTextBox() {
-        /*
-         * Sets the main text box with the main
-         * statistics related to this particular round.
-         */
+
         String overallInfo = "";
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
@@ -478,10 +481,12 @@ public class ShowSingleRound  extends AppCompatActivity {
 
         overallStats.setText(overallInfo);
     }
+
+    /**
+     * Sets up the text box details for each individual hole.
+     */
     public void SetIndividualTextBox() {
-        /*
-         * Sets up the text box details for each individual hole.
-         */
+
         String individualInfo = "";
 
         individualInfo += " Par: " + currentHole.par + "\n";
@@ -511,6 +516,11 @@ public class ShowSingleRound  extends AppCompatActivity {
         holeStats.setText(individualInfo);
         VibrateOnClick();
     }
+
+    /**
+     * Sends a quick vibration to indicate to the user that they
+     * clicked something.
+     */
     private void VibrateOnClick() {
         Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibe.vibrate(VIBRATE_DURATION);

@@ -1,6 +1,7 @@
-package com.example.wyattfraley.golftracker.scorecard;
+package com.example.wyattfraley.golftracker.scorecard.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -19,11 +20,12 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.ScoreEntry;
 import com.example.wyattfraley.golftracker.database.SaveCheck;
+import com.example.wyattfraley.golftracker.scorecard.Score;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -37,7 +39,12 @@ import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.List;
 
-public class ScorecardActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+/**
+ * Activity for the scorecard.  This will be doing the bulk of the work
+ * during a round.  Contains 18 holes, scores, strokes, penalties, and
+ * location services for greens.
+ */
+public class ScorecardActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     public static final String TAG = "Golf Scorecard Activity";
@@ -79,7 +86,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         // Set the current hole.
         currentHole = scores.get(0);
-        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+        currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -188,7 +195,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         int current = savedInstanceState.getInt("current");
         currentHole = scores.get(current - 1);
-        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+        currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
     }
 
     @Override
@@ -202,7 +209,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             handleNewLocation(location);
-        } catch (SecurityException e) {
+        } catch (SecurityException ignored) {
         }
     }
 
@@ -214,9 +221,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
                 location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-
 
         if (location != null) {
             handleNewLocation(location);
@@ -234,7 +240,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             handleNewLocation(location);
-        } catch (SecurityException e) {
+        } catch (SecurityException ignored) {
         }
 
     }
@@ -293,13 +299,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             DecimalFormat dF = new DecimalFormat("##.##");
             dF.setRoundingMode(RoundingMode.UNNECESSARY);
 
-            float distance = location.distanceTo(currentHole.locationData.middle);
+            float distance = location.distanceTo(currentHole.getLocationData().middle);
             String toDisplay = String.format("%d yds to middle", (int) (distance * 1.09361));
             toMiddle.setText(toDisplay);
-            distance = location.distanceTo(currentHole.locationData.back);
+            distance = location.distanceTo(currentHole.getLocationData().back);
             toDisplay = String.format("%d yds to back", (int) (distance * 1.09361));
             toBack.setText(toDisplay);
-            distance = location.distanceTo(currentHole.locationData.front);
+            distance = location.distanceTo(currentHole.getLocationData().front);
             toDisplay = String.format("%d yds to front", (int) (distance * 1.09361));
             toFront.setText(toDisplay);
         }
@@ -384,18 +390,23 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
+    /**
+     * See if we have permission for location access on
+     * this device
+     * @return true if we have permission, false if we don't.
+     */
     public boolean checkLocationPermission() {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
     }
 
-
+    /**
+     * Long and boring method which initializes all the text boxes for the scorecard.
+     * Sets the number, par, and location data for each hole.
+     */
     public void InitializeHoles() {
-        /*
-         * Long and boring method which initializes all the text boxes for the scorecard.
-         * Sets the number, par, and location data for each hole.
-         */
+
 
         textHoles = new ArrayList<>();
         TextView textView;
@@ -488,12 +499,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         Score score = scores.get(scoreToGet);
         score.setPar(par);
         score.setNumber(scoreToGet + 1);
-        score.locationData.front.setLatitude(frontLat);
-        score.locationData.front.setLongitude(frontLong);
-        score.locationData.middle.setLatitude(midLat);
-        score.locationData.middle.setLongitude(midLong);
-        score.locationData.back.setLatitude(backLat);
-        score.locationData.back.setLongitude(backLong);
+        score.getLocationData().front.setLatitude(frontLat);
+        score.getLocationData().front.setLongitude(frontLong);
+        score.getLocationData().middle.setLatitude(midLat);
+        score.getLocationData().middle.setLongitude(midLong);
+        score.getLocationData().back.setLatitude(backLat);
+        score.getLocationData().back.setLongitude(backLong);
     }
 
     public List<Score> InitializeScores() {
@@ -672,11 +683,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * Handles a new location whenever a new hole is clicked.
          */
 
-        currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+        currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             handleNewLocation(location);
-        } catch (SecurityException e) {
+        } catch (SecurityException ignored) {
         }
         VibrateOnClick();
     }
@@ -691,13 +702,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         if (holeNumber < 18) {
             MarkScore();
             currentHole = scores.get(holeNumber);
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetBoxes();
 
             try {
                 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 handleNewLocation(location);
-            } catch (SecurityException e) {
+            } catch (SecurityException ignored) {
             }
 
         }
@@ -713,13 +724,13 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         if (holeNumber > 1) {
             MarkScore();
             currentHole = scores.get(holeNumber - 2);
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeselected));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             SetBoxes();
 
             try {
                 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 handleNewLocation(location);
-            } catch (SecurityException e) {
+            } catch (SecurityException ignored) {
             }
         }
         VibrateOnClick();
@@ -727,22 +738,22 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
     /**
      * This function is responsible for altering the look of the score
-     * in the hole textbox. Double circle for eagle or better, single
+     * in the hole text-box. Double circle for eagle or better, single
      * circle for birdie, nothing for par, single square for bogey,
      * and double square for double bogey or worse.
      */
     private void MarkScore() {
 
         if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
-            currentHole.hole.setBackground(getDrawable(R.drawable.holeback));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
         else if (currentHole.strokes <= currentHole.par - 2)
-            currentHole.hole.setBackground(getDrawable(R.drawable.eagle));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
         else if (currentHole.strokes == currentHole.par - 1)
-            currentHole.hole.setBackground(getDrawable(R.drawable.birdie));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
         else if (currentHole.strokes == currentHole.par + 1)
-            currentHole.hole.setBackground(getDrawable(R.drawable.bogey));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
         else if (currentHole.strokes >= currentHole.par + 2)
-            currentHole.hole.setBackground(getDrawable(R.drawable.doublebogey));
+            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
 
     }
 
@@ -754,15 +765,15 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         }
 
         if (score.strokes == 0 || score.strokes == score.par)
-            score.hole.setBackground(getDrawable(R.drawable.holeback));
+            score.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
         else if (score.strokes <= score.par - 2)
-            score.hole.setBackground(getDrawable(R.drawable.eagle));
+            score.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
         else if (score.strokes == score.par - 1)
-            score.hole.setBackground(getDrawable(R.drawable.birdie));
+            score.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
         else if (score.strokes == score.par + 1)
-            score.hole.setBackground(getDrawable(R.drawable.bogey));
+            score.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
         else if (score.strokes >= score.par + 2)
-            score.hole.setBackground(getDrawable(R.drawable.doublebogey));
+            score.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
     }
 
     /**
@@ -790,7 +801,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         currentHole.strokes++;
         intScore = currentHole.getStrokes();
         currentHole.hole.setText(Integer.toString(intScore));
-        currentHole.actions.push(getString(R.string.stroke));
+        currentHole.getActions().push(getString(R.string.stroke));
 
         if ((intScore - currentHole.putts) < currentHole.par - 1) {
             currentHole.setGreenInRegulation(1);
@@ -812,7 +823,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         currentHole.strokes++;
         intScore = currentHole.getStrokes();
         currentHole.hole.setText(Integer.toString(intScore));
-        currentHole.actions.push(getString(R.string.putt));
+        currentHole.getActions().push(getString(R.string.putt));
 
         updateTotals(1);
         VibrateOnClick();
@@ -828,7 +839,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         currentHole.penalties++;
         int intScore = currentHole.getStrokes();
         currentHole.hole.setText(Integer.toString(intScore));
-        currentHole.actions.push(getString(R.string.penalty));
+        currentHole.getActions().push(getString(R.string.penalty));
 
         updateTotals(1);
         VibrateOnClick();
@@ -837,7 +848,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
     @SuppressLint("SetTextI18n")
     public void UndoStroke(View v) {
         try {
-            String lastAction = currentHole.actions.pop();
+            String lastAction = currentHole.getActions().pop();
             if (lastAction.equals(getString(R.string.putt))) {
                 currentHole.putts--;
                 currentHole.strokes--;
@@ -865,7 +876,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
             updateTotals(-1);
             VibrateOnClick();
-        } catch (EmptyStackException e) {
+        } catch (EmptyStackException ignored) {
         }
 
     }
@@ -922,5 +933,4 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
     }
-
 }

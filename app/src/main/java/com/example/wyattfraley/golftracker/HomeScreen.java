@@ -1,20 +1,28 @@
 package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.wyattfraley.golftracker.scorecard.ScorecardActivity;
+import com.example.wyattfraley.golftracker.scorecard.activity.ScorecardActivity;
+import com.example.wyattfraley.golftracker.statistics.activity.StatsMainActivity;
 
-public class HomeScreen extends AppCompatActivity {
+/**
+ * Activity representing the home screen.  This is the
+ * first thing users will see when they open the app.
+ * Currently presents a button to display the scorecard
+ * for a new round, and a button to launch the statistics
+ * tracking.
+ */
+public class HomeScreen extends Activity {
     public static final String TAG = "Golf Home Screen";
     private final static int VIBRATE_DURATION = 20;
 
@@ -35,7 +43,6 @@ public class HomeScreen extends AppCompatActivity {
             return;
         }
 
-
         // Asks for permission to access location if the app doesn't already have it.
         AsyncTask<Void, Void, Void> locationPermissionAsk = new AsyncTask<Void, Void, Void>() {
             @Override
@@ -47,22 +54,31 @@ public class HomeScreen extends AppCompatActivity {
         locationPermissionAsk.execute();
     }
 
-    public void Scorecard(View view)  {
-        /*
-         * Opens the scorecard activity.
-         */
+    /**
+     * Opens the scorecard activity.
+     */
+    public void OpenScorecardActivity(View view)  {
+
         VibrateOnClick();
         Intent myIntent = new Intent(HomeScreen.this, ScorecardActivity.class);
         startActivity(myIntent);
     }
-    public void StatsMain(View view) {
-        /*
-         * Opens the main stats activity.
-         */
+
+    /**
+     * Opens the main stats activity.
+     */
+    public void openStatsMainActivity(View view) {
+
         VibrateOnClick();
         Intent myIntent = new Intent(HomeScreen.this, StatsMainActivity.class);
         startActivity(myIntent);
     }
+
+    /**
+     * Generally called on a button click.  Makes the phone
+     * vibrate to give user feedback that they properly pressed
+     * the button.
+     */
     private void VibrateOnClick() {
         Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibe.vibrate(VIBRATE_DURATION);

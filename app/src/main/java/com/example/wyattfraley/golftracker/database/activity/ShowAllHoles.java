@@ -1,5 +1,6 @@
 package com.example.wyattfraley.golftracker.database.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -14,8 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.TotalHoleStats;
-import com.example.wyattfraley.golftracker.TotalRoundStats;
+import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
+import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ShowAllHoles extends Activity implements AdapterView.OnItemSelectedListener {
 
     TextView mainText;
     List<Button> buttons;
@@ -174,11 +175,12 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
     }
+
+    /**
+     * Goes through all of the text boxes, and sets the text boxes
+     * with the relevant statistics for each particular hole.
+     */
     private void SetHoleStats() {
-        /*
-         * Goes through all of the text boxes, and sets the text boxes
-         * with the relevant statistics for each particular hole.
-         */
 
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
@@ -212,7 +214,6 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
 
             textViews.get(i).setText(statsToAdd);
         }
-
     }
     private void SetMainTextBox() {
         /*
@@ -285,11 +286,11 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         mainText.setText(R.string.stats_no_rounds);
     }
 
+    /**
+     * Grabs the total stats from a file locally stored
+     * on the device.
+     */
     private TotalRoundStats LoadTotalStats() {
-        /*
-         * Grabs the total stats from a file locally stored
-         * on the device.
-         */
 
         TotalRoundStats stats = new TotalRoundStats();
         File filesDir = getFilesDir();
@@ -335,7 +336,6 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
                 SortByWorstToBestScore();
                 break;
         }
-
     }
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
@@ -439,11 +439,12 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    /**
+     * Uses the FX utility to animate the boxes opening and closing.
+     * Currently the animations are disabled.
+     */
     public void toggle_contents(View v){
-        /*
-         * Uses the FX utility to animate the boxes opening and closing.
-         * Currently the animations are disabled.
-         */
+
         int found = 0;
         for (int i = 0; i < buttons.size(); i++) {
             if (buttons.get(i).isPressed()) {
@@ -453,7 +454,6 @@ public class ShowAllHoles extends AppCompatActivity implements AdapterView.OnIte
         }
 
         TextView toAnimate = textViews.get(found);
-
 
         if(toAnimate.isShown()){
             //fxUtility.slide_up(this, toAnimate);

@@ -1,4 +1,4 @@
-package com.example.wyattfraley.golftracker;
+package com.example.wyattfraley.golftracker.database;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

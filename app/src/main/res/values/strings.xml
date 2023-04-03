@@ -1,4 +1,5 @@
 <resources>
+    <string name="home_screen_title">Wyatt\'s Personal Golf Stat Tracker</string>
     <string name="app_name">GolfTracker</string>
     <string name="putt">putt</string>
     <string name="stroke">stroke</string>
