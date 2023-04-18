@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
@@ -44,7 +45,7 @@ import java.util.List;
  * during a round.  Contains 18 holes, scores, strokes, penalties, and
  * location services for greens.
  */
-public class ScorecardActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
+public class ScorecardActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     public static final String TAG = "Golf Scorecard Activity";

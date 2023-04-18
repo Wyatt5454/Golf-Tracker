@@ -15,6 +15,8 @@ import android.view.View;
 import com.example.wyattfraley.golftracker.scorecard.activity.ScorecardActivity;
 import com.example.wyattfraley.golftracker.statistics.activity.StatsMainActivity;
 
+import io.realm.Realm;
+
 /**
  * Activity representing the home screen.  This is the
  * first thing users will see when they open the app.
@@ -52,6 +54,8 @@ public class HomeScreen extends Activity {
             }
         };
         locationPermissionAsk.execute();
+
+        Realm.init(this);
     }
 
     /**

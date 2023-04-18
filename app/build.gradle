@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: "realm-android"
 
 android {
     compileSdkVersion 33
@@ -24,8 +25,13 @@ android {
     }
 }
 
+realm {
+    syncEnabled = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'io.realm:realm-gradle-plugin:10.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.media:media:1.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

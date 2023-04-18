@@ -77,7 +77,7 @@ public class SaveCheck extends Activity {
             no.setVisibility(View.GONE);
         }
 
-        //DatabaseTest();
+        DatabaseTest();
     }
 
     /**
