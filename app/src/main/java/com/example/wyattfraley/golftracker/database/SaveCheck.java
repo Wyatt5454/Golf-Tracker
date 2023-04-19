@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Random;
 
 import io.realm.RealmList;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
 
 /**
  * This activity pops up when the user clicks a button on the
@@ -403,6 +405,8 @@ public class SaveCheck extends Activity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+                App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
+
                 return null;
             }
         }.execute();

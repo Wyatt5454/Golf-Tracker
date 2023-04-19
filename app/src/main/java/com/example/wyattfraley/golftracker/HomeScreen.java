@@ -60,7 +60,7 @@ public class HomeScreen extends Activity {
 
         Realm.init(this);
 
-        App app = new App(new AppConfiguration.Builder("golfuserdataapplication-cqklc").build());
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
     }
 
     /**
