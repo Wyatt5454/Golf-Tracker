@@ -1,17 +1,17 @@
 package com.example.wyattfraley.golftracker.database;
 
-import androidx.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.widget.Button;
 
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
 import java.util.ArrayList;
+
+import io.realm.RealmList;
 
 public class DeleteRound extends SaveCheck {
 
@@ -43,14 +43,12 @@ public class DeleteRound extends SaveCheck {
 
         Intent myIntent = getIntent();
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         final ScoreEntry toDelete = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.myScoreEntryDao().delete(toDelete);
                 return null;
             }
         }.execute();
@@ -85,12 +83,12 @@ public class DeleteRound extends SaveCheck {
         int scoreBack = 0;
         TotalHoleStats hole;
 
-        ArrayList<Integer> strokes = myEntry.getStrokes();
-        ArrayList<Integer> putts = myEntry.getPutts();
-        ArrayList<Integer> penalties = myEntry.getPenalties();
-        ArrayList<Integer> sand = myEntry.getSand();
-        ArrayList<Integer> fairway = myEntry.getFairway();
-        ArrayList<Integer> gir = myEntry.getGreenInRegulation();
+        RealmList<Integer> strokes = myEntry.getStrokes();
+        RealmList<Integer> putts = myEntry.getPutts();
+        RealmList<Integer> penalties = myEntry.getPenalties();
+        RealmList<Integer> sand = myEntry.getSand();
+        RealmList<Integer> fairway = myEntry.getFairway();
+        RealmList<Integer> gir = myEntry.getGreenInRegulation();
 
 
         // This loop parses the data into 18 holes and updates the stats.

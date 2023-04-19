@@ -40,6 +40,8 @@ import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.List;
 
+import io.realm.RealmList;
+
 /**
  * Activity for the scorecard.  This will be doing the bulk of the work
  * during a round.  Contains 18 holes, scores, strokes, penalties, and
@@ -113,12 +115,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         super.onSaveInstanceState(state);
 
-        ArrayList<Integer> mStrokes = new ArrayList<>();
-        ArrayList<Integer> mPutts = new ArrayList<>();
-        ArrayList<Integer> mPenalties = new ArrayList<>();
-        ArrayList<Integer> mSand = new ArrayList<>();
-        ArrayList<Integer> mFairway = new ArrayList<>();
-        ArrayList<Integer> mGIR = new ArrayList<>();
+        RealmList<Integer> mStrokes = new RealmList<>();
+        RealmList<Integer> mPutts = new RealmList<>();
+        RealmList<Integer> mPenalties = new RealmList<>();
+        RealmList<Integer> mSand = new RealmList<>();
+        RealmList<Integer> mFairway = new RealmList<>();
+        RealmList<Integer> mGIR = new RealmList<>();
 
         for (int i = 0; i < scores.size(); i++) {
             Score score = scores.get(i);
@@ -147,11 +149,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
         Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
 
-        ArrayList<Integer> mStrokes = myScore.getStrokes();
-        ArrayList<Integer> mPutts = myScore.getPutts();
-        ArrayList<Integer> mSand = myScore.getSand();
-        ArrayList<Integer> mFairway = myScore.getFairway();
-        ArrayList<Integer> mGIR = myScore.getGreenInRegulation();
+        RealmList<Integer> mStrokes = myScore.getStrokes();
+        RealmList<Integer> mPutts = myScore.getPutts();
+        RealmList<Integer> mSand = myScore.getSand();
+        RealmList<Integer> mFairway = myScore.getFairway();
+        RealmList<Integer> mGIR = myScore.getGreenInRegulation();
 
         Score score;
         int strokes;
@@ -329,12 +331,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             //  Here we create a pop up window asking if they are done with the round and want to save.
             // Have to convert the scores into a savable format
             Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
-            ArrayList<Integer> mStrokes = new ArrayList<>();
-            ArrayList<Integer> mPutts = new ArrayList<>();
-            ArrayList<Integer> mPenalties = new ArrayList<>();
-            ArrayList<Integer> mSand = new ArrayList<>();
-            ArrayList<Integer> mFairway = new ArrayList<>();
-            ArrayList<Integer> mGIR = new ArrayList<>();
+            RealmList<Integer> mStrokes = new RealmList<>();
+            RealmList<Integer> mPutts = new RealmList<>();
+            RealmList<Integer> mPenalties = new RealmList<>();
+            RealmList<Integer> mSand = new RealmList<>();
+            RealmList<Integer> mFairway = new RealmList<>();
+            RealmList<Integer> mGIR = new RealmList<>();
             int mFinal, mParPlayed = 0;
 
             for (int i = 0; i < scores.size(); i++) {
@@ -513,7 +515,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * Long boring method which sets up all the holes for scoring.
          */
         scores = new ArrayList<>();
-        final Score score1 = new Score((TextView) findViewById(R.id.tv11));
+        final Score score1 = new Score(findViewById(R.id.tv11));
         score1.setNumber(1);
         score1.hole.setOnClickListener(v -> {
             MarkScore();
@@ -522,7 +524,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score1);
-        final Score score2 = new Score((TextView) findViewById(R.id.tv12));
+        final Score score2 = new Score(findViewById(R.id.tv12));
         score2.setNumber(2);
         score2.hole.setOnClickListener(v -> {
             MarkScore();
@@ -531,7 +533,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.GONE);
         });
         scores.add(score2);
-        final Score score3 = new Score((TextView) findViewById(R.id.tv13));
+        final Score score3 = new Score(findViewById(R.id.tv13));
         score3.setNumber(3);
         score3.hole.setOnClickListener(v -> {
             MarkScore();
@@ -540,7 +542,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score3);
-        final Score score4 = new Score((TextView) findViewById(R.id.tv14));
+        final Score score4 = new Score(findViewById(R.id.tv14));
         score4.setNumber(4);
         score4.hole.setOnClickListener(v -> {
             MarkScore();
@@ -549,7 +551,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score4);
-        final Score score5 = new Score((TextView) findViewById(R.id.tv15));
+        final Score score5 = new Score(findViewById(R.id.tv15));
         score5.setNumber(5);
         score5.hole.setOnClickListener(v -> {
             MarkScore();
@@ -558,7 +560,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score5);
-        final Score score6 = new Score((TextView) findViewById(R.id.tv16));
+        final Score score6 = new Score(findViewById(R.id.tv16));
         score6.setNumber(6);
         score6.hole.setOnClickListener(v -> {
             MarkScore();
@@ -567,7 +569,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.GONE);
         });
         scores.add(score6);
-        final Score score7 = new Score((TextView) findViewById(R.id.tv17));
+        final Score score7 = new Score(findViewById(R.id.tv17));
         score7.setNumber(7);
         score7.hole.setOnClickListener(v -> {
             MarkScore();
@@ -576,7 +578,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score7);
-        final Score score8 = new Score((TextView) findViewById(R.id.tv18));
+        final Score score8 = new Score(findViewById(R.id.tv18));
         score8.setNumber(8);
         score8.hole.setOnClickListener(v -> {
             MarkScore();
@@ -585,7 +587,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score8);
-        final Score score9 = new Score((TextView) findViewById(R.id.tv19));
+        final Score score9 = new Score(findViewById(R.id.tv19));
         score9.setNumber(9);
         score9.hole.setOnClickListener(v -> {
             MarkScore();
@@ -594,7 +596,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score9);
-        final Score score10 = new Score((TextView) findViewById(R.id.tv31));
+        final Score score10 = new Score(findViewById(R.id.tv31));
         score10.setNumber(10);
         score10.hole.setOnClickListener(v -> {
             MarkScore();
@@ -603,7 +605,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score10);
-        final Score score11 = new Score((TextView) findViewById(R.id.tv32));
+        final Score score11 = new Score(findViewById(R.id.tv32));
         score11.setNumber(11);
         score11.hole.setOnClickListener(v -> {
             MarkScore();
@@ -612,7 +614,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score11);
-        final Score score12 = new Score((TextView) findViewById(R.id.tv33));
+        final Score score12 = new Score(findViewById(R.id.tv33));
         score12.setNumber(12);
         score12.hole.setOnClickListener(v -> {
             MarkScore();
@@ -621,7 +623,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score12);
-        final Score score13 = new Score((TextView) findViewById(R.id.tv34));
+        final Score score13 = new Score(findViewById(R.id.tv34));
         score13.setNumber(13);
         score13.hole.setOnClickListener(v -> {
             MarkScore();
@@ -630,7 +632,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score13);
-        final Score score14 = new Score((TextView) findViewById(R.id.tv35));
+        final Score score14 = new Score(findViewById(R.id.tv35));
         score14.setNumber(14);
         score14.hole.setOnClickListener(v -> {
             MarkScore();
@@ -639,7 +641,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.GONE);
         });
         scores.add(score14);
-        final Score score15 = new Score((TextView) findViewById(R.id.tv36));
+        final Score score15 = new Score(findViewById(R.id.tv36));
         score15.setNumber(15);
         score15.hole.setOnClickListener(v -> {
             MarkScore();
@@ -648,7 +650,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score15);
-        final Score score16 = new Score((TextView) findViewById(R.id.tv37));
+        final Score score16 = new Score(findViewById(R.id.tv37));
         score16.setNumber(16);
         score16.hole.setOnClickListener(v -> {
             MarkScore();
@@ -657,7 +659,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.VISIBLE);
         });
         scores.add(score16);
-        final Score score17 = new Score((TextView) findViewById(R.id.tv38));
+        final Score score17 = new Score(findViewById(R.id.tv38));
         score17.setNumber(17);
         score17.hole.setOnClickListener(v -> {
             MarkScore();
@@ -666,7 +668,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.GONE);
         });
         scores.add(score17);
-        final Score score18 = new Score((TextView) findViewById(R.id.tv39));
+        final Score score18 = new Score(findViewById(R.id.tv39));
         score18.setNumber(18);
         score18.hole.setOnClickListener(v -> {
             MarkScore();

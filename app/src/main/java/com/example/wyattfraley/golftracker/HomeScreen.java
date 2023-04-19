@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 
@@ -16,6 +17,8 @@ import com.example.wyattfraley.golftracker.scorecard.activity.ScorecardActivity;
 import com.example.wyattfraley.golftracker.statistics.activity.StatsMainActivity;
 
 import io.realm.Realm;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
 
 /**
  * Activity representing the home screen.  This is the
@@ -56,6 +59,8 @@ public class HomeScreen extends Activity {
         locationPermissionAsk.execute();
 
         Realm.init(this);
+
+        App app = new App(new AppConfiguration.Builder("golfuserdataapplication-cqklc").build());
     }
 
     /**

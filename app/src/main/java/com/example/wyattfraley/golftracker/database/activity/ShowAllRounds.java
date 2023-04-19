@@ -13,11 +13,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.database.ScoreEntryDisplayRound;
-import com.example.wyattfraley.golftracker.database.GolfDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,13 +132,11 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
 
     @SuppressLint("StaticFieldLeak")
     public void LoadRounds() {
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                allRounds = Db.myScoreEntryDao().getRoundsForDisplay();
-                Collections.reverse(allRounds);
+
                 return null;
             }
 
