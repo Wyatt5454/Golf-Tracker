@@ -16,6 +16,8 @@ public class ScoreEntry extends RealmObject implements Serializable {
     @NonNull
     private String uId = "";
 
+    private String courseUid = "";
+
     @NonNull
     private RealmList<Integer> strokes = new RealmList<>();
 
@@ -123,4 +125,13 @@ public class ScoreEntry extends RealmObject implements Serializable {
         return parPlayed;
     }
     public void setParPlayed(@NonNull Integer nParPlayed) { parPlayed = nParPlayed; }
+
+    @NonNull
+    public String getCourseUid() {
+        return courseUid;
+    }
+
+    public void setCourseUid(@NonNull String courseUid) {
+        this.courseUid = courseUid;
+    }
 }
