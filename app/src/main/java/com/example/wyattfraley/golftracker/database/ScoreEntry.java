@@ -1,46 +1,48 @@
 package com.example.wyattfraley.golftracker.database;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-@Entity
-public class ScoreEntry implements Serializable{
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
+
+public class ScoreEntry extends RealmObject implements Serializable {
     @PrimaryKey
     @NonNull
     private String uId = "";
 
-    @ColumnInfo(name = "strokes")
-    private ArrayList<Integer> strokes;
+    private String courseUid = "";
 
-    @ColumnInfo(name = "putts")
-    private ArrayList<Integer> putts;
+    @NonNull
+    private RealmList<Integer> strokes = new RealmList<>();
 
-    @ColumnInfo(name = "penalties")
-    private ArrayList<Integer> penalties;
+    @NonNull
+    private RealmList<Integer> putts = new RealmList<>();
 
-    @ColumnInfo(name = "sand")
-    private ArrayList<Integer> sand;
+    @NonNull
+    private RealmList<Integer> penalties = new RealmList<>();
 
-    @ColumnInfo(name = "fairway")
-    private ArrayList<Integer> fairway;
+    @NonNull
+    private RealmList<Integer> sand = new RealmList<>();
 
-    @ColumnInfo(name = "greenInRegulation")
-    private ArrayList<Integer> greenInRegulation;
+    @NonNull
+    private RealmList<Integer> fairway = new RealmList<>();
 
-    @ColumnInfo(name = "finalScore")
-    private Integer finalScore;
+    @NonNull
+    private RealmList<Integer> greenInRegulation = new RealmList<>();
 
-    @ColumnInfo(name = "parPlayed")
-    private Integer parPlayed;
+    @NonNull
+    private Integer finalScore = 0;
 
-    @Ignore
-    public ScoreEntry(String uId, ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
+    @NonNull
+    private Integer parPlayed = 0;
+
+    public ScoreEntry(String uId, RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
         setUId(uId);
         setStrokes(strokes);
         setPutts(putts);
@@ -51,8 +53,7 @@ public class ScoreEntry implements Serializable{
         setFinalScore(finalScore);
         setParPlayed(parPlayed);
     }
-    @Ignore
-    public ScoreEntry(ArrayList<Integer> strokes, ArrayList<Integer> putts, ArrayList<Integer> penalties, ArrayList<Integer> sand, ArrayList<Integer> fairway, ArrayList<Integer> greenInRegulation) {
+    public ScoreEntry(RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation) {
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
@@ -67,53 +68,70 @@ public class ScoreEntry implements Serializable{
         uId = NUid;
     }
 
-    public ArrayList<Integer> getStrokes() {
+    @NonNull
+    public RealmList<Integer> getStrokes() {
         return strokes;
     }
-    public void setStrokes(ArrayList<Integer> NStrokes) {
+    public void setStrokes(@NonNull RealmList<Integer> NStrokes) {
         strokes = NStrokes;
     }
 
-    public ArrayList<Integer> getPutts() {
+    @NonNull
+    public RealmList<Integer> getPutts() {
         return putts;
     }
-    public void setPutts(ArrayList<Integer> NPutts) {
+    public void setPutts(@NonNull RealmList<Integer> NPutts) {
         putts = NPutts;
     }
 
-    public ArrayList<Integer> getPenalties() {
+    @NonNull
+    public RealmList<Integer> getPenalties() {
         return penalties;
     }
-    public void setPenalties(ArrayList<Integer> NPenalties) {
+    public void setPenalties(@NonNull RealmList<Integer> NPenalties) {
         penalties = NPenalties;
     }
 
-    public ArrayList<Integer> getSand() {
+    @NonNull
+    public RealmList<Integer> getSand() {
         return sand;
     }
-    public void setSand(ArrayList<Integer> NSand) {
+    public void setSand(@NonNull RealmList<Integer> NSand) {
         sand = NSand;
     }
 
-    public ArrayList<Integer> getFairway() { return fairway; }
-    public void setFairway(ArrayList<Integer> nFairway) {
+    @NonNull
+    public RealmList<Integer> getFairway() { return fairway; }
+    public void setFairway(@NonNull RealmList<Integer> nFairway) {
         fairway = nFairway;
     }
 
-    public ArrayList<Integer> getGreenInRegulation() {
+    @NonNull
+    public RealmList<Integer> getGreenInRegulation() {
         return greenInRegulation;
     }
-    public void setGreenInRegulation(ArrayList<Integer> nGreenInRegulation) {
+    public void setGreenInRegulation(@NonNull RealmList<Integer> nGreenInRegulation) {
         greenInRegulation = nGreenInRegulation;
     }
 
+    @NonNull
     public Integer getFinalScore() {
         return finalScore;
     }
-    public void setFinalScore(Integer aFinal) { finalScore = aFinal; }
+    public void setFinalScore(@NonNull Integer aFinal) { finalScore = aFinal; }
 
+    @NonNull
     public Integer getParPlayed() {
         return parPlayed;
     }
-    public void setParPlayed(Integer nParPlayed) { parPlayed = nParPlayed; }
+    public void setParPlayed(@NonNull Integer nParPlayed) { parPlayed = nParPlayed; }
+
+    @NonNull
+    public String getCourseUid() {
+        return courseUid;
+    }
+
+    public void setCourseUid(@NonNull String courseUid) {
+        this.courseUid = courseUid;
+    }
 }

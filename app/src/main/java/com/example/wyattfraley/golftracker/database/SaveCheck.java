@@ -2,7 +2,6 @@ package com.example.wyattfraley.golftracker.database;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import androidx.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+
+import io.realm.RealmList;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
 
 /**
  * This activity pops up when the user clicks a button on the
@@ -91,12 +94,10 @@ public class SaveCheck extends Activity {
         Intent myIntent = getIntent();
         final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.myScoreEntryDao().insertAll(toEnter);
                 return null;
             }
         }.execute();
@@ -115,7 +116,7 @@ public class SaveCheck extends Activity {
      * @return true if it's complete, false if not
      */
     public boolean IsFrontComplete() {
-        ArrayList<Integer> strokes = toEnter.getStrokes();
+        RealmList<Integer> strokes = toEnter.getStrokes();
 
         for (int i = 0; i < 9; i++) {
             if (strokes.get(i) == 0) {
@@ -131,7 +132,7 @@ public class SaveCheck extends Activity {
      * @return true if it's complete, false if not
      */
     public boolean IsBackComplete() {
-        ArrayList<Integer> strokes = toEnter.getStrokes();
+        RealmList<Integer> strokes = toEnter.getStrokes();
 
         for (int i = 9; i < 18; i++) {
             if (strokes.get(i) == 0) {
@@ -194,7 +195,9 @@ public class SaveCheck extends Activity {
                 inTotal.close();
                 inHoles.close();
                 inputStreamTotal.close();
-                inputStreamHoles.close();
+                if (inputStreamHoles != null) {
+                    inputStreamHoles.close();
+                }
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
@@ -217,12 +220,12 @@ public class SaveCheck extends Activity {
         int mStroke, mPutt, mSand, mFairway, mGir, mPenalty, scoreFront = 0, scoreBack = 0;
         TotalHoleStats hole;
 
-        ArrayList<Integer> strokes = myEntry.getStrokes();
-        ArrayList<Integer> putts = myEntry.getPutts();
-        ArrayList<Integer> penalties = myEntry.getPenalties();
-        ArrayList<Integer> sand = myEntry.getSand();
-        ArrayList<Integer> fairway = myEntry.getFairway();
-        ArrayList<Integer> gir = myEntry.getGreenInRegulation();
+        RealmList<Integer> strokes = myEntry.getStrokes();
+        RealmList<Integer> putts = myEntry.getPutts();
+        RealmList<Integer> penalties = myEntry.getPenalties();
+        RealmList<Integer> sand = myEntry.getSand();
+        RealmList<Integer> fairway = myEntry.getFairway();
+        RealmList<Integer> gir = myEntry.getGreenInRegulation();
 
         List<Integer> pars = InitializePars();
 
@@ -372,14 +375,13 @@ public class SaveCheck extends Activity {
     private void DatabaseTest() {
 
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
 
-        ArrayList<Integer> strokes = new ArrayList<>();
-        ArrayList<Integer> putts = new ArrayList<>();
-        ArrayList<Integer> penalties = new ArrayList<>();
-        ArrayList<Integer> sand = new ArrayList<>();
-        ArrayList<Integer> fairway = new ArrayList<>();
-        ArrayList<Integer> gir = new ArrayList<>();
+        RealmList<Integer> strokes = new RealmList<>();
+        RealmList<Integer> putts = new RealmList<>();
+        RealmList<Integer> penalties = new RealmList<>();
+        RealmList<Integer> sand = new RealmList<>();
+        RealmList<Integer> fairway = new RealmList<>();
+        RealmList<Integer> gir = new RealmList<>();
         int finalScore = 0;
 
         Random rand = new Random();
@@ -403,7 +405,8 @@ public class SaveCheck extends Activity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Db.myScoreEntryDao().insertAll(toEnter);
+                App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
+
                 return null;
             }
         }.execute();

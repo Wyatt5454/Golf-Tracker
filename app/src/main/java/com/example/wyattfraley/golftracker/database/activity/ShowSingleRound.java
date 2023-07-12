@@ -13,18 +13,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.room.Room;
 
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.database.ScoreEntry;
 import com.example.wyattfraley.golftracker.database.DeleteRound;
-import com.example.wyattfraley.golftracker.database.GolfDatabase;
 import com.example.wyattfraley.golftracker.scorecard.Score;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmList;
 
 public class ShowSingleRound  extends Activity {
     TextView overallStats;
@@ -50,11 +50,9 @@ public class ShowSingleRound  extends Activity {
         Intent myIntent = getIntent();
         uid = myIntent.getStringExtra("uid");
 
-        final GolfDatabase Db = Room.databaseBuilder(getApplicationContext(), GolfDatabase.class, "score-db-V6").fallbackToDestructiveMigration().build();
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                myEntry = Db.myScoreEntryDao().loadSingleRound(uid);
                 return null;
             }
 
@@ -83,7 +81,7 @@ public class ShowSingleRound  extends Activity {
 
         if (id == R.id.delete_menu) {
             Intent newIntent = new Intent(ShowSingleRound.this, DeleteRound.class);
-            newIntent.putExtra("Score", myEntry);
+            //newIntent.putExtra("Score", myEntry);
             startActivityForResult(newIntent, 99);
         }
         else if (id == android.R.id.home) {
@@ -134,7 +132,7 @@ public class ShowSingleRound  extends Activity {
     public List<Score> InitializeScores() {
 
         scores = new ArrayList<>();
-        final Score score1 = new Score((TextView)findViewById(R.id.tv11));
+        final Score score1 = new Score(findViewById(R.id.tv11));
         score1.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score1;
@@ -142,7 +140,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score1);
-        final Score score2 = new Score((TextView)findViewById(R.id.tv12));
+        final Score score2 = new Score(findViewById(R.id.tv12));
         score2.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score2;
@@ -150,7 +148,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score2);
-        final Score score3 = new Score((TextView)findViewById(R.id.tv13));
+        final Score score3 = new Score(findViewById(R.id.tv13));
         score3.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score3;
@@ -158,7 +156,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score3);
-        final Score score4 = new Score((TextView)findViewById(R.id.tv14));
+        final Score score4 = new Score(findViewById(R.id.tv14));
         score4.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score4;
@@ -166,7 +164,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score4);
-        final Score score5 = new Score((TextView)findViewById(R.id.tv15));
+        final Score score5 = new Score(findViewById(R.id.tv15));
         score5.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score5;
@@ -174,7 +172,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score5);
-        final Score score6 = new Score((TextView)findViewById(R.id.tv16));
+        final Score score6 = new Score(findViewById(R.id.tv16));
         score6.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score6;
@@ -182,7 +180,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score6);
-        final Score score7 = new Score((TextView)findViewById(R.id.tv17));
+        final Score score7 = new Score(findViewById(R.id.tv17));
         score7.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score7;
@@ -190,7 +188,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score7);
-        final Score score8 = new Score((TextView)findViewById(R.id.tv18));
+        final Score score8 = new Score(findViewById(R.id.tv18));
         score8.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score8;
@@ -198,7 +196,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score8);
-        final Score score9 = new Score((TextView)findViewById(R.id.tv19));
+        final Score score9 = new Score(findViewById(R.id.tv19));
         score9.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score9;
@@ -206,8 +204,8 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score9);
-        scores.add(new Score((TextView)findViewById(R.id.tv20)));
-        final Score score10 = new Score((TextView)findViewById(R.id.tv31));
+        scores.add(new Score(findViewById(R.id.tv20)));
+        final Score score10 = new Score(findViewById(R.id.tv31));
         score10.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score10;
@@ -215,7 +213,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score10);
-        final Score score11 = new Score((TextView)findViewById(R.id.tv32));
+        final Score score11 = new Score(findViewById(R.id.tv32));
         score11.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score11;
@@ -223,7 +221,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score11);
-        final Score score12 = new Score((TextView)findViewById(R.id.tv33));
+        final Score score12 = new Score(findViewById(R.id.tv33));
         score12.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score12;
@@ -231,7 +229,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score12);
-        final Score score13 = new Score((TextView)findViewById(R.id.tv34));
+        final Score score13 = new Score(findViewById(R.id.tv34));
         score13.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score13;
@@ -239,7 +237,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score13);
-        final Score score14 = new Score((TextView)findViewById(R.id.tv35));
+        final Score score14 = new Score(findViewById(R.id.tv35));
         score14.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score14;
@@ -247,7 +245,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score14);
-        final Score score15 = new Score((TextView)findViewById(R.id.tv36));
+        final Score score15 = new Score(findViewById(R.id.tv36));
         score15.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score15;
@@ -255,7 +253,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score15);
-        final Score score16 = new Score((TextView)findViewById(R.id.tv37));
+        final Score score16 = new Score(findViewById(R.id.tv37));
         score16.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score16;
@@ -263,7 +261,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score16);
-        final Score score17 = new Score((TextView)findViewById(R.id.tv38));
+        final Score score17 = new Score(findViewById(R.id.tv38));
         score17.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score17;
@@ -271,7 +269,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score17);
-        final Score score18 = new Score((TextView)findViewById(R.id.tv39));
+        final Score score18 = new Score(findViewById(R.id.tv39));
         score18.hole.setOnClickListener(v -> {
             MarkScore();
             currentHole = score18;
@@ -279,7 +277,7 @@ public class ShowSingleRound  extends Activity {
             SetIndividualTextBox();
         });
         scores.add(score18);
-        scores.add(new Score((TextView)findViewById(R.id.tv40)));
+        scores.add(new Score(findViewById(R.id.tv40)));
 
         return scores;
     }
@@ -325,12 +323,12 @@ public class ShowSingleRound  extends Activity {
         Integer mPenalty;
         int afterNine = 0, par;
 
-        ArrayList<Integer> strokes = myEntry.getStrokes();
-        ArrayList<Integer> putts = myEntry.getPutts();
-        ArrayList<Integer> sand = myEntry.getSand();
-        ArrayList<Integer> fairway = myEntry.getFairway();
-        ArrayList<Integer> gir = myEntry.getGreenInRegulation();
-        ArrayList<Integer> penalties = myEntry.getPenalties();
+        RealmList<Integer> strokes = myEntry.getStrokes();
+        RealmList<Integer> putts = myEntry.getPutts();
+        RealmList<Integer> sand = myEntry.getSand();
+        RealmList<Integer> fairway = myEntry.getFairway();
+        RealmList<Integer> gir = myEntry.getGreenInRegulation();
+        RealmList<Integer> penalties = myEntry.getPenalties();
         List<Integer> pars = InitializePars();
         Score mScore;
 

@@ -31,7 +31,7 @@ realm {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'io.realm:realm-gradle-plugin:10.10.1'
+    implementation 'io.realm:realm-gradle-plugin:10.11.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.media:media:1.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -54,11 +54,5 @@ dependencies {
 //    implementation 'com.jakewharton:butterknife:8.8.1'
 //    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    def room_version = "2.5.1"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    // use kapt for Kotlin
-    // Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
 }
 

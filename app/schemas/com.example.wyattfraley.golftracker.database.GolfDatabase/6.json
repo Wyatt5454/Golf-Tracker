@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 6,
+    "identityHash": "91395a4717341f1a33c7c2e89cc35730",
+    "entities": [
+      {
+        "tableName": "ScoreEntry",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uId` TEXT NOT NULL, `strokes` TEXT, `putts` TEXT, `penalties` TEXT, `sand` TEXT, `fairway` TEXT, `greenInRegulation` TEXT, `finalScore` INTEGER, `parPlayed` INTEGER, PRIMARY KEY(`uId`))",
+        "fields": [
+          {
+            "fieldPath": "uId",
+            "columnName": "uId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "strokes",
+            "columnName": "strokes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "putts",
+            "columnName": "putts",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "penalties",
+            "columnName": "penalties",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sand",
+            "columnName": "sand",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fairway",
+            "columnName": "fairway",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "greenInRegulation",
+            "columnName": "greenInRegulation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "finalScore",
+            "columnName": "finalScore",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parPlayed",
+            "columnName": "parPlayed",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "uId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '91395a4717341f1a33c7c2e89cc35730')"
+    ]
+  }
+}

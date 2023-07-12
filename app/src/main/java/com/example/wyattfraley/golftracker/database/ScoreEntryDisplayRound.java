@@ -1,17 +1,15 @@
 package com.example.wyattfraley.golftracker.database;
 
-import androidx.room.ColumnInfo;
-import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+
+import io.realm.annotations.PrimaryKey;
+
 
 public class ScoreEntryDisplayRound {
     @PrimaryKey
     @NonNull
-    @ColumnInfo( name = "uId" )
     public String uid;
-    @ColumnInfo( name = "finalscore" )
     private Integer finalScore;
-    @ColumnInfo( name = "parPlayed" )
     private Integer parPlayed;
 
     public ScoreEntryDisplayRound() {
@@ -26,6 +24,7 @@ public class ScoreEntryDisplayRound {
     public Integer getFinalScore() {
         return finalScore;
     }
+    @NonNull
     public String getUid() {
         return uid;
     }
@@ -36,7 +35,7 @@ public class ScoreEntryDisplayRound {
     public void setParPlayed(Integer parPlayed) {
         this.parPlayed = parPlayed;
     }
-    public void setUid(String uid) {
+    public void setUid(@NonNull String uid) {
         this.uid = uid;
     }
 }
