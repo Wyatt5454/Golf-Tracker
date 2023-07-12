@@ -36,6 +36,7 @@ import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
 import io.realm.mongodb.User;
+import io.realm.mongodb.auth.EmailPasswordAuth;
 import io.realm.mongodb.sync.SyncConfiguration;
 
 /**
@@ -83,26 +84,49 @@ public class HomeScreen extends AppCompatActivity {
         Realm.init(this);
 
         app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
-        app.login(Credentials.anonymous());
 
-        app.loginAsync(Credentials.anonymous(), result -> {
+        EmailPasswordAuth emailPasswordAuth = app.getEmailPassword();
+        String email = "wyatt.fraley@gmail.com";
+        String password = "password";
+        Credentials creds = Credentials.emailPassword(email, password);
+        // Register a new user
+        emailPasswordAuth.registerUserAsync(email, password, result -> {
             if (result.isSuccess()) {
-                Log.v("QUICKSTART", "Successfully authenticated anonymously.");
-                User user = app.currentUser();
-                String partitionValue = "My Project";
-                SyncConfiguration config = new SyncConfiguration.Builder(
-                        user,
-                        partitionValue)
-                        .build();
-                uiThreadRealm = Realm.getInstance(config);
-                addChangeListenerToRealm(uiThreadRealm);
-                FutureTask<String> task = new FutureTask(new BackgroundQuickStart(app.currentUser()), "test");
-                ExecutorService executorService = Executors.newFixedThreadPool(2);
-                executorService.execute(task);
+                System.out.println("User registered successfully");
+
+                // Log in to the app
+                app.loginAsync(creds, authResult -> {
+                    if (authResult.isSuccess()) {
+                        User user = app.currentUser();
+                        System.out.println("User logged in successfully");
+                        // Additional actions with the logged-in user
+                    } else {
+                        System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
+                    }
+                });
             } else {
-                Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
+                System.out.println("Failed to register user: " + result.getError().getErrorMessage());
             }
         });
+        // TODO: Need to bring the change listener logic back in.
+//        app.loginAsync(Credentials.anonymous(), result -> {
+//            if (result.isSuccess()) {
+//                Log.v("QUICKSTART", "Successfully authenticated anonymously.");
+//                User user = app.currentUser();
+//                String partitionValue = "My Project";
+//                SyncConfiguration config = new SyncConfiguration.Builder(
+//                        user,
+//                        partitionValue)
+//                        .build();
+//                uiThreadRealm = Realm.getInstance(config);
+//                addChangeListenerToRealm(uiThreadRealm);
+//                FutureTask<String> task = new FutureTask(new BackgroundQuickStart(app.currentUser()), "test");
+//                ExecutorService executorService = Executors.newFixedThreadPool(2);
+//                executorService.execute(task);
+//            } else {
+//                Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
+//            }
+//        });
     }
 
     private void addChangeListenerToRealm(Realm realm) {
