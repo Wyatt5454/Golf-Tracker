@@ -1,7 +1,6 @@
 package com.example.wyattfraley.golftracker.scorecard.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -24,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.database.ScoreEntry;
 import com.example.wyattfraley.golftracker.database.SaveCheck;
+import com.example.wyattfraley.golftracker.database.SerializableScoreEntry;
 import com.example.wyattfraley.golftracker.scorecard.Score;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,8 +39,6 @@ import java.util.Calendar;
 import java.util.EmptyStackException;
 import java.util.List;
 
-import io.realm.RealmList;
-
 /**
  * Activity for the scorecard.  This will be doing the bulk of the work
  * during a round.  Contains 18 holes, scores, strokes, penalties, and
@@ -51,19 +48,47 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     public static final String TAG = "Golf Scorecard Activity";
+
+    /** Return code **/
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+    /** vibrate duration in milliseconds */
     private final static int VIBRATE_DURATION = 20;
+
+    /** Holds the currently selected hole */
     Score currentHole;
+
+    /** List of TextViews for each hole.  Should be 18 */
     List<TextView> textHoles;
+
+    /** List of Scores.  Should be 18 **/
     List<Score> scores;
+
+    /** Button to traverse to the next hole **/
     Button nextButton;
+
+    /** Button to traverse to the previous hole **/
     Button prevButton;
+
+    /** Checkbox for user input if they hit the fairway */
     CheckBox fairwayCheck;
+
+    /** Checkbox for user input if they hit a sand trap */
     CheckBox sandCheck;
+
+    /** Holds the distance to the front of the green */
     TextView toFront;
+
+    /** Holds the distance to the middle of the green */
     TextView toMiddle;
+
+    /** Holds the distance to the back of the green */
     TextView toBack;
+
+    /** Google API for retrieving the location */
     private GoogleApiClient mGoogleApiClient;
+
+    /** Location request passed to the google API */
     private LocationRequest mLocationRequest;
 
     @Override
@@ -115,12 +140,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
         super.onSaveInstanceState(state);
 
-        RealmList<Integer> mStrokes = new RealmList<>();
-        RealmList<Integer> mPutts = new RealmList<>();
-        RealmList<Integer> mPenalties = new RealmList<>();
-        RealmList<Integer> mSand = new RealmList<>();
-        RealmList<Integer> mFairway = new RealmList<>();
-        RealmList<Integer> mGIR = new RealmList<>();
+        List<Integer> mStrokes = new ArrayList<>();
+        List<Integer> mPutts = new ArrayList<>();
+        List<Integer> mPenalties = new ArrayList<>();
+        List<Integer> mSand = new ArrayList<>();
+        List<Integer> mFairway = new ArrayList<>();
+        List<Integer> mGIR = new ArrayList<>();
 
         for (int i = 0; i < scores.size(); i++) {
             Score score = scores.get(i);
@@ -133,7 +158,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             mGIR.add(score.getGreenInRegulation());
         }
 
-        ScoreEntry myEntry = new ScoreEntry(mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR);
+        SerializableScoreEntry myEntry = new SerializableScoreEntry(mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR);
 
         state.putSerializable("score", myEntry);
         state.putInt("current", currentHole.number);
@@ -145,15 +170,15 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
          * This function restores the state of the UI once the user returns
          * to the app
          */
-        ScoreEntry myScore = (ScoreEntry) savedInstanceState.getSerializable("score");
+        SerializableScoreEntry myScore = (SerializableScoreEntry) savedInstanceState.getSerializable("score");
         Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
         Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
 
-        RealmList<Integer> mStrokes = myScore.getStrokes();
-        RealmList<Integer> mPutts = myScore.getPutts();
-        RealmList<Integer> mSand = myScore.getSand();
-        RealmList<Integer> mFairway = myScore.getFairway();
-        RealmList<Integer> mGIR = myScore.getGreenInRegulation();
+        List<Integer> mStrokes = myScore.getStrokes();
+        List<Integer> mPutts = myScore.getPutts();
+        List<Integer> mSand = myScore.getSand();
+        List<Integer> mFairway = myScore.getFairway();
+        List<Integer> mGIR = myScore.getGreenInRegulation();
 
         Score score;
         int strokes;
@@ -331,12 +356,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             //  Here we create a pop up window asking if they are done with the round and want to save.
             // Have to convert the scores into a savable format
             Intent myIntent = new Intent(ScorecardActivity.this, SaveCheck.class);
-            RealmList<Integer> mStrokes = new RealmList<>();
-            RealmList<Integer> mPutts = new RealmList<>();
-            RealmList<Integer> mPenalties = new RealmList<>();
-            RealmList<Integer> mSand = new RealmList<>();
-            RealmList<Integer> mFairway = new RealmList<>();
-            RealmList<Integer> mGIR = new RealmList<>();
+            List<Integer> mStrokes = new ArrayList<>();
+            List<Integer> mPutts = new ArrayList<>();
+            List<Integer> mPenalties = new ArrayList<>();
+            List<Integer> mSand = new ArrayList<>();
+            List<Integer> mFairway = new ArrayList<>();
+            List<Integer> mGIR = new ArrayList<>();
             int mFinal, mParPlayed = 0;
 
             for (int i = 0; i < scores.size(); i++) {
@@ -357,7 +382,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             TextView eighteenth = findViewById(R.id.tv40);
             mFinal = Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString());
             String uId = Calendar.getInstance().getTime().toString();
-            ScoreEntry myEntry = new ScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal, mParPlayed);
+            SerializableScoreEntry myEntry = new SerializableScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal, mParPlayed);
             myIntent.putExtra("Score", myEntry);
             startActivityForResult(myIntent, 99);
         } else if (id == android.R.id.home) {

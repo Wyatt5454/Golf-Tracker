@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.database.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.database.DeleteRound;
 import com.example.wyattfraley.golftracker.scorecard.Score;
 
@@ -31,7 +31,7 @@ public class ShowSingleRound  extends Activity {
     TextView holeStats;
     List<Score> scores;
     Score currentHole;
-    ScoreEntry myEntry;
+    RealmScoreEntry myEntry;
     String uid;
     int puttsTotal;
     int sandTotal;
@@ -308,7 +308,7 @@ public class ShowSingleRound  extends Activity {
         return pars;
     }
 
-    public void LoadScores(ScoreEntry myEntry) {
+    public void LoadScores(RealmScoreEntry myEntry) {
         /*
          * Parses the round data into each individual hole
          * and makes the text box appropriately.  Also adds
