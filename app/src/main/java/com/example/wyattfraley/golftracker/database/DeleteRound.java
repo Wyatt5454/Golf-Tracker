@@ -9,8 +9,6 @@ import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
-import java.util.ArrayList;
-
 import io.realm.RealmList;
 
 public class DeleteRound extends SaveCheck {
@@ -44,7 +42,7 @@ public class DeleteRound extends SaveCheck {
         Intent myIntent = getIntent();
 
 
-        final ScoreEntry toDelete = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        final RealmScoreEntry toDelete = (RealmScoreEntry)myIntent.getSerializableExtra("Score");
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -61,7 +59,7 @@ public class DeleteRound extends SaveCheck {
         finish();
     }
     @Override
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
+    public void LoadScores(TotalRoundStats stats, RealmScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
         /*
          * This function parses the data strings that were sent here from the ScorecardActivity.
          * Then it loads the new stats into the TotalRoundStats object before it is saved.

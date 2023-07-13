@@ -2,19 +2,15 @@ package com.example.wyattfraley.golftracker.database;
 
 import androidx.annotation.NonNull;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 
-public class ScoreEntry extends RealmObject implements Serializable {
+public class RealmScoreEntry extends RealmObject {
     @PrimaryKey
     @NonNull
-    private String uId = "";
+    private String _id = "";
 
     private String courseUid = "";
 
@@ -42,8 +38,8 @@ public class ScoreEntry extends RealmObject implements Serializable {
     @NonNull
     private Integer parPlayed = 0;
 
-    public ScoreEntry(String uId, RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
-        setUId(uId);
+    public RealmScoreEntry(String _id, RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
+        setUId(_id);
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
@@ -53,7 +49,7 @@ public class ScoreEntry extends RealmObject implements Serializable {
         setFinalScore(finalScore);
         setParPlayed(parPlayed);
     }
-    public ScoreEntry(RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation) {
+    public RealmScoreEntry(RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation) {
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
@@ -61,11 +57,11 @@ public class ScoreEntry extends RealmObject implements Serializable {
         setFairway(fairway);
         setGreenInRegulation(greenInRegulation);
     }
-    public ScoreEntry() {}
+    public RealmScoreEntry() {}
 
-    public String getUId() { return uId; }
+    public String getUId() { return _id; }
     public void setUId(String NUid) {
-        uId = NUid;
+        _id = NUid;
     }
 
     @NonNull

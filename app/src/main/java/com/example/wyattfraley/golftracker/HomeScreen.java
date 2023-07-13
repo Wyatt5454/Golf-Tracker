@@ -1,10 +1,8 @@
 package com.example.wyattfraley.golftracker;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Vibrator;
 
@@ -14,18 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.wyattfraley.golftracker.database.ScoreEntry;
+import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.scorecard.activity.ScorecardActivity;
 import com.example.wyattfraley.golftracker.statistics.activity.StatsMainActivity;
-
-import org.bson.types.ObjectId;
 
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
@@ -89,6 +82,7 @@ public class HomeScreen extends AppCompatActivity {
         String email = "wyatt.fraley@gmail.com";
         String password = "password";
         Credentials creds = Credentials.emailPassword(email, password);
+
         // Register a new user
         emailPasswordAuth.registerUserAsync(email, password, result -> {
             if (result.isSuccess()) {
@@ -104,37 +98,27 @@ public class HomeScreen extends AppCompatActivity {
                         System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
                     }
                 });
+
+                User user = app.currentUser();
+                String partitionValue = "My Project";
+                SyncConfiguration config = new SyncConfiguration.Builder(
+                        user,
+                        partitionValue)
+                        .build();
+                uiThreadRealm = Realm.getInstance(config);
+                addChangeListenerToRealm(uiThreadRealm);
             } else {
                 System.out.println("Failed to register user: " + result.getError().getErrorMessage());
             }
         });
-        // TODO: Need to bring the change listener logic back in.
-//        app.loginAsync(Credentials.anonymous(), result -> {
-//            if (result.isSuccess()) {
-//                Log.v("QUICKSTART", "Successfully authenticated anonymously.");
-//                User user = app.currentUser();
-//                String partitionValue = "My Project";
-//                SyncConfiguration config = new SyncConfiguration.Builder(
-//                        user,
-//                        partitionValue)
-//                        .build();
-//                uiThreadRealm = Realm.getInstance(config);
-//                addChangeListenerToRealm(uiThreadRealm);
-//                FutureTask<String> task = new FutureTask(new BackgroundQuickStart(app.currentUser()), "test");
-//                ExecutorService executorService = Executors.newFixedThreadPool(2);
-//                executorService.execute(task);
-//            } else {
-//                Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
-//            }
-//        });
     }
 
     private void addChangeListenerToRealm(Realm realm) {
         // all tasks in the realm
-        RealmResults<ScoreEntry> tasks = uiThreadRealm.where(ScoreEntry.class).findAllAsync();
-        tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<ScoreEntry>>() {
+        RealmResults<RealmScoreEntry> tasks = uiThreadRealm.where(RealmScoreEntry.class).findAllAsync();
+        tasks.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<RealmScoreEntry>>() {
             @Override
-            public void onChange(RealmResults<ScoreEntry> collection, OrderedCollectionChangeSet changeSet) {
+            public void onChange(RealmResults<RealmScoreEntry> collection, OrderedCollectionChangeSet changeSet) {
                 // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
                 OrderedCollectionChangeSet.Range[] deletions = changeSet.getDeletionRanges();
                 for (OrderedCollectionChangeSet.Range range : deletions) {
@@ -193,13 +177,13 @@ public class HomeScreen extends AppCompatActivity {
                     partitionValue)
                     .build();
             Realm backgroundThreadRealm = Realm.getInstance(config);
-            ScoreEntry ScoreEntry = makeRandomScoreEntry();
+            RealmScoreEntry ScoreEntry = makeRandomScoreEntry();
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(ScoreEntry);
             });
             // all ScoreEntryies in the realm
-            RealmResults<ScoreEntry> scoreEntries = backgroundThreadRealm.where(ScoreEntry.class).findAll();
-            ScoreEntry otherScoreEntry = scoreEntries.get(0);
+            RealmResults<RealmScoreEntry> scoreEntries = backgroundThreadRealm.where(RealmScoreEntry.class).findAll();
+            RealmScoreEntry otherScoreEntry = scoreEntries.get(0);
 
             Optional.ofNullable(otherScoreEntry).ifPresent( entry -> {
                 System.out.println(entry.getUId());
@@ -210,7 +194,7 @@ public class HomeScreen extends AppCompatActivity {
             backgroundThreadRealm.close();
         }
 
-        private ScoreEntry makeRandomScoreEntry() {
+        private RealmScoreEntry makeRandomScoreEntry() {
 
             RealmList<Integer> strokes = new RealmList<>();
             RealmList<Integer> putts = new RealmList<>();
@@ -235,7 +219,7 @@ public class HomeScreen extends AppCompatActivity {
                 gir.add(zeroOrOne);
                 finalScore += high;
             }
-            final ScoreEntry toEnter = new ScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore, 72);
+            final RealmScoreEntry toEnter = new RealmScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore, 72);
 
             return toEnter;
         }

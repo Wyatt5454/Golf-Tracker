@@ -26,10 +26,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmObjectSchema;
+import io.realm.RealmResults;
+import io.realm.RealmSchema;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.sync.SyncConfiguration;
 
 /**
  * This activity pops up when the user clicks a button on the
@@ -43,7 +49,7 @@ public class SaveCheck extends Activity {
     TextView saveText;
     Button yes;
     Button no;
-    ScoreEntry toEnter;
+    RealmScoreEntry toEnter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,10 @@ public class SaveCheck extends Activity {
         no.setOnClickListener(v -> NoPress());
 
         Intent myIntent = getIntent();
-        toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        SerializableScoreEntry serializedEntry = (SerializableScoreEntry)myIntent.getSerializableExtra("Score");
+
+        // Convert our serialized entry to a database entry
+        toEnter = serializedEntry.toRealmEntry();
 
         if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);
@@ -91,17 +100,53 @@ public class SaveCheck extends Activity {
     @SuppressLint("StaticFieldLeak")
     public void SaveRound() {
 
-        Intent myIntent = getIntent();
-        final ScoreEntry toEnter = (ScoreEntry)myIntent.getSerializableExtra("Score");
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
 
+        // Get the default Realm configuration
+        SyncConfiguration defaultConfig = new SyncConfiguration.Builder(app.currentUser(), "RoundData")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build();
 
-        new AsyncTask<Void, Void, Void>() {
+        Realm.setDefaultConfiguration(defaultConfig);
+
+        // Open the Realm instance
+        Realm.getInstanceAsync(defaultConfig, new Realm.Callback() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                return null;
-            }
-        }.execute();
+            public void onSuccess(Realm realm) {
+                // Insert the score entry into the Realm database
+                realm.executeTransactionAsync(transactionRealm -> {
+                    //transactionRealm.beginTransaction();
+                    transactionRealm.insert(toEnter);
+                    RealmSchema schema = transactionRealm.getSchema();
+                    Set<RealmObjectSchema> set = schema.getAll();
 
+                    for (RealmObjectSchema objSchema : set ) {
+                        for (String some : objSchema.getFieldNames() ) {
+                            System.out.println(some);
+                        }
+                    }
+                    //transactionRealm.commitTransaction();
+                }, () -> {
+                    System.out.println("Score entry inserted successfully");
+                    realm.close();
+                }, error -> {
+                    System.out.println("Failed to insert score entry: " + error.getMessage());
+                    realm.close();
+                });
+
+                RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAll();
+
+                for (RealmScoreEntry entry : results ) {
+                    System.out.println(entry.getFinalScore());
+                }
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+                System.out.println("Failed to open the Realm instance: " + exception.getMessage());
+            }
+        });
         // Now that the round is saved, we must update the totals, but only if
         // the round was complete.
         UpdateTotals(toEnter, IsFrontComplete(), IsBackComplete());
@@ -155,7 +200,7 @@ public class SaveCheck extends Activity {
      *  internal storage.  Uses serializing to load in and save the
      *  stats object. Test
      */
-    public void UpdateTotals(ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
+    public void UpdateTotals(RealmScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
 
         TotalRoundStats stats = new TotalRoundStats();
         FileInputStream inputStreamTotal = null;
@@ -209,7 +254,7 @@ public class SaveCheck extends Activity {
      * This function parses the data strings that were sent here from the ScorecardActivity.
      * Then it loads the new stats into the TotalRoundStats object before it is saved.
      */
-    public void LoadScores(TotalRoundStats stats, ScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
+    public void LoadScores(TotalRoundStats stats, RealmScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
 
         int puttsFront = 0, puttsBack = 0;
         int penaltiesFront = 0, penaltiesBack = 0;
@@ -399,7 +444,7 @@ public class SaveCheck extends Activity {
             gir.add(zeroOrOne);
             finalScore += high;
         }
-        final ScoreEntry toEnter = new ScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore, 72);
+        final RealmScoreEntry toEnter = new RealmScoreEntry(Calendar.getInstance().getTime().toString(), strokes, putts, penalties, sand, fairway, gir, finalScore, 72);
 
 
         new AsyncTask<Void, Void, Void>() {
