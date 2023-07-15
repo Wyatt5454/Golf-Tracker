@@ -35,6 +35,8 @@ import io.realm.RealmResults;
 import io.realm.RealmSchema;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
+import io.realm.mongodb.User;
 import io.realm.mongodb.sync.SyncConfiguration;
 
 /**
@@ -102,51 +104,55 @@ public class SaveCheck extends Activity {
 
         App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
 
-        // Get the default Realm configuration
-        SyncConfiguration defaultConfig = new SyncConfiguration.Builder(app.currentUser(), "RoundData")
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build();
+        String email = "wyatt.fraley@gmail.com";
+        String password = "password";
+        Credentials creds = Credentials.emailPassword(email, password);
 
-        Realm.setDefaultConfiguration(defaultConfig);
 
-        // Open the Realm instance
-        Realm.getInstanceAsync(defaultConfig, new Realm.Callback() {
-            @Override
-            public void onSuccess(Realm realm) {
-                // Insert the score entry into the Realm database
-                realm.executeTransactionAsync(transactionRealm -> {
-                    //transactionRealm.beginTransaction();
-                    transactionRealm.insert(toEnter);
-                    RealmSchema schema = transactionRealm.getSchema();
-                    Set<RealmObjectSchema> set = schema.getAll();
 
-                    for (RealmObjectSchema objSchema : set ) {
-                        for (String some : objSchema.getFieldNames() ) {
-                            System.out.println(some);
-                        }
+        // Log in to the app
+        app.loginAsync(creds, authResult -> {
+            if (authResult.isSuccess()) {
+                User user = app.currentUser();
+                System.out.println("User logged in successfully");
+                // Additional actions with the logged-in user
+
+                // Set the default Realm Config as a SyncConfiguration
+                SyncConfiguration defaultConfig = new SyncConfiguration.Builder(app.currentUser(), "RoundData")
+                        .allowQueriesOnUiThread(true)
+                        .allowWritesOnUiThread(true)
+                        .build();
+
+                Realm.setDefaultConfiguration(defaultConfig);
+                Realm realm = Realm.getDefaultInstance();
+
+                realm.beginTransaction();
+
+                realm.insert(toEnter);
+                RealmSchema schema = realm.getSchema();
+                Set<RealmObjectSchema> set = schema.getAll();
+
+                for (RealmObjectSchema objSchema : set ) {
+                    for (String some : objSchema.getFieldNames() ) {
+                        System.out.println(some);
                     }
-                    //transactionRealm.commitTransaction();
-                }, () -> {
-                    System.out.println("Score entry inserted successfully");
-                    realm.close();
-                }, error -> {
-                    System.out.println("Failed to insert score entry: " + error.getMessage());
-                    realm.close();
-                });
+                }
+                realm.commitTransaction();
 
                 RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAll();
 
                 for (RealmScoreEntry entry : results ) {
                     System.out.println(entry.getFinalScore());
                 }
-            }
 
-            @Override
-            public void onError(Throwable exception) {
-                System.out.println("Failed to open the Realm instance: " + exception.getMessage());
+                realm.close();
+
+
+            } else {
+                System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
             }
         });
+        
         // Now that the round is saved, we must update the totals, but only if
         // the round was complete.
         UpdateTotals(toEnter, IsFrontComplete(), IsBackComplete());

@@ -10,3 +10,4 @@
 .externalNativeBuild
 /certs
 /app/src/main/res
+app/src/main/res/values/strings.xml

@@ -2,6 +2,7 @@ package com.example.wyattfraley.golftracker.database;
 
 import androidx.annotation.NonNull;
 
+import io.realm.RealmList;
 import io.realm.annotations.PrimaryKey;
 
 
@@ -38,4 +39,6 @@ public class ScoreEntryDisplayRound {
     public void setUid(@NonNull String uid) {
         this.uid = uid;
     }
+
+
 }
