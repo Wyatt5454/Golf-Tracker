@@ -152,7 +152,7 @@ public class SaveCheck extends Activity {
                 System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
             }
         });
-        
+
         // Now that the round is saved, we must update the totals, but only if
         // the round was complete.
         UpdateTotals(toEnter, IsFrontComplete(), IsBackComplete());
