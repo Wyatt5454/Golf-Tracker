@@ -1,5 +1,6 @@
 package com.example.wyattfraley.golftracker.database;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -16,11 +17,8 @@ import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +35,8 @@ import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
 import io.realm.mongodb.User;
+import io.realm.mongodb.sync.MutableSubscriptionSet;
+import io.realm.mongodb.sync.Subscription;
 import io.realm.mongodb.sync.SyncConfiguration;
 
 /**
@@ -52,6 +52,8 @@ public class SaveCheck extends Activity {
     Button yes;
     Button no;
     RealmScoreEntry toEnter;
+
+    Realm uiThreadRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class SaveCheck extends Activity {
             no.setVisibility(View.GONE);
         }
 
-        DatabaseTest();
+        //DatabaseTest();
     }
 
     /**
@@ -114,21 +116,27 @@ public class SaveCheck extends Activity {
         app.loginAsync(creds, authResult -> {
             if (authResult.isSuccess()) {
                 User user = app.currentUser();
-                System.out.println("User logged in successfully");
-                // Additional actions with the logged-in user
+                System.out.println("User logged in successfully: " + user.getMongoClient("mongodb-atlas"));
+
+                //actualDBPost(user);
+
 
                 // Set the default Realm Config as a SyncConfiguration
-                SyncConfiguration defaultConfig = new SyncConfiguration.Builder(app.currentUser(), "RoundData")
+                SyncConfiguration syncConfiguration = new SyncConfiguration.Builder(app.currentUser())
+                        .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
+                            @Override
+                            public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                                subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
+                            }
+                        })
                         .allowQueriesOnUiThread(true)
                         .allowWritesOnUiThread(true)
                         .build();
 
-                Realm.setDefaultConfiguration(defaultConfig);
-                Realm realm = Realm.getDefaultInstance();
+                Realm realm = Realm.getInstance(syncConfiguration);
 
                 realm.beginTransaction();
-
-                realm.insert(toEnter);
+                realm.insertOrUpdate(toEnter);
                 RealmSchema schema = realm.getSchema();
                 Set<RealmObjectSchema> set = schema.getAll();
 
@@ -153,13 +161,10 @@ public class SaveCheck extends Activity {
             }
         });
 
-        // Now that the round is saved, we must update the totals, but only if
-        // the round was complete.
-        UpdateTotals(toEnter, IsFrontComplete(), IsBackComplete());
-
         setResult(RESULT_OK, null);
         finish();
     }
+
 
     /**
      * Checks to see if the front 9 is complete.  Meaning
@@ -199,61 +204,6 @@ public class SaveCheck extends Activity {
      */
     public void NoPress() {
         finish();
-    }
-
-    /**
-     *  This function will update the total scores on a file saved to
-     *  internal storage.  Uses serializing to load in and save the
-     *  stats object. Test
-     */
-    public void UpdateTotals(RealmScoreEntry myEntry, boolean frontComplete, boolean backComplete) {
-
-        TotalRoundStats stats = new TotalRoundStats();
-        FileInputStream inputStreamTotal = null;
-        FileInputStream inputStreamHoles = null;
-        boolean fileExists = false;
-
-        // First we have to check if the file already exists.
-        String[] filenames = fileList();
-        for (String check : filenames) {
-            if (check.equals("TotalStats.txt")) {
-                fileExists = true;
-                try {
-                    inputStreamTotal = openFileInput("TotalStats.txt");
-                    inputStreamHoles = openFileInput("HoleStats.txt");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
-        // Check to make sure the file was found.
-        // If not, make the file.
-        if (inputStreamTotal == null) {
-            LoadScores(stats, myEntry, frontComplete, backComplete);
-        }
-        else {
-            try {
-                // Reading object in a file
-                ObjectInputStream inTotal = new ObjectInputStream(inputStreamTotal);
-                ObjectInputStream inHoles = new ObjectInputStream(inputStreamHoles);
-
-                // Method for deserialization of object
-                stats = (TotalRoundStats)inTotal.readObject();
-                stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
-                LoadScores(stats, myEntry, frontComplete, backComplete);
-
-                inTotal.close();
-                inHoles.close();
-                inputStreamTotal.close();
-                if (inputStreamHoles != null) {
-                    inputStreamHoles.close();
-                }
-            } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
-            }
-        }
-        SaveTotals(stats, fileExists);
     }
 
     /**
@@ -461,6 +411,5 @@ public class SaveCheck extends Activity {
                 return null;
             }
         }.execute();
-        UpdateTotals(toEnter, true, true);
     }
 }

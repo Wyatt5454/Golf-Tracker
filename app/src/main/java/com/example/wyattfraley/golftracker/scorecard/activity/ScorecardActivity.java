@@ -706,10 +706,11 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         return scores;
     }
 
+    /**
+     * Handles a new location whenever a new hole is clicked.
+     */
     private void ScoreClick() {
-        /*
-         * Handles a new location whenever a new hole is clicked.
-         */
+
 
         currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
         try {
@@ -720,7 +721,10 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         VibrateOnClick();
     }
 
-
+    /**
+     * Increments the selected hole
+     * @param v
+     */
     public void NextHole(View v) {
 
         // Since the hole numbers are indexed at 1 instead of 0
@@ -743,6 +747,10 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         VibrateOnClick();
     }
 
+    /**
+     * Decrements the selected hole
+     * @param v
+     */
     public void PrevHole(View v) {
 
         // Since the hole numbers are indexed at 1 instead of 0

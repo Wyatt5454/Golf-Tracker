@@ -5,37 +5,37 @@ import androidx.annotation.NonNull;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 
 public class RealmScoreEntry extends RealmObject {
     @PrimaryKey
-    @NonNull
     private String _id = "";
 
     private String courseUid = "";
 
-    @NonNull
+    @Required
     private RealmList<Integer> strokes = new RealmList<>();
 
-    @NonNull
+    @Required
     private RealmList<Integer> putts = new RealmList<>();
 
-    @NonNull
+    @Required
     private RealmList<Integer> penalties = new RealmList<>();
 
-    @NonNull
+    @Required
     private RealmList<Integer> sand = new RealmList<>();
 
-    @NonNull
+    @Required
     private RealmList<Integer> fairway = new RealmList<>();
 
-    @NonNull
+    @Required
     private RealmList<Integer> greenInRegulation = new RealmList<>();
 
-    @NonNull
+    @Required
     private Integer finalScore = 0;
 
-    @NonNull
+    @Required
     private Integer parPlayed = 0;
 
     public RealmScoreEntry(String _id, RealmList<Integer> strokes, RealmList<Integer> putts, RealmList<Integer> penalties, RealmList<Integer> sand, RealmList<Integer> fairway, RealmList<Integer> greenInRegulation, Integer finalScore, Integer parPlayed) {
