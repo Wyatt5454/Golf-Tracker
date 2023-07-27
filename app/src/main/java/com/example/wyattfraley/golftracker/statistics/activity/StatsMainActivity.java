@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllHoles;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllRounds;
@@ -19,6 +20,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
+import io.realm.mongodb.User;
+import io.realm.mongodb.sync.MutableSubscriptionSet;
+import io.realm.mongodb.sync.Subscription;
+import io.realm.mongodb.sync.SyncConfiguration;
 
 /**
  * The main home page for the user to look at statistics.  Provides
@@ -66,24 +78,68 @@ public class StatsMainActivity extends AppCompatActivity {
      * on the device.
      */
     public TotalRoundStats LoadTotalStats() {
-
+        System.out.println("LoadTotalStats");
         TotalRoundStats stats = new TotalRoundStats();
-        File filesDir = getFilesDir();
-        File file = new File( filesDir, "TotalStats.txt");
 
-        try {
-            // Reading object in a file
-            FileInputStream stream = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(stream);
+        App app = new App(new AppConfiguration.Builder(getString(R.string.AppID)).build());
 
-            // Method for deserialization of object
-            stats = (TotalRoundStats)in.readObject();
+        String email = "wyatt.fraley@gmail.com";
+        String password = "password";
+        Credentials creds = Credentials.emailPassword(email, password);
 
-            in.close();
-            stream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+
+        // Log in to the app
+        app.loginAsync(creds, authResult -> {
+            if (authResult.isSuccess()) {
+                User user = app.currentUser();
+                System.out.println("User logged in successfully: " + user.getMongoClient("mongodb-atlas"));
+
+                // Set the default Realm Config as a SyncConfiguration
+                SyncConfiguration syncConfiguration = new SyncConfiguration.Builder(app.currentUser())
+                        .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
+                            @Override
+                            public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                                subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
+                            }
+                        })
+                        .allowQueriesOnUiThread(true)
+                        .allowWritesOnUiThread(true)
+                        .build();
+
+                Realm realm = Realm.getInstance(syncConfiguration);
+
+                RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAll();
+                System.out.println("queried all, found " + results.size() + " rounds");
+
+                // TODO: Attach some kind of listener to the RealmScoreEntry's or wait for them to be loaded.
+                // Getting the proper numbers from Realm but each entry does not have the data in it.
+                for (RealmScoreEntry score : results ) {
+                    System.out.println("score entry is valid: " + score.isValid());
+                    System.out.println(score.getFinalScore());
+                    int frontStrokes = 0;
+                    int backStrokes = 0;
+
+                    RealmList<Integer> strokes = score.getStrokes();
+                    for (int i = 0; i < 9; i++) {
+                        frontStrokes += strokes.get(i);
+                    }
+                    for (int i = 9; i < 18; i++) {
+                        backStrokes += strokes.get(i);
+                    }
+
+                    stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
+                    stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
+
+                }
+
+                realm.close();
+
+            } else {
+                System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
+            }
+        });
+
         return stats;
     }
 
@@ -98,6 +154,9 @@ public class StatsMainActivity extends AppCompatActivity {
     public void DisplayTotalStats() {
 
         TotalRoundStats stats = LoadTotalStats();
+
+        // TODO:  Attach some sort of litener to the RealmScoreEntries.
+        // Update them here.
 
         if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
             BackAndFront(stats);

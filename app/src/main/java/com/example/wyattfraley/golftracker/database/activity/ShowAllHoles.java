@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
@@ -27,6 +28,20 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObjectSchema;
+import io.realm.RealmResults;
+import io.realm.RealmSchema;
+import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
+import io.realm.mongodb.Credentials;
+import io.realm.mongodb.User;
+import io.realm.mongodb.sync.MutableSubscriptionSet;
+import io.realm.mongodb.sync.Subscription;
+import io.realm.mongodb.sync.SyncConfiguration;
 
 public class ShowAllHoles extends Activity implements AdapterView.OnItemSelectedListener {
 
@@ -287,36 +302,16 @@ public class ShowAllHoles extends Activity implements AdapterView.OnItemSelected
     }
 
     /**
-     * Grabs the total stats from a file locally stored
-     * on the device.
+     * Compiles the stats on the Realm database into some interesting
+     * stats for viewer use.
      */
     private TotalRoundStats LoadTotalStats() {
 
         TotalRoundStats stats = new TotalRoundStats();
-        File filesDir = getFilesDir();
-        File fileTotal = new File( filesDir, "TotalStats.txt");
-        File fileHoles = new File(filesDir, "HoleStats.txt");
 
-        try {
-            // Reading object in a file
-            FileInputStream inputStreamTotal = new FileInputStream(fileTotal);
-            FileInputStream inputStreamHoles = new FileInputStream(fileHoles);
 
-            // Reading object in a file
-            ObjectInputStream inTotal = new ObjectInputStream(inputStreamTotal);
-            ObjectInputStream inHoles = new ObjectInputStream(inputStreamHoles);
 
-            // Method for deserialization of object
-            stats = (TotalRoundStats)inTotal.readObject();
-            stats.holes = (ArrayList<TotalHoleStats>)inHoles.readObject();
 
-            inTotal.close();
-            inHoles.close();
-            inputStreamTotal.close();
-            inputStreamHoles.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         return stats;
     }
 

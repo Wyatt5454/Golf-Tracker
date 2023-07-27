@@ -63,28 +63,5 @@ public class TotalRoundStats implements Serializable{
         totalBackGIR += girBack;
         totalRoundsBack++;
     }
-    public void UpdateTotalsIncomplete() {
-        totalRounds++;
-    }
-    public void DeleteFrontTotals(int scoreFront, int puttsFront, int penaltiesFront, int sandFront, int fairwayFront, int girFront) {
-        totalFrontScore -= scoreFront;
-        totalFrontPutts -= puttsFront;
-        totalFrontPenalties -= penaltiesFront;
-        totalFrontSand -= sandFront;
-        totalFrontFairway -= fairwayFront;
-        totalFrontGIR -= girFront;
-        totalRoundsFront--;
-    }
-    public void DeleteBackTotals(int scoreBack, int puttsBack, int penaltiesBack, int sandBack, int fairwayBack, int girBack) {
-        totalBackScore -= scoreBack;
-        totalBackPutts -= puttsBack;
-        totalBackPenalties -= penaltiesBack;
-        totalBackSand -= sandBack;
-        totalBackFairway -= fairwayBack;
-        totalBackGIR -= girBack;
-        totalRoundsBack--;
-    }
-    public void DeleteTotalsIncomplete() {
-        totalRounds--;
-    }
+
 }
