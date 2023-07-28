@@ -21,8 +21,14 @@ import java.io.ObjectInputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+import javax.annotation.Nullable;
+
+import io.realm.ObjectChangeSet;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -31,6 +37,7 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.sync.MutableSubscriptionSet;
 import io.realm.mongodb.sync.Subscription;
 import io.realm.mongodb.sync.SyncConfiguration;
+import io.realm.mongodb.sync.SyncSession;
 
 /**
  * The main home page for the user to look at statistics.  Provides
@@ -54,7 +61,7 @@ public class StatsMainActivity extends AppCompatActivity {
         showAllRounds.setOnClickListener(v -> LoadAllRounds());
         showAllHoles.setOnClickListener(v -> LoadHoleStats());
 
-        DisplayTotalStats();
+        LoadTotalStats();
     }
 
     /**
@@ -87,7 +94,18 @@ public class StatsMainActivity extends AppCompatActivity {
         String password = "password";
         Credentials creds = Credentials.emailPassword(email, password);
 
-
+        // Set the default Realm Config as a SyncConfiguration
+        SyncConfiguration syncConfiguration = new SyncConfiguration.Builder(app.currentUser())
+                .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
+                    @Override
+                    public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                        subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
+                    }
+                })
+                .allowQueriesOnUiThread(false)
+                .allowWritesOnUiThread(false)
+                .waitForInitialRemoteData()
+                .build();
 
         // Log in to the app
         app.loginAsync(creds, authResult -> {
@@ -95,45 +113,53 @@ public class StatsMainActivity extends AppCompatActivity {
                 User user = app.currentUser();
                 System.out.println("User logged in successfully: " + user.getMongoClient("mongodb-atlas"));
 
-                // Set the default Realm Config as a SyncConfiguration
-                SyncConfiguration syncConfiguration = new SyncConfiguration.Builder(app.currentUser())
-                        .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
-                            @Override
-                            public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                                subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
+
+
+                Realm.getInstanceAsync(syncConfiguration, new Realm.Callback() {
+                    @Override
+                    public void onSuccess(Realm realm) {
+
+                        RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAllAsync();
+                        results.addChangeListener(realmScoreEntries -> {
+                            for (RealmScoreEntry score : realmScoreEntries) {
+                                System.out.println("score entry is valid: " + score.isValid());
+                                System.out.println("score entry is loaded: " + score.isLoaded());
+                                System.out.println("score entry is frozen: " + score.isFrozen());
+                                System.out.println("score entry is managed: " + score.isManaged());
+
+                                System.out.println(score.getFinalScore());
+                                int frontStrokes = 0;
+                                int backStrokes = 0;
+
+                                RealmList<Integer> strokes = score.getStrokes();
+                                System.out.println("strokes loaded: " + strokes.isLoaded());
+                                System.out.println("strokes entry is valid: " + strokes.isValid());
+                                System.out.println("strokes entry is frozen: " + strokes.isFrozen());
+                                System.out.println("strokes entry is managed: " + strokes.isManaged());
+
+                                for (int i = 0; i < 9; i++) {
+                                    frontStrokes += strokes.get(i);
+                                }
+                                for (int i = 9; i < 18; i++) {
+                                    backStrokes += strokes.get(i);
+                                }
+
+                                stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
+                                stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
+
+
                             }
-                        })
-                        .allowQueriesOnUiThread(true)
-                        .allowWritesOnUiThread(true)
-                        .build();
+                            DisplayTotalStats();
+                        });
+                    }
+                });
 
-                Realm realm = Realm.getInstance(syncConfiguration);
 
-                RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAll();
-                System.out.println("queried all, found " + results.size() + " rounds");
 
                 // TODO: Attach some kind of listener to the RealmScoreEntry's or wait for them to be loaded.
                 // Getting the proper numbers from Realm but each entry does not have the data in it.
-                for (RealmScoreEntry score : results ) {
-                    System.out.println("score entry is valid: " + score.isValid());
-                    System.out.println(score.getFinalScore());
-                    int frontStrokes = 0;
-                    int backStrokes = 0;
 
-                    RealmList<Integer> strokes = score.getStrokes();
-                    for (int i = 0; i < 9; i++) {
-                        frontStrokes += strokes.get(i);
-                    }
-                    for (int i = 9; i < 18; i++) {
-                        backStrokes += strokes.get(i);
-                    }
-
-                    stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
-                    stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
-
-                }
-
-                realm.close();
+                //realm.close();
 
             } else {
                 System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
@@ -154,9 +180,6 @@ public class StatsMainActivity extends AppCompatActivity {
     public void DisplayTotalStats() {
 
         TotalRoundStats stats = LoadTotalStats();
-
-        // TODO:  Attach some sort of litener to the RealmScoreEntries.
-        // Update them here.
 
         if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
             BackAndFront(stats);
