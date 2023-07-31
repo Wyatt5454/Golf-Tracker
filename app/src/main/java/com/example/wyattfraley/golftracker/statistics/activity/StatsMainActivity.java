@@ -102,7 +102,7 @@ public class StatsMainActivity extends AppCompatActivity {
                         subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
                     }
                 })
-                .allowQueriesOnUiThread(false)
+                .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(false)
                 .waitForInitialRemoteData()
                 .build();
@@ -118,39 +118,74 @@ public class StatsMainActivity extends AppCompatActivity {
                 Realm.getInstanceAsync(syncConfiguration, new Realm.Callback() {
                     @Override
                     public void onSuccess(Realm realm) {
+                        System.out.println("Got our realm successfully");
+                        realm.refresh();
+                        RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).beginsWith("_id", "Tue").findAll();
 
-                        RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).findAllAsync();
-                        results.addChangeListener(realmScoreEntries -> {
-                            for (RealmScoreEntry score : realmScoreEntries) {
-                                System.out.println("score entry is valid: " + score.isValid());
-                                System.out.println("score entry is loaded: " + score.isLoaded());
-                                System.out.println("score entry is frozen: " + score.isFrozen());
-                                System.out.println("score entry is managed: " + score.isManaged());
+                        for (RealmScoreEntry score : results) {
+                            System.out.println("score entry is valid: " + score.isValid());
+                            System.out.println("score entry is loaded: " + score.isLoaded());
+                            System.out.println("score entry is frozen: " + score.isFrozen());
+                            System.out.println("score entry is managed: " + score.isManaged());
 
-                                System.out.println(score.getFinalScore());
-                                int frontStrokes = 0;
-                                int backStrokes = 0;
+                            System.out.println(score.getFinalScore());
+                            int frontStrokes = 0;
+                            int backStrokes = 0;
 
-                                RealmList<Integer> strokes = score.getStrokes();
-                                System.out.println("strokes loaded: " + strokes.isLoaded());
-                                System.out.println("strokes entry is valid: " + strokes.isValid());
-                                System.out.println("strokes entry is frozen: " + strokes.isFrozen());
-                                System.out.println("strokes entry is managed: " + strokes.isManaged());
+                            RealmList<Integer> strokes = score.getStrokes();
+                            System.out.println("strokes loaded: " + strokes.isLoaded());
+                            System.out.println("strokes entry is valid: " + strokes.isValid());
+                            System.out.println("strokes entry is frozen: " + strokes.isFrozen());
+                            System.out.println("strokes entry is managed: " + strokes.isManaged());
 
-                                for (int i = 0; i < 9; i++) {
-                                    frontStrokes += strokes.get(i);
-                                }
-                                for (int i = 9; i < 18; i++) {
-                                    backStrokes += strokes.get(i);
-                                }
-
-                                stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
-                                stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
-
-
+                            for (int i = 0; i < 9; i++) {
+                                frontStrokes += strokes.get(i);
                             }
-                            DisplayTotalStats();
-                        });
+                            for (int i = 9; i < 18; i++) {
+                                backStrokes += strokes.get(i);
+                            }
+
+                            stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
+                            stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
+
+
+                        }
+                        DisplayTotalStats(stats);
+
+//                        results.addChangeListener(realmScoreEntries -> {
+//                            RealmScoreEntry entry = realmScoreEntries.get(0);
+//
+//                            System.out.println(entry.getFinalScore());
+//                            for (RealmScoreEntry score : realmScoreEntries) {
+//                                System.out.println("score entry is valid: " + score.isValid());
+//                                System.out.println("score entry is loaded: " + score.isLoaded());
+//                                System.out.println("score entry is frozen: " + score.isFrozen());
+//                                System.out.println("score entry is managed: " + score.isManaged());
+//
+//                                System.out.println(score.getFinalScore());
+//                                int frontStrokes = 0;
+//                                int backStrokes = 0;
+//
+//                                RealmList<Integer> strokes = score.getStrokes();
+//                                System.out.println("strokes loaded: " + strokes.isLoaded());
+//                                System.out.println("strokes entry is valid: " + strokes.isValid());
+//                                System.out.println("strokes entry is frozen: " + strokes.isFrozen());
+//                                System.out.println("strokes entry is managed: " + strokes.isManaged());
+//
+//                                for (int i = 0; i < 9; i++) {
+//                                    frontStrokes += strokes.get(i);
+//                                }
+//                                for (int i = 9; i < 18; i++) {
+//                                    backStrokes += strokes.get(i);
+//                                }
+//
+//                                stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
+//                                stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
+//
+//
+//                            }
+//                            DisplayTotalStats();
+//                        });
                     }
                 });
 
@@ -177,9 +212,7 @@ public class StatsMainActivity extends AppCompatActivity {
      * Gets rid of the stats buttons if there are no rounds
      * to show.
      */
-    public void DisplayTotalStats() {
-
-        TotalRoundStats stats = LoadTotalStats();
+    public void DisplayTotalStats(TotalRoundStats stats) {
 
         if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
             BackAndFront(stats);
