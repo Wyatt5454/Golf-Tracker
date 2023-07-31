@@ -18,7 +18,6 @@ import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.database.ScoreEntryDisplayRound;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -38,17 +37,17 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         setContentView(R.layout.activity_show_all_rounds);
         allRounds = new ArrayList<>();
         buttons = new ArrayList<>();
-        InitializeSpinner();
+        initializeSpinner();
 
         scrollView = findViewById(R.id.RoundScroll);
 
         ll = findViewById(R.id.allRoundsLL);
         ll.setOrientation(LinearLayout.VERTICAL);
 
-        LoadRounds();
+        loadRounds();
     }
 
-    private void InitializeSpinner() {
+    private void initializeSpinner() {
         sortSpinner = findViewById(R.id.sortRoundsSpinner);
         sortSpinner.setOnItemSelectedListener(this);
         //sortSpinner.getBackground().setColorFilter(getResources().getColor(gray), PorterDuff.Mode.SRC_ATOP);
@@ -65,17 +64,17 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
 
         switch (itemAtPosition.toString()) {
             case "Played Order":
-                SortByPlayedOrder();
+                sortByPlayedOrder();
                 break;
             case "Best to Worst: Score":
-                SortByBestToWorstScore();
+                sortByBestToWorstScore();
                 break;
             case "Worst to Best: Score":
-                SortByWorstToBestScore();
+                sortByWorstToBestScore();
                 break;
         }
     }
-    private void SortByPlayedOrder() {
+    private void sortByPlayedOrder() {
         Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
             Date firstDate = new Date(first.uid);
             Date secondDate = new Date(second.uid);
@@ -90,9 +89,9 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         };
 
         allRounds.sort(comparator);
-        DisplayScores();
+        displayScores();
     }
-    private void SortByBestToWorstScore() {
+    private void sortByBestToWorstScore() {
         Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
             int firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
             int secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
@@ -107,9 +106,9 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         };
 
         allRounds.sort(comparator);
-        DisplayScores();
+        displayScores();
     }
-    private void SortByWorstToBestScore() {
+    private void sortByWorstToBestScore() {
         Comparator<ScoreEntryDisplayRound> comparator = (first, second) -> {
             int firstScore = (first.getFinalScore() - first.getParPlayed()) * (72 / first.getParPlayed());
             int secondScore = (second.getFinalScore() - second.getParPlayed()) * (72 / first.getParPlayed());
@@ -124,14 +123,14 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
         };
 
         allRounds.sort(comparator);
-        DisplayScores();
+        displayScores();
     }
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void LoadRounds() {
+    public void loadRounds() {
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -142,7 +141,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
 
             @Override
             protected void onPostExecute(Void result) {
-                DisplayScores();
+                displayScores();
             }
         }.execute();
     }
@@ -152,7 +151,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
      * and sets up the on click listener to open up a new activity,
      * which allows the user to look at more detailed stats for an individual round.
      */
-    public void DisplayScores() {
+    public void displayScores() {
 
         ll.removeAllViews();
         ll.addView(sortSpinner);
@@ -196,7 +195,7 @@ public class ShowAllRounds extends AppCompatActivity implements AdapterView.OnIt
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
-                        LoadRounds();
+                        loadRounds();
                         return null;
                     }
                 }.execute();

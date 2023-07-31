@@ -49,6 +49,7 @@
     <string name="view_all_holes">View Hole by Hole</string>
     <string name="view_all_rounds">View All Rounds</string>
     <string name="AppID">devicesync-xfcyj</string>
+    <string name="wait_for_stats">  Please wait for statistics to be     loaded.</string>
     <string-array name="sort_holes">
         <item>Select Sorting Order</item>
         <item>Playing Order</item>

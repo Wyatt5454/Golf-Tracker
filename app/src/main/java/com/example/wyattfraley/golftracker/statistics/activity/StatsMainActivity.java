@@ -14,21 +14,11 @@ import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllHoles;
 import com.example.wyattfraley.golftracker.database.activity.ShowAllRounds;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import javax.annotation.Nullable;
-
-import io.realm.ObjectChangeSet;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmList;
-import io.realm.RealmModel;
-import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -37,7 +27,6 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.sync.MutableSubscriptionSet;
 import io.realm.mongodb.sync.Subscription;
 import io.realm.mongodb.sync.SyncConfiguration;
-import io.realm.mongodb.sync.SyncSession;
 
 /**
  * The main home page for the user to look at statistics.  Provides
@@ -45,9 +34,18 @@ import io.realm.mongodb.sync.SyncSession;
  * statistics.
  */
 public class StatsMainActivity extends AppCompatActivity {
+
+    /** Button for the ShowAllRounds Activity */
     private Button showAllRounds;
+
+    /** Button for the ShowAllHoles Activity */
     private Button showAllHoles;
+
+    /** The text view which will hold the compiled statistics */
     private TextView showTotalStats;
+
+    /** Realm this class will use to get statistics */
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -58,16 +56,18 @@ public class StatsMainActivity extends AppCompatActivity {
         showTotalStats = findViewById(R.id.StatsHolder);
         showAllHoles = findViewById(R.id.viewAllHoles);
 
-        showAllRounds.setOnClickListener(v -> LoadAllRounds());
-        showAllHoles.setOnClickListener(v -> LoadHoleStats());
+        showAllRounds.setOnClickListener(v -> loadAllRounds());
+        showAllHoles.setOnClickListener(v -> loadHoleStats());
 
-        LoadTotalStats();
+        showTotalStats.setText(R.string.wait_for_stats);
+
+        loadTotalStats();
     }
 
     /**
      * Goes to the All Rounds stats activity
      */
-    public void LoadAllRounds() {
+    public void loadAllRounds() {
         Intent myIntent = new Intent(StatsMainActivity.this, ShowAllRounds.class);
         startActivity(myIntent);
     }
@@ -75,16 +75,16 @@ public class StatsMainActivity extends AppCompatActivity {
     /**
      * Goes to the individual hole stats activity
      */
-    public void LoadHoleStats() {
+    public void loadHoleStats() {
         Intent myIntent = new Intent(StatsMainActivity.this, ShowAllHoles.class);
         startActivity(myIntent);
     }
 
     /**
-     * Grabs the total stats from a file locally stored
-     * on the device.
+     * Queries the Realm database for all the rounds associated with this user.
+     * Compiles the stats and displays them on the main page.
      */
-    public TotalRoundStats LoadTotalStats() {
+    public TotalRoundStats loadTotalStats() {
         System.out.println("LoadTotalStats");
         TotalRoundStats stats = new TotalRoundStats();
 
@@ -114,87 +114,23 @@ public class StatsMainActivity extends AppCompatActivity {
                 System.out.println("User logged in successfully: " + user.getMongoClient("mongodb-atlas"));
 
 
-
+                /*
+                 * TODO:  I think it'd be nice to have the compiled total statistics in a separate database.
+                 *  We could have a java instance that continuously runs on the database and waits for changes,
+                 *  then compiles the statistics on its own.  This way the device this app is installed on won't
+                 *  have to compile statistics, which could be quite costly when there are many rounds.
+                 */
                 Realm.getInstanceAsync(syncConfiguration, new Realm.Callback() {
                     @Override
                     public void onSuccess(Realm realm) {
-                        System.out.println("Got our realm successfully");
-                        realm.refresh();
                         RealmResults<RealmScoreEntry> results = realm.where(RealmScoreEntry.class).beginsWith("_id", "Tue").findAll();
 
                         for (RealmScoreEntry score : results) {
-                            System.out.println("score entry is valid: " + score.isValid());
-                            System.out.println("score entry is loaded: " + score.isLoaded());
-                            System.out.println("score entry is frozen: " + score.isFrozen());
-                            System.out.println("score entry is managed: " + score.isManaged());
-
-                            System.out.println(score.getFinalScore());
-                            int frontStrokes = 0;
-                            int backStrokes = 0;
-
-                            RealmList<Integer> strokes = score.getStrokes();
-                            System.out.println("strokes loaded: " + strokes.isLoaded());
-                            System.out.println("strokes entry is valid: " + strokes.isValid());
-                            System.out.println("strokes entry is frozen: " + strokes.isFrozen());
-                            System.out.println("strokes entry is managed: " + strokes.isManaged());
-
-                            for (int i = 0; i < 9; i++) {
-                                frontStrokes += strokes.get(i);
-                            }
-                            for (int i = 9; i < 18; i++) {
-                                backStrokes += strokes.get(i);
-                            }
-
-                            stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
-                            stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
-
-
+                            stats.updateFromRealm(score);
                         }
-                        DisplayTotalStats(stats);
-
-//                        results.addChangeListener(realmScoreEntries -> {
-//                            RealmScoreEntry entry = realmScoreEntries.get(0);
-//
-//                            System.out.println(entry.getFinalScore());
-//                            for (RealmScoreEntry score : realmScoreEntries) {
-//                                System.out.println("score entry is valid: " + score.isValid());
-//                                System.out.println("score entry is loaded: " + score.isLoaded());
-//                                System.out.println("score entry is frozen: " + score.isFrozen());
-//                                System.out.println("score entry is managed: " + score.isManaged());
-//
-//                                System.out.println(score.getFinalScore());
-//                                int frontStrokes = 0;
-//                                int backStrokes = 0;
-//
-//                                RealmList<Integer> strokes = score.getStrokes();
-//                                System.out.println("strokes loaded: " + strokes.isLoaded());
-//                                System.out.println("strokes entry is valid: " + strokes.isValid());
-//                                System.out.println("strokes entry is frozen: " + strokes.isFrozen());
-//                                System.out.println("strokes entry is managed: " + strokes.isManaged());
-//
-//                                for (int i = 0; i < 9; i++) {
-//                                    frontStrokes += strokes.get(i);
-//                                }
-//                                for (int i = 9; i < 18; i++) {
-//                                    backStrokes += strokes.get(i);
-//                                }
-//
-//                                stats.UpdateFrontTotals(frontStrokes, 0, 0,0,0,0);
-//                                stats.UpdateBackTotals(backStrokes,0,0,0,0,0);
-//
-//
-//                            }
-//                            DisplayTotalStats();
-//                        });
+                        displayTotalStats(stats);
                     }
                 });
-
-
-
-                // TODO: Attach some kind of listener to the RealmScoreEntry's or wait for them to be loaded.
-                // Getting the proper numbers from Realm but each entry does not have the data in it.
-
-                //realm.close();
 
             } else {
                 System.out.println("Failed to log in: " + authResult.getError().getErrorMessage());
@@ -212,16 +148,16 @@ public class StatsMainActivity extends AppCompatActivity {
      * Gets rid of the stats buttons if there are no rounds
      * to show.
      */
-    public void DisplayTotalStats(TotalRoundStats stats) {
+    public void displayTotalStats(TotalRoundStats stats) {
 
         if (stats.totalRoundsFront > 0 && stats.totalRoundsBack > 0) {
-            BackAndFront(stats);
+            backAndFront(stats);
         }
         else if (stats.totalRoundsFront > 0) {
-            OnlyFront(stats);
+            onlyFront(stats);
         }
         else if (stats.totalRoundsBack > 0) {
-            OnlyBack(stats);
+            onlyBack(stats);
         }
         else if (stats.totalRounds > 0) {
             showTotalStats.setText(R.string.stats_no_complete_rounds);
@@ -240,7 +176,7 @@ public class StatsMainActivity extends AppCompatActivity {
      *
      * @param stats the stats to display
      */
-    private void BackAndFront(TotalRoundStats stats) {
+    private void backAndFront(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
@@ -286,7 +222,7 @@ public class StatsMainActivity extends AppCompatActivity {
      *
      * @param stats the stats to display
      */
-    private void OnlyFront(TotalRoundStats stats) {
+    private void onlyFront(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 
@@ -315,7 +251,7 @@ public class StatsMainActivity extends AppCompatActivity {
      *
      * @param stats the stats to display
      */
-    private void OnlyBack(TotalRoundStats stats) {
+    private void onlyBack(TotalRoundStats stats) {
         DecimalFormat dF = new DecimalFormat("##.##");
         dF.setRoundingMode(RoundingMode.DOWN);
 

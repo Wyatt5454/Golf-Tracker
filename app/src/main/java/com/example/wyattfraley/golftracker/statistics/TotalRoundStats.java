@@ -1,10 +1,13 @@
 package com.example.wyattfraley.golftracker.statistics;
 
+import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmList;
 
 public class TotalRoundStats implements Serializable{
     public int totalRounds;
@@ -45,23 +48,30 @@ public class TotalRoundStats implements Serializable{
         holes = new ArrayList<>();
     }
 
-    public void UpdateFrontTotals(int scoreFront, int puttsFront, int penaltiesFront, int sandFront, int fairwayFront, int girFront) {
-        totalFrontScore += scoreFront;
-        totalFrontPutts += puttsFront;
-        totalFrontPenalties += penaltiesFront;
-        totalFrontSand += sandFront;
-        totalFrontFairway += fairwayFront;
-        totalFrontGIR += girFront;
-        totalRoundsFront++;
-    }
-    public void UpdateBackTotals(int scoreBack, int puttsBack, int penaltiesBack, int sandBack, int fairwayBack, int girBack) {
-        totalBackScore += scoreBack;
-        totalBackPutts += puttsBack;
-        totalBackPenalties += penaltiesBack;
-        totalBackSand += sandBack;
-        totalBackFairway += fairwayBack;
-        totalBackGIR += girBack;
+    public void updateFromRealm(RealmScoreEntry score ) {
+
+        RealmList<Integer> strokes = score.getStrokes();
+
+        for (int i = 0; i < 9; i++) {
+            totalFrontScore += score.getStrokes().get(i);
+            totalFrontPutts += score.getPutts().get(i);
+            totalFrontPenalties += score.getPenalties().get(i);
+            totalFrontSand += score.getSand().get(i);
+            totalFrontFairway += score.getFairway().get(i);
+            totalFrontGIR += score.getGreenInRegulation().get(i);
+        }
+        for (int i = 9; i < 18; i++) {
+            totalBackScore += strokes.get(i);
+            totalBackScore += score.getStrokes().get(i);
+            totalBackPutts += score.getPutts().get(i);
+            totalBackPenalties += score.getPenalties().get(i);
+            totalBackSand += score.getSand().get(i);
+            totalBackFairway += score.getFairway().get(i);
+            totalBackGIR += score.getGreenInRegulation().get(i);
+        }
+        totalRounds++;
         totalRoundsBack++;
+        totalRoundsFront++;
     }
 
 }

@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
-import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
-import io.realm.RealmList;
-
+/**
+ * Activity for deleting a round.
+ *
+ * TODO: Give the user a warning that this cannot be undone.
+ */
 public class DeleteRound extends SaveCheck {
 
     @Override
@@ -29,7 +30,7 @@ public class DeleteRound extends SaveCheck {
 
         yes = findViewById(R.id.DeleteYes);
         no = findViewById(R.id.DeleteNo);
-        yes.setOnClickListener(v -> Delete());
+        yes.setOnClickListener(v -> delete());
         no.setOnClickListener(v -> NoPress());
     }
 
@@ -37,13 +38,14 @@ public class DeleteRound extends SaveCheck {
      * Deletes the round from the database, and then updates the total
      * stats using an inherited function from SaveCheck.
      */
-    public void Delete() {
+    public void delete() {
 
         Intent myIntent = getIntent();
 
 
         final RealmScoreEntry toDelete = (RealmScoreEntry)myIntent.getSerializableExtra("Score");
 
+        // TODO: Delete round from Realm database
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
