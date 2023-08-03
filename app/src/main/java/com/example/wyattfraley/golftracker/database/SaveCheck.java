@@ -3,7 +3,6 @@ package com.example.wyattfraley.golftracker.database;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,16 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.statistics.TotalHoleStats;
-import com.example.wyattfraley.golftracker.statistics.TotalRoundStats;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -79,7 +70,7 @@ public class SaveCheck extends Activity {
         SerializableScoreEntry serializedEntry = (SerializableScoreEntry)myIntent.getSerializableExtra("Score");
 
         // Convert our serialized entry to a database entry
-        toEnter = serializedEntry.toRealmEntry();
+        toEnter = serializedEntry.toRealmScoreEntry();
 
         if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);

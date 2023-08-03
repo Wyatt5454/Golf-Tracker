@@ -4,19 +4,21 @@ import android.widget.TextView;
 
 import java.util.Stack;
 
-public class Score {
-
+/**
+ * Contains all the data needed to track a single hole.
+ */
+public class HoleScoreData {
 
     private Stack<String> actions;
-    public TextView hole;
-    public int number;
-    public int strokes;
-    public int putts;
-    public int penalties;
-    public int sand;
-    public int fairway;
-    public int greenInRegulation;
-    public int par;
+    private TextView hole;
+    private int number;
+    private int strokes;
+    private int putts;
+    private int penalties;
+    private int sand;
+    private int fairway;
+    private int greenInRegulation;
+    private int par;
 
     private HoleLocationData locationData;
 
@@ -24,10 +26,11 @@ public class Score {
 
 
 
-    public Score(TextView newHole) {
+    public HoleScoreData(TextView newHole) {
         hole = newHole;
         strokes = 0;
         putts = 0;
+        penalties = 0;
         sand = 0;
         par = 0;
         actions = new Stack<>();
@@ -107,5 +110,63 @@ public class Score {
 
     public void setLocationData(HoleLocationData locationData) {
         this.locationData = locationData;
+    }
+
+    public TextView getHole() {
+        return hole;
+    }
+
+    public void setHole(TextView hole) {
+        this.hole = hole;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getPar() {
+        return par;
+    }
+
+    /**
+     * Adds one stroke
+     */
+    public void addStroke() {
+        strokes++;
+    }
+
+    /**
+     * Adds one putt
+     */
+    public void addPutt() {
+        putts++;
+    }
+
+    /**
+     * Adds one penalty stroke
+     */
+    public void addPenalty() {
+        penalties++;
+    }
+
+    /**
+     * Removes one putt
+     */
+    public void removePutt() {
+        putts--;
+    }
+
+    /**
+     * Removes one stroke
+     */
+    public void removeStroke() {
+        strokes--;
+    }
+
+    /**
+     * Removes one penalty
+     */
+    public void removePenalty() {
+        penalties--;
     }
 }

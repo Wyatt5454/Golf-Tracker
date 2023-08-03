@@ -149,7 +149,7 @@ public class SerializableScoreEntry implements Serializable {
      * Converts our SerializableScoreEntry into a RealmScoreEntry for database usage
      * @return a RealmScoreEntry that is ready for insertion.
      */
-    public RealmScoreEntry toRealmEntry() {
+    public RealmScoreEntry toRealmScoreEntry() {
         RealmList<Integer> rStrokes = toRealmList(strokes);
         rStrokes.addAll(strokes);
         return new RealmScoreEntry(uId, toRealmList(strokes), toRealmList(putts), toRealmList(penalties),
@@ -165,5 +165,25 @@ public class SerializableScoreEntry implements Serializable {
         RealmList<Integer> realmList = new RealmList<>();
         realmList.addAll(list);
         return realmList;
+    }
+
+    /**
+     * Converts our SerializableScoreEntry into a RealmScoreEntry for database usage
+     * @return a RealmRoundScore that is ready for insertion.
+     */
+    public RealmRoundScore toRealmRoundScore() {
+        RealmRoundScore roundScore = new RealmRoundScore();
+        int finalScore = 0;
+
+        // TODO: Add par to this class.  See if we can change fairway and greenInRegulation to be boolean lists
+        for (int i = 0; i < 18; i++) {
+            RealmHoleScore holeScore = new RealmHoleScore(strokes.get(i), putts.get(i), penalties.get(i), sand.get(i), true ? fairway.get(i) > 0 : false, true ? greenInRegulation.get(i) > 0 : false, 0, 0);
+            roundScore.getScores().add(holeScore);
+            finalScore += strokes.get(i);
+        }
+
+        roundScore.setFinalScore(finalScore);
+
+        return roundScore;
     }
 }

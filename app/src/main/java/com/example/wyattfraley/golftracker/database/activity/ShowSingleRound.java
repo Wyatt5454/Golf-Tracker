@@ -17,7 +17,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
 import com.example.wyattfraley.golftracker.database.DeleteRound;
-import com.example.wyattfraley.golftracker.scorecard.Score;
+import com.example.wyattfraley.golftracker.scorecard.HoleScoreData;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -29,8 +29,8 @@ import io.realm.RealmList;
 public class ShowSingleRound  extends Activity {
     TextView overallStats;
     TextView holeStats;
-    List<Score> scores;
-    Score currentHole;
+    List<HoleScoreData> scores;
+    HoleScoreData currentHole;
     RealmScoreEntry myEntry;
     String uid;
     int puttsTotal;
@@ -129,155 +129,155 @@ public class ShowSingleRound  extends Activity {
      * stats boxes will display the proper info for the
      * selected hole.
      */
-    public List<Score> initializeScores() {
+    public List<HoleScoreData> initializeScores() {
 
         scores = new ArrayList<>();
-        final Score score1 = new Score(findViewById(R.id.tv11));
-        score1.hole.setOnClickListener(v -> {
+        final HoleScoreData score1 = new HoleScoreData(findViewById(R.id.tv11));
+        score1.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score1;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score1);
-        final Score score2 = new Score(findViewById(R.id.tv12));
-        score2.hole.setOnClickListener(v -> {
+        final HoleScoreData score2 = new HoleScoreData(findViewById(R.id.tv12));
+        score2.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score2;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score2);
-        final Score score3 = new Score(findViewById(R.id.tv13));
-        score3.hole.setOnClickListener(v -> {
+        final HoleScoreData score3 = new HoleScoreData(findViewById(R.id.tv13));
+        score3.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score3;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score3);
-        final Score score4 = new Score(findViewById(R.id.tv14));
-        score4.hole.setOnClickListener(v -> {
+        final HoleScoreData score4 = new HoleScoreData(findViewById(R.id.tv14));
+        score4.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score4;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score4);
-        final Score score5 = new Score(findViewById(R.id.tv15));
-        score5.hole.setOnClickListener(v -> {
+        final HoleScoreData score5 = new HoleScoreData(findViewById(R.id.tv15));
+        score5.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score5;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score5);
-        final Score score6 = new Score(findViewById(R.id.tv16));
-        score6.hole.setOnClickListener(v -> {
+        final HoleScoreData score6 = new HoleScoreData(findViewById(R.id.tv16));
+        score6.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score6;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score6);
-        final Score score7 = new Score(findViewById(R.id.tv17));
-        score7.hole.setOnClickListener(v -> {
+        final HoleScoreData score7 = new HoleScoreData(findViewById(R.id.tv17));
+        score7.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score7;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score7);
-        final Score score8 = new Score(findViewById(R.id.tv18));
-        score8.hole.setOnClickListener(v -> {
+        final HoleScoreData score8 = new HoleScoreData(findViewById(R.id.tv18));
+        score8.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score8;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score8);
-        final Score score9 = new Score(findViewById(R.id.tv19));
-        score9.hole.setOnClickListener(v -> {
+        final HoleScoreData score9 = new HoleScoreData(findViewById(R.id.tv19));
+        score9.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score9;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score9);
-        scores.add(new Score(findViewById(R.id.tv20)));
-        final Score score10 = new Score(findViewById(R.id.tv31));
-        score10.hole.setOnClickListener(v -> {
+        scores.add(new HoleScoreData(findViewById(R.id.tv20)));
+        final HoleScoreData score10 = new HoleScoreData(findViewById(R.id.tv31));
+        score10.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score10;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score10);
-        final Score score11 = new Score(findViewById(R.id.tv32));
-        score11.hole.setOnClickListener(v -> {
+        final HoleScoreData score11 = new HoleScoreData(findViewById(R.id.tv32));
+        score11.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score11;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score11);
-        final Score score12 = new Score(findViewById(R.id.tv33));
-        score12.hole.setOnClickListener(v -> {
+        final HoleScoreData score12 = new HoleScoreData(findViewById(R.id.tv33));
+        score12.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score12;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score12);
-        final Score score13 = new Score(findViewById(R.id.tv34));
-        score13.hole.setOnClickListener(v -> {
+        final HoleScoreData score13 = new HoleScoreData(findViewById(R.id.tv34));
+        score13.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score13;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score13);
-        final Score score14 = new Score(findViewById(R.id.tv35));
-        score14.hole.setOnClickListener(v -> {
+        final HoleScoreData score14 = new HoleScoreData(findViewById(R.id.tv35));
+        score14.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score14;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score14);
-        final Score score15 = new Score(findViewById(R.id.tv36));
-        score15.hole.setOnClickListener(v -> {
+        final HoleScoreData score15 = new HoleScoreData(findViewById(R.id.tv36));
+        score15.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score15;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score15);
-        final Score score16 = new Score(findViewById(R.id.tv37));
-        score16.hole.setOnClickListener(v -> {
+        final HoleScoreData score16 = new HoleScoreData(findViewById(R.id.tv37));
+        score16.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score16;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score16);
-        final Score score17 = new Score(findViewById(R.id.tv38));
-        score17.hole.setOnClickListener(v -> {
+        final HoleScoreData score17 = new HoleScoreData(findViewById(R.id.tv38));
+        score17.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score17;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score17);
-        final Score score18 = new Score(findViewById(R.id.tv39));
-        score18.hole.setOnClickListener(v -> {
+        final HoleScoreData score18 = new HoleScoreData(findViewById(R.id.tv39));
+        score18.getHole().setOnClickListener(v -> {
             markScore();
             currentHole = score18;
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeselected));
             setIndividualTextBox();
         });
         scores.add(score18);
-        scores.add(new Score(findViewById(R.id.tv40)));
+        scores.add(new HoleScoreData(findViewById(R.id.tv40)));
 
         return scores;
     }
@@ -330,7 +330,7 @@ public class ShowSingleRound  extends Activity {
         RealmList<Integer> gir = myEntry.getGreenInRegulation();
         RealmList<Integer> penalties = myEntry.getPenalties();
         List<Integer> pars = initializePars();
-        Score mScore;
+        HoleScoreData mScore;
 
 
         for (int i = 0; i < 9; i++) {
@@ -350,7 +350,7 @@ public class ShowSingleRound  extends Activity {
             mScore.setGreenInRegulation(mGir);
             mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
-            mScore.hole.setText(Integer.toString(mStroke));
+            mScore.getHole().setText(Integer.toString(mStroke));
             markScoreSpecific(mScore);
 
             if (mStroke > 0) {
@@ -370,7 +370,7 @@ public class ShowSingleRound  extends Activity {
         }
 
         mScore = scores.get(9);
-        mScore.hole.setText(Integer.toString(afterNine));
+        mScore.getHole().setText(Integer.toString(afterNine));
         afterNine = 0;
 
         for (int i = 9; i < 18; i++) {
@@ -389,7 +389,7 @@ public class ShowSingleRound  extends Activity {
             mScore.setGreenInRegulation(mGir);
             mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
-            mScore.hole.setText(Integer.toString(mStroke));
+            mScore.getHole().setText(Integer.toString(mStroke));
             markScoreSpecific(mScore);
 
             if (mStroke > 0) {
@@ -409,7 +409,7 @@ public class ShowSingleRound  extends Activity {
         }
 
         mScore = scores.get(19);
-        mScore.hole.setText(Integer.toString(afterNine));
+        mScore.getHole().setText(Integer.toString(afterNine));
     }
 
     /**
@@ -420,33 +420,33 @@ public class ShowSingleRound  extends Activity {
      */
     public void markScore(){
 
-        if (currentHole.strokes == 0 || currentHole.strokes == currentHole.par)
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
-        else if (currentHole.strokes <= currentHole.par - 2)
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
-        else if (currentHole.strokes == currentHole.par - 1)
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
-        else if (currentHole.strokes == currentHole.par + 1)
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
-        else if (currentHole.strokes >= currentHole.par + 2)
-            currentHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
+        if (currentHole.getStrokes() == 0 || currentHole.getStrokes() == currentHole.getPar())
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
+        else if (currentHole.getStrokes() <= currentHole.getPar() - 2)
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
+        else if (currentHole.getStrokes() == currentHole.getPar() - 1)
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
+        else if (currentHole.getStrokes() == currentHole.getPar() + 1)
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
+        else if (currentHole.getStrokes() >= currentHole.getPar() + 2)
+            currentHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
     }
 
     /**
      * Same as MarkScore, but for a specific hole.
      */
-    public void markScoreSpecific(Score specificHole) {
+    public void markScoreSpecific(HoleScoreData specificHole) {
 
-        if (specificHole.strokes == 0 || specificHole.strokes == specificHole.par)
-            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
-        else if (specificHole.strokes <= specificHole.par - 2)
-            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
-        else if (specificHole.strokes == specificHole.par - 1)
-            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
-        else if (specificHole.strokes == specificHole.par + 1)
-            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
-        else if (specificHole.strokes >= specificHole.par + 2)
-            specificHole.hole.setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
+        if (specificHole.getStrokes() == 0 || specificHole.getStrokes() == specificHole.getPar())
+            specificHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.holeback));
+        else if (specificHole.getStrokes() <= specificHole.getPar() - 2)
+            specificHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.eagle));
+        else if (specificHole.getStrokes() == specificHole.getPar() - 1)
+            specificHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.birdie));
+        else if (specificHole.getStrokes() == specificHole.getPar() + 1)
+            specificHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.bogey));
+        else if (specificHole.getStrokes() >= specificHole.getPar() + 2)
+            specificHole.getHole().setBackground(AppCompatResources.getDrawable(this, R.drawable.doublebogey));
     }
 
     /**
@@ -487,12 +487,12 @@ public class ShowSingleRound  extends Activity {
 
         String individualInfo = "";
 
-        individualInfo += " Par: " + currentHole.par + "\n";
-        individualInfo += " Score: " + currentHole.strokes + "\n";
-        individualInfo += " Putts: " + currentHole.putts + "\n";
+        individualInfo += " Par: " + currentHole.getPar() + "\n";
+        individualInfo += " Score: " + currentHole.getStrokes() + "\n";
+        individualInfo += " Putts: " + currentHole.getPutts() + "\n";
 
-        if (currentHole.penalties > 0) {
-            individualInfo += " Penalties: " + currentHole.penalties + "\n\n";
+        if (currentHole.getPenalties() > 0) {
+            individualInfo += " Penalties: " + currentHole.getPenalties() + "\n\n";
         }
         else {
             individualInfo += "\n";
@@ -501,7 +501,7 @@ public class ShowSingleRound  extends Activity {
         if (currentHole.getFairway() == 1) {
             individualInfo += " " + getString(R.string.hit_fairway);
         }
-        else if (currentHole.par != 3){
+        else if (currentHole.getPar() != 3){
             individualInfo += " " + getString(R.string.miss_fairway);
         }
         if (currentHole.getGreenInRegulation() == 1) {
