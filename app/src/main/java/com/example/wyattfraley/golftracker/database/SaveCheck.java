@@ -118,7 +118,7 @@ public class SaveCheck extends Activity {
                         .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                             @Override
                             public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                                subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmScoreEntry.class)));
+                                subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmRoundScore.class)));
                             }
                         })
                         .allowQueriesOnUiThread(true)

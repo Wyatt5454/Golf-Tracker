@@ -191,8 +191,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             score.setStrokes(strokes);
             score.setPutts(mPutts.get(i));
             score.setSand(mSand.get(i));
-            score.setFairway(true);
-            score.setGreenInRegulation(true);
+            score.setFairway(mFairway.get(i));
+            score.setGreenInRegulation(mGIR.get(i));
 
             MarkScoreSpecific(score);
             Log.i(TAG, String.format("Score %d marked.", i + 1));

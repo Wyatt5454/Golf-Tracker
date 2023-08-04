@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 
 import java.time.Instant;
 
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -15,7 +14,9 @@ import io.realm.annotations.Required;
  */
 public class RealmHoleScore extends RealmObject {
 
-    @Required
+    /**
+     * This should be the uuid for the round this object belongs on
+     */
     @PrimaryKey
     private String _id = "";
 
@@ -38,7 +39,7 @@ public class RealmHoleScore extends RealmObject {
     private Boolean greenInRegulation = false;
 
     @Required
-    private Integer parPlayed = 0;
+    private Integer par = 0;
 
     private Integer yards = 0;
 
@@ -57,15 +58,15 @@ public class RealmHoleScore extends RealmObject {
      * @param yards: yards for the hole.  Only one that isn't required as we may not always have this data.
      */
     @SuppressLint("NewApi")
-    public RealmHoleScore(int strokes, int putts, int penalties, int sand, boolean fairway, boolean gir, int par, int yards) {
-        set_id(Instant.now().toString());
+    public RealmHoleScore(String roundID, int strokes, int putts, int penalties, int sand, boolean fairway, boolean gir, int par, int yards) {
+        set_id(roundID);
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
         setSand(sand);
         setFairway(fairway);
         setGreenInRegulation(gir);
-        setParPlayed(par);
+        setPar(par);
         setYards(yards);
     }
 
@@ -117,12 +118,12 @@ public class RealmHoleScore extends RealmObject {
         this.greenInRegulation = greenInRegulation;
     }
 
-    public Integer getParPlayed() {
-        return parPlayed;
+    public Integer getPar() {
+        return par;
     }
 
-    public void setParPlayed(Integer parPlayed) {
-        this.parPlayed = parPlayed;
+    public void setPar(Integer par) {
+        this.par = par;
     }
 
     public Integer getYards() {

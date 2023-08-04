@@ -48,9 +48,6 @@ public class SerializableRoundScore implements Serializable {
     /* par for the course played */
     private Integer parPlayed = 0;
 
-    /** Default Constructor */
-    public SerializableRoundScore() {}
-
     /**
      * Constructor which contains every single variable for the class.
      */

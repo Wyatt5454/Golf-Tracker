@@ -15,7 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
-import com.example.wyattfraley.golftracker.database.RealmScoreEntry;
+import com.example.wyattfraley.golftracker.database.RealmHoleScore;
+import com.example.wyattfraley.golftracker.database.RealmRoundScore;
 import com.example.wyattfraley.golftracker.database.DeleteRound;
 import com.example.wyattfraley.golftracker.scorecard.HoleScoreData;
 
@@ -24,14 +25,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmList;
-
 public class ShowSingleRound  extends Activity {
     TextView overallStats;
     TextView holeStats;
     List<HoleScoreData> scores;
     HoleScoreData currentHole;
-    RealmScoreEntry myEntry;
+    RealmRoundScore myEntry;
     String uid;
     int puttsTotal;
     int sandTotal;
@@ -119,7 +118,8 @@ public class ShowSingleRound  extends Activity {
         loadScores(myEntry);
         currentHole = scores.get(0);
         finalScore = myEntry.getFinalScore();
-        netScore = finalScore - myEntry.getParPlayed();
+        // TODO: Assume this for now.  Later we need to query Realm for this based on the course UUID on the RealmRoundScore
+        netScore = finalScore - 72;
 
         setOverallTextBox();
     }
@@ -308,7 +308,7 @@ public class ShowSingleRound  extends Activity {
         return pars;
     }
 
-    public void loadScores(RealmScoreEntry myEntry) {
+    public void loadScores(RealmRoundScore myEntry) {
         /*
          * Parses the round data into each individual hole
          * and makes the text box appropriately.  Also adds
@@ -323,37 +323,25 @@ public class ShowSingleRound  extends Activity {
         Integer mPenalty;
         int afterNine = 0, par;
 
-        RealmList<Integer> strokes = myEntry.getStrokes();
-        RealmList<Integer> putts = myEntry.getPutts();
-        RealmList<Integer> sand = myEntry.getSand();
-        RealmList<Integer> fairway = myEntry.getFairway();
-        RealmList<Integer> gir = myEntry.getGreenInRegulation();
-        RealmList<Integer> penalties = myEntry.getPenalties();
         List<Integer> pars = initializePars();
         HoleScoreData mScore;
 
 
         for (int i = 0; i < 9; i++) {
-            mStroke = strokes.get(i);
-            mPutt = putts.get(i);
-            mSand = sand.get(i);
-            mFairway = fairway.get(i);
-            mGir = gir.get(i);
-            mPenalty = penalties.get(i);
-
+            RealmHoleScore holeScore = myEntry.getScores().get(i);
 
             mScore = scores.get(i);
-            mScore.setPutts(mPutt);
-            mScore.setSand(mSand);
-            mScore.setStrokes(mStroke);
-//            mScore.setFairway(mFairway);
-//            mScore.setGreenInRegulation(mGir);
-            mScore.setPenalties(mPenalty);
-            mScore.setPar(pars.get(i));
-            mScore.getHole().setText(Integer.toString(mStroke));
+            mScore.setPutts(holeScore.getPutts());
+            mScore.setSand(holeScore.getSand());
+            mScore.setStrokes(holeScore.getStrokes());
+            mScore.setFairway(holeScore.getFairway());
+            mScore.setGreenInRegulation(holeScore.getGreenInRegulation());
+            mScore.setPenalties(holeScore.getPenalties());
+            mScore.setPar(holeScore.getPar());
+            mScore.getHole().setText(Integer.toString(holeScore.getStrokes()));
             markScoreSpecific(mScore);
 
-            if (mStroke > 0) {
+            if (holeScore.getStrokes() > 0) {
                 par = pars.get(i);
                 holesPlayed++;
                 if (par > 3) {
@@ -361,12 +349,12 @@ public class ShowSingleRound  extends Activity {
                 }
             }
 
-            puttsTotal += mPutt;
-            sandTotal += mSand;
-            fairwayTotal += mFairway;
-            girTotal += mGir;
-            penaltiesTotal += mPenalty;
-            afterNine += mStroke;
+            puttsTotal += holeScore.getPutts();
+            sandTotal += holeScore.getSand();
+            fairwayTotal += holeScore.getFairway() ? 1 : 0;
+            girTotal += holeScore.getGreenInRegulation() ? 1 : 0;
+            penaltiesTotal += holeScore.getPenalties();
+            afterNine += holeScore.getStrokes();
         }
 
         mScore = scores.get(9);
@@ -374,25 +362,20 @@ public class ShowSingleRound  extends Activity {
         afterNine = 0;
 
         for (int i = 9; i < 18; i++) {
-            mStroke = strokes.get(i);
-            mPutt = putts.get(i);
-            mSand = sand.get(i);
-            mFairway = fairway.get(i);
-            mGir = gir.get(i);
-            mPenalty = penalties.get(i);
+            RealmHoleScore holeScore = myEntry.getScores().get(i);
 
-            mScore = scores.get(i + 1);
-            mScore.setPutts(mPutt);
-            mScore.setSand(mSand);
-            mScore.setStrokes(mStroke);
-//            mScore.setFairway(mFairway);
-//            mScore.setGreenInRegulation(mGir);
-            mScore.setPenalties(mPenalty);
-            mScore.setPar(pars.get(i));
-            mScore.getHole().setText(Integer.toString(mStroke));
+            mScore = scores.get(i);
+            mScore.setPutts(holeScore.getPutts());
+            mScore.setSand(holeScore.getSand());
+            mScore.setStrokes(holeScore.getStrokes());
+            mScore.setFairway(holeScore.getFairway());
+            mScore.setGreenInRegulation(holeScore.getGreenInRegulation());
+            mScore.setPenalties(holeScore.getPenalties());
+            mScore.setPar(holeScore.getPar());
+            mScore.getHole().setText(Integer.toString(holeScore.getStrokes()));
             markScoreSpecific(mScore);
 
-            if (mStroke > 0) {
+            if (holeScore.getStrokes() > 0) {
                 par = pars.get(i);
                 holesPlayed++;
                 if (par > 3) {
@@ -400,12 +383,12 @@ public class ShowSingleRound  extends Activity {
                 }
             }
 
-            puttsTotal += mPutt;
-            sandTotal += mSand;
-            fairwayTotal += mFairway;
-            girTotal += mGir;
-            penaltiesTotal += mPenalty;
-            afterNine += mStroke;
+            puttsTotal += holeScore.getPutts();
+            sandTotal += holeScore.getSand();
+            fairwayTotal += holeScore.getFairway() ? 1 : 0;
+            girTotal += holeScore.getGreenInRegulation() ? 1 : 0;
+            penaltiesTotal += holeScore.getPenalties();
+            afterNine += holeScore.getStrokes();
         }
 
         mScore = scores.get(19);

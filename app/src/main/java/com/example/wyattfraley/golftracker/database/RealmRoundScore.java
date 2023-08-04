@@ -1,5 +1,7 @@
 package com.example.wyattfraley.golftracker.database;
 
+import java.util.UUID;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -12,10 +14,14 @@ public class RealmRoundScore extends RealmObject {
 
     /**
      * This should be the player's UUID
+     * TODO: Grab this from a database of users.  Currently this is set as a date/time
      */
     @Required
     @PrimaryKey
     private String _id;
+
+    @Required
+    private String round_id = UUID.randomUUID().toString();
 
     /**
      * The played course's UUID
@@ -25,7 +31,7 @@ public class RealmRoundScore extends RealmObject {
     /**
      * List of scores.  Should be 18
      */
-    private RealmList<RealmHoleScore> scores = new RealmList<RealmHoleScore>();
+    private RealmList<RealmHoleScore> scores = new RealmList<>();
 
     /**
      * Total score for the round
@@ -51,5 +57,21 @@ public class RealmRoundScore extends RealmObject {
 
     public void setFinalScore(Integer finalScore) {
         this.finalScore = finalScore;
+    }
+
+    public String getRound_id() {
+        return round_id;
+    }
+
+    public void setRound_id(String round_id) {
+        this.round_id = round_id;
+    }
+
+    public String getCourseUid() {
+        return courseUid;
+    }
+
+    public void setCourseUid(String courseUid) {
+        this.courseUid = courseUid;
     }
 }
