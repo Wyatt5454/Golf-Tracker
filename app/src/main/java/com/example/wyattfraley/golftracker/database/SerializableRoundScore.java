@@ -2,6 +2,8 @@ package com.example.wyattfraley.golftracker.database;
 
 import androidx.annotation.NonNull;
 
+import com.example.wyattfraley.golftracker.scorecard.HoleScoreData;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import io.realm.RealmList;
  *  objects are not serializable.  We need this class to be able to pass Score data
  * between Intents, and to save the score data itself when traversing Intents.
  */
-public class SerializableScoreEntry implements Serializable {
+public class SerializableRoundScore implements Serializable {
 
     /* Unique id for the round */
     private String uId = "";
@@ -35,10 +37,10 @@ public class SerializableScoreEntry implements Serializable {
     private List<Integer> sand = new ArrayList<>();
 
     /* List of fairways by hole */
-    private List<Integer> fairway = new ArrayList<>();
+    private List<Boolean> fairway = new ArrayList<>();
 
     /* List of greens hit by hole */
-    private List<Integer> greenInRegulation = new ArrayList<>();
+    private List<Boolean> greenInRegulation = new ArrayList<>();
 
     /* Final score of the round */
     private Integer finalScore = 0;
@@ -46,10 +48,13 @@ public class SerializableScoreEntry implements Serializable {
     /* par for the course played */
     private Integer parPlayed = 0;
 
+    /** Default Constructor */
+    public SerializableRoundScore() {}
+
     /**
      * Constructor which contains every single variable for the class.
      */
-    public SerializableScoreEntry(String uId, List<Integer> mStrokes, List<Integer> mPutts, List<Integer> mPenalties, List<Integer> mSand, List<Integer> mFairway, List<Integer> mGreenInRegulation, int mFinal, int mParPlayed) {
+    public SerializableRoundScore(String uId, List<Integer> mStrokes, List<Integer> mPutts, List<Integer> mPenalties, List<Integer> mSand, List<Boolean> mFairway, List<Boolean> mGreenInRegulation, int mFinal, int mParPlayed) {
         setUId(uId);
         setStrokes(mStrokes);
         setPutts(mPutts);
@@ -64,7 +69,7 @@ public class SerializableScoreEntry implements Serializable {
     /**
      * Constructor missing the uid, final score, and par played.  Used for moving the data between Intents.
      */
-    public SerializableScoreEntry(List<Integer> mStrokes, List<Integer> mPutts, List<Integer> mPenalties, List<Integer> mSand, List<Integer> mFairway, List<Integer> mGreenInRegulation) {
+    public SerializableRoundScore(List<Integer> mStrokes, List<Integer> mPutts, List<Integer> mPenalties, List<Integer> mSand, List<Boolean> mFairway, List<Boolean> mGreenInRegulation) {
         setStrokes(mStrokes);
         setPutts(mPutts);
         setPenalties(mPenalties);
@@ -111,16 +116,16 @@ public class SerializableScoreEntry implements Serializable {
     }
 
     @NonNull
-    public List<Integer> getFairway() { return fairway; }
-    public void setFairway(@NonNull List<Integer> nFairway) {
+    public List<Boolean> getFairway() { return fairway; }
+    public void setFairway(@NonNull List<Boolean> nFairway) {
         fairway = nFairway;
     }
 
     @NonNull
-    public List<Integer> getGreenInRegulation() {
+    public List<Boolean> getGreenInRegulation() {
         return greenInRegulation;
     }
-    public void setGreenInRegulation(@NonNull List<Integer> nGreenInRegulation) {
+    public void setGreenInRegulation(@NonNull List<Boolean> nGreenInRegulation) {
         greenInRegulation = nGreenInRegulation;
     }
 
@@ -145,16 +150,16 @@ public class SerializableScoreEntry implements Serializable {
         this.courseUid = courseUid;
     }
 
-    /**
-     * Converts our SerializableScoreEntry into a RealmScoreEntry for database usage
-     * @return a RealmScoreEntry that is ready for insertion.
-     */
-    public RealmScoreEntry toRealmScoreEntry() {
-        RealmList<Integer> rStrokes = toRealmList(strokes);
-        rStrokes.addAll(strokes);
-        return new RealmScoreEntry(uId, toRealmList(strokes), toRealmList(putts), toRealmList(penalties),
-                toRealmList(sand), toRealmList(fairway), toRealmList(greenInRegulation), finalScore, parPlayed);
-    }
+//    /**
+//     * Converts our SerializableScoreEntry into a RealmScoreEntry for database usage
+//     * @return a RealmScoreEntry that is ready for insertion.
+//     */
+//    public RealmScoreEntry toRealmScoreEntry() {
+//        RealmList<Integer> rStrokes = toRealmList(strokes);
+//        rStrokes.addAll(strokes);
+//        return new RealmScoreEntry(uId, toRealmList(strokes), toRealmList(putts), toRealmList(penalties),
+//                toRealmList(sand), toRealmList(fairway), toRealmList(greenInRegulation), finalScore, parPlayed);
+//    }
 
     /**
      * Quick conversion from a List to a RealmList.
@@ -167,23 +172,4 @@ public class SerializableScoreEntry implements Serializable {
         return realmList;
     }
 
-    /**
-     * Converts our SerializableScoreEntry into a RealmScoreEntry for database usage
-     * @return a RealmRoundScore that is ready for insertion.
-     */
-    public RealmRoundScore toRealmRoundScore() {
-        RealmRoundScore roundScore = new RealmRoundScore();
-        int finalScore = 0;
-
-        // TODO: Add par to this class.  See if we can change fairway and greenInRegulation to be boolean lists
-        for (int i = 0; i < 18; i++) {
-            RealmHoleScore holeScore = new RealmHoleScore(strokes.get(i), putts.get(i), penalties.get(i), sand.get(i), true ? fairway.get(i) > 0 : false, true ? greenInRegulation.get(i) > 0 : false, 0, 0);
-            roundScore.getScores().add(holeScore);
-            finalScore += strokes.get(i);
-        }
-
-        roundScore.setFinalScore(finalScore);
-
-        return roundScore;
-    }
 }

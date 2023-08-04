@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.wyattfraley.golftracker.R;
+import com.example.wyattfraley.golftracker.utilities.RealmObjectConverter;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -42,7 +43,7 @@ public class SaveCheck extends Activity {
     TextView saveText;
     Button yes;
     Button no;
-    RealmScoreEntry toEnter;
+    RealmRoundScore toEnter;
 
     Realm uiThreadRealm;
 
@@ -67,10 +68,10 @@ public class SaveCheck extends Activity {
         no.setOnClickListener(v -> NoPress());
 
         Intent myIntent = getIntent();
-        SerializableScoreEntry serializedEntry = (SerializableScoreEntry)myIntent.getSerializableExtra("Score");
+        SerializableRoundScore serializedEntry = (SerializableRoundScore)myIntent.getSerializableExtra("Score");
 
         // Convert our serialized entry to a database entry
-        toEnter = serializedEntry.toRealmScoreEntry();
+        toEnter = RealmObjectConverter.toRealmRoundScore(serializedEntry);
 
         if (IsFrontComplete() && IsBackComplete()) {
             saveText.setText(R.string.ask_save);
@@ -163,10 +164,10 @@ public class SaveCheck extends Activity {
      * @return true if it's complete, false if not
      */
     public boolean IsFrontComplete() {
-        RealmList<Integer> strokes = toEnter.getStrokes();
+        RealmList<RealmHoleScore> holes = toEnter.getScores();
 
         for (int i = 0; i < 9; i++) {
-            if (strokes.get(i) == 0) {
+            if (holes.get(i).getStrokes() == 0) {
                 return false;
             }
         }
@@ -179,10 +180,10 @@ public class SaveCheck extends Activity {
      * @return true if it's complete, false if not
      */
     public boolean IsBackComplete() {
-        RealmList<Integer> strokes = toEnter.getStrokes();
+        RealmList<RealmHoleScore> holes = toEnter.getScores();
 
         for (int i = 9; i < 18; i++) {
-            if (strokes.get(i) == 0) {
+            if (holes.get(i).getStrokes() == 0) {
                 return false;
             }
         }

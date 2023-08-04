@@ -24,7 +24,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.example.wyattfraley.golftracker.R;
 import com.example.wyattfraley.golftracker.database.SaveCheck;
-import com.example.wyattfraley.golftracker.database.SerializableScoreEntry;
+import com.example.wyattfraley.golftracker.database.SerializableRoundScore;
 import com.example.wyattfraley.golftracker.scorecard.HoleScoreData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -144,8 +144,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         List<Integer> mPutts = new ArrayList<>();
         List<Integer> mPenalties = new ArrayList<>();
         List<Integer> mSand = new ArrayList<>();
-        List<Integer> mFairway = new ArrayList<>();
-        List<Integer> mGIR = new ArrayList<>();
+        List<Boolean> mFairway = new ArrayList<>();
+        List<Boolean> mGIR = new ArrayList<>();
 
         for (int i = 0; i < scores.size(); i++) {
             HoleScoreData score = scores.get(i);
@@ -154,31 +154,32 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             mPutts.add(score.getPutts());
             mPenalties.add(score.getPenalties());
             mSand.add(score.getSand());
-            mFairway.add(score.getFairway());
-            mGIR.add(score.getGreenInRegulation());
+            mFairway.add(true);
+            mGIR.add(true);
         }
 
-        SerializableScoreEntry myEntry = new SerializableScoreEntry(mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR);
+        SerializableRoundScore myEntry = new SerializableRoundScore(mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR);
 
         state.putSerializable("score", myEntry);
         state.putInt("current", currentHole.getNumber());
     }
 
+    /**
+     * This function restores the state of the UI once the user returns
+     * to the app
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        /*
-         * This function restores the state of the UI once the user returns
-         * to the app
-         */
-        SerializableScoreEntry myScore = (SerializableScoreEntry) savedInstanceState.getSerializable("score");
+
+        SerializableRoundScore myScore = (SerializableRoundScore) savedInstanceState.getSerializable("score");
         Log.i(TAG, "RestoreFromHomeScreen grabbed the serial object.");
         Log.i(TAG, String.format("Serial object has strokes of size: %d", myScore.getStrokes().size()));
 
         List<Integer> mStrokes = myScore.getStrokes();
         List<Integer> mPutts = myScore.getPutts();
         List<Integer> mSand = myScore.getSand();
-        List<Integer> mFairway = myScore.getFairway();
-        List<Integer> mGIR = myScore.getGreenInRegulation();
+        List<Boolean> mFairway = myScore.getFairway();
+        List<Boolean> mGIR = myScore.getGreenInRegulation();
 
         HoleScoreData score;
         int strokes;
@@ -190,8 +191,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             score.setStrokes(strokes);
             score.setPutts(mPutts.get(i));
             score.setSand(mSand.get(i));
-            score.setFairway(mFairway.get(i));
-            score.setGreenInRegulation(mGIR.get(i));
+            score.setFairway(true);
+            score.setGreenInRegulation(true);
 
             MarkScoreSpecific(score);
             Log.i(TAG, String.format("Score %d marked.", i + 1));
@@ -205,8 +206,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             score.setStrokes(strokes);
             score.setPutts(mPutts.get(i));
             score.setSand(mSand.get(i));
-            score.setFairway(mFairway.get(i));
-            score.setGreenInRegulation(mGIR.get(i));
+            score.setFairway(true);
+            score.setGreenInRegulation(true);
 
             MarkScoreSpecific(score);
             Log.i(TAG, String.format("Score %d marked.", i + 1));
@@ -360,8 +361,8 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             List<Integer> mPutts = new ArrayList<>();
             List<Integer> mPenalties = new ArrayList<>();
             List<Integer> mSand = new ArrayList<>();
-            List<Integer> mFairway = new ArrayList<>();
-            List<Integer> mGIR = new ArrayList<>();
+            List<Boolean> mFairway = new ArrayList<>();
+            List<Boolean> mGIR = new ArrayList<>();
             int mFinal, mParPlayed = 0;
 
             for (int i = 0; i < scores.size(); i++) {
@@ -382,7 +383,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             TextView eighteenth = findViewById(R.id.tv40);
             mFinal = Integer.parseInt(ninth.getText().toString()) + Integer.parseInt(eighteenth.getText().toString());
             String uId = Calendar.getInstance().getTime().toString();
-            SerializableScoreEntry myEntry = new SerializableScoreEntry(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal, mParPlayed);
+            SerializableRoundScore myEntry = new SerializableRoundScore(uId, mStrokes, mPutts, mPenalties, mSand, mFairway, mGIR, mFinal, mParPlayed);
             myIntent.putExtra("Score", myEntry);
             startActivityForResult(myIntent, 99);
         } else if (id == android.R.id.home) {
@@ -822,7 +823,7 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
             fairwayCheck.setVisibility(View.GONE);
         } else {
             fairwayCheck.setVisibility(View.VISIBLE);
-            fairwayCheck.setChecked(currentHole.getFairway() != 0);
+            fairwayCheck.setChecked(currentHole.getFairway());
         }
         sandCheck.setChecked(currentHole.getSand() != 0);
     }
@@ -840,9 +841,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
         currentHole.getActions().push(getString(R.string.stroke));
 
         if ((intScore - currentHole.getPutts()) < currentHole.getPar() - 1) {
-            currentHole.setGreenInRegulation(1);
+            currentHole.setGreenInRegulation(true);
         } else {
-            currentHole.setGreenInRegulation(0);
+            currentHole.setGreenInRegulation(false);
         }
         VibrateOnClick();
         updateTotals(1);
@@ -897,12 +898,12 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
             if ((currentHole.getStrokes() - currentHole.getPutts()) < currentHole.getPar() - 1) {
                 if (currentHole.getStrokes() > 0) {
-                    currentHole.setGreenInRegulation(1);
+                    currentHole.setGreenInRegulation(true);
                 } else {
-                    currentHole.setGreenInRegulation(0);
+                    currentHole.setGreenInRegulation(false);
                 }
             } else {
-                currentHole.setGreenInRegulation(0);
+                currentHole.setGreenInRegulation(false);
             }
             if (currentHole.getStrokes() > 0) {
                 currentHole.getHole().setText(Integer.toString(currentHole.getStrokes()));
@@ -927,9 +928,9 @@ public class ScorecardActivity extends AppCompatActivity implements GoogleApiCli
 
     public void FairwayChecked(View v) {
         if (fairwayCheck.isChecked()) {
-            currentHole.setFairway(1);
+            currentHole.setFairway(true);
         } else {
-            currentHole.setFairway(0);
+            currentHole.setFairway(false);
         }
     }
 

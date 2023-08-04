@@ -346,8 +346,8 @@ public class ShowSingleRound  extends Activity {
             mScore.setPutts(mPutt);
             mScore.setSand(mSand);
             mScore.setStrokes(mStroke);
-            mScore.setFairway(mFairway);
-            mScore.setGreenInRegulation(mGir);
+//            mScore.setFairway(mFairway);
+//            mScore.setGreenInRegulation(mGir);
             mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
             mScore.getHole().setText(Integer.toString(mStroke));
@@ -385,8 +385,8 @@ public class ShowSingleRound  extends Activity {
             mScore.setPutts(mPutt);
             mScore.setSand(mSand);
             mScore.setStrokes(mStroke);
-            mScore.setFairway(mFairway);
-            mScore.setGreenInRegulation(mGir);
+//            mScore.setFairway(mFairway);
+//            mScore.setGreenInRegulation(mGir);
             mScore.setPenalties(mPenalty);
             mScore.setPar(pars.get(i));
             mScore.getHole().setText(Integer.toString(mStroke));
@@ -498,18 +498,18 @@ public class ShowSingleRound  extends Activity {
             individualInfo += "\n";
         }
 
-        if (currentHole.getFairway() == 1) {
-            individualInfo += " " + getString(R.string.hit_fairway);
-        }
-        else if (currentHole.getPar() != 3){
-            individualInfo += " " + getString(R.string.miss_fairway);
-        }
-        if (currentHole.getGreenInRegulation() == 1) {
-            individualInfo += " " + getString(R.string.hit_green);
-        }
-        else {
-            individualInfo += " " + getString(R.string.miss_green);
-        }
+//        if (currentHole.getFairway() == 1) {
+//            individualInfo += " " + getString(R.string.hit_fairway);
+//        }
+//        else if (currentHole.getPar() != 3){
+//            individualInfo += " " + getString(R.string.miss_fairway);
+//        }
+//        if (currentHole.getGreenInRegulation() == 1) {
+//            individualInfo += " " + getString(R.string.hit_green);
+//        }
+//        else {
+//            individualInfo += " " + getString(R.string.miss_green);
+//        }
 
         holeStats.setText(individualInfo);
         vibrateOnClick();

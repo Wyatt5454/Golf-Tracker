@@ -1,5 +1,9 @@
 package com.example.wyattfraley.golftracker.database;
 
+import android.annotation.SuppressLint;
+
+import java.time.Instant;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -10,6 +14,10 @@ import io.realm.annotations.Required;
  * to a single hole.  Contained in the RealmScoreEntry object.
  */
 public class RealmHoleScore extends RealmObject {
+
+    @Required
+    @PrimaryKey
+    private String _id = "";
 
     @Required
     private Integer strokes = 0;
@@ -48,7 +56,9 @@ public class RealmHoleScore extends RealmObject {
      * @param par: par for the hole
      * @param yards: yards for the hole.  Only one that isn't required as we may not always have this data.
      */
+    @SuppressLint("NewApi")
     public RealmHoleScore(int strokes, int putts, int penalties, int sand, boolean fairway, boolean gir, int par, int yards) {
+        set_id(Instant.now().toString());
         setStrokes(strokes);
         setPutts(putts);
         setPenalties(penalties);
@@ -121,5 +131,13 @@ public class RealmHoleScore extends RealmObject {
 
     public void setYards(Integer yards) {
         this.yards = yards;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

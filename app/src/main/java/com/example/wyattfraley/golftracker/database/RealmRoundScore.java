@@ -25,7 +25,6 @@ public class RealmRoundScore extends RealmObject {
     /**
      * List of scores.  Should be 18
      */
-    @Required
     private RealmList<RealmHoleScore> scores = new RealmList<RealmHoleScore>();
 
     /**

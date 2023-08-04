@@ -2,10 +2,12 @@ package com.example.wyattfraley.golftracker.scorecard;
 
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.Stack;
 
 /**
- * Contains all the data needed to track a single hole.
+ * Serializable class representing the score on a single hole.
+ * A data object for passing between Intents
  */
 public class HoleScoreData {
 
@@ -16,9 +18,10 @@ public class HoleScoreData {
     private int putts;
     private int penalties;
     private int sand;
-    private int fairway;
-    private int greenInRegulation;
+    private boolean fairway;
+    private boolean greenInRegulation;
     private int par;
+    private int yards;
 
     private HoleLocationData locationData;
 
@@ -33,6 +36,7 @@ public class HoleScoreData {
         penalties = 0;
         sand = 0;
         par = 0;
+        yards = 0;
         actions = new Stack<>();
         locationData = new HoleLocationData();
     }
@@ -82,17 +86,17 @@ public class HoleScoreData {
     }
     public void setNumber(int nNumber) { number = nNumber; }
 
-    public int getFairway() {
+    public boolean getFairway() {
         return fairway;
     }
-    public void setFairway(int fairway) {
+    public void setFairway(boolean fairway) {
         this.fairway = fairway;
     }
 
-    public int getGreenInRegulation() {
+    public boolean getGreenInRegulation() {
         return greenInRegulation;
     }
-    public void setGreenInRegulation(int greenInRegulation) {
+    public void setGreenInRegulation(boolean greenInRegulation) {
         this.greenInRegulation = greenInRegulation;
     }
 
@@ -168,5 +172,13 @@ public class HoleScoreData {
      */
     public void removePenalty() {
         penalties--;
+    }
+
+    public int getYards() {
+        return yards;
+    }
+
+    public void setYards(int yards) {
+        this.yards = yards;
     }
 }
