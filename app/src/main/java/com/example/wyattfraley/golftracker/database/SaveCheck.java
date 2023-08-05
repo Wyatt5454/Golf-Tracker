@@ -119,6 +119,7 @@ public class SaveCheck extends Activity {
                             @Override
                             public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
                                 subscriptions.addOrUpdate(Subscription.create("userSubscription", realm.where(RealmRoundScore.class)));
+                                subscriptions.addOrUpdate(Subscription.create("RealmHoleScore", realm.where(RealmHoleScore.class)));
                             }
                         })
                         .allowQueriesOnUiThread(true)

@@ -1,5 +1,8 @@
 package com.example.wyattfraley.golftracker.database;
 
+import android.annotation.SuppressLint;
+
+import java.time.Instant;
 import java.util.UUID;
 
 import io.realm.RealmList;
@@ -16,7 +19,6 @@ public class RealmRoundScore extends RealmObject {
      * This should be the player's UUID
      * TODO: Grab this from a database of users.  Currently this is set as a date/time
      */
-    @Required
     @PrimaryKey
     private String _id;
 
@@ -40,7 +42,10 @@ public class RealmRoundScore extends RealmObject {
     private Integer finalScore = 0;
 
     /** Realm needs a default constructor to work */
-    public RealmRoundScore() {}
+    @SuppressLint("NewApi")
+    public RealmRoundScore() {
+        set_id(Instant.now().toString());
+    }
 
 
     public RealmList<RealmHoleScore> getScores() {
@@ -73,5 +78,13 @@ public class RealmRoundScore extends RealmObject {
 
     public void setCourseUid(String courseUid) {
         this.courseUid = courseUid;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
